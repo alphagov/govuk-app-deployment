@@ -7,7 +7,7 @@ set :default_environment, {
 }
 
 set :bundle_cmd,  'bundle'
-set(:source_db_config_file, 'to_upload/database.yml') unless fetch(:source_db_config_file, false)
+set(:source_db_config_file, 'secrets/to_upload/database.yml') unless fetch(:source_db_config_file, false)
 set(:db_config_file, 'config/database.yml') unless fetch(:db_config_file, false)
 set(:rack_env,  :production)
 set(:rails_env, :production)
@@ -42,7 +42,7 @@ namespace :deploy do
   end
 
   task :upload_initializers do
-    config_folder = File.expand_path("to_upload/initializers/#{rails_env}", Dir.pwd)
+    config_folder = File.expand_path("secrets/to_upload/initializers/#{rails_env}", Dir.pwd)
     if File.exists?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
@@ -51,7 +51,7 @@ namespace :deploy do
   end
 
   task :upload_organisation_initializers do
-    config_folder = File.expand_path("initializers_by_organisation/#{ENV['ORGANISATION']}", Dir.pwd)
+    config_folder = File.expand_path("secrets/initializers_by_organisation/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exists?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
@@ -60,7 +60,7 @@ namespace :deploy do
   end
 
   task :upload_organisation_config do
-    config_folder = File.expand_path("to_upload/config/#{ENV['ORGANISATION']}", Dir.pwd)
+    config_folder = File.expand_path("secrets/to_upload/config/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exists?(config_folder)
       Dir.glob(File.join(config_folder, "*.{rb,yml,json,p12}")).each do |config_file|
         top.upload(config_file, File.join(release_path, "config/#{File.basename(config_file)}"))
