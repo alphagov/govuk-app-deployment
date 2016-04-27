@@ -15,7 +15,7 @@ if [ ! -d "$TARGET_APPLICATION" ]; then
   cd "alphagov-deployment/$TARGET_APPLICATION"
   if [ -e "deploy.sh" ]; then
     echo "---> Found deploy.sh, running 'sh -e deploy.sh'" >&2
-    exec sh -e deploy.sh
+    exec env BUNDLE_GEMFILE="$WORKSPACE/Gemfile" sh -e deploy.sh
   else
     echo "---> No deploy.sh found, running 'bundle exec cap \"${DEPLOY_TASK}\"'" >&2
     exec env BUNDLE_GEMFILE="$WORKSPACE/Gemfile" bundle exec cap "$DEPLOY_TASK"
