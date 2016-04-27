@@ -27,8 +27,7 @@ fi
 cd "$TARGET_APPLICATION"
 
 if [ -d "../alphagov-deployment/${TARGET_APPLICATION}" ]; then
-  mkdir secrets
-  cp -r ../alphagov-deployment/$TARGET_APPLICATION/* secrets
+  cp -r ../alphagov-deployment/$TARGET_APPLICATION secrets
 fi
 
 if [ -e "deploy.sh" ]; then
