@@ -8,6 +8,9 @@ load 'ruby'
 load 'deploy/assets'
 load 'govuk_admin_template'
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano" # This hooks a task to run before deploy:finalize_update
+
 set :copy_exclude, [
  '.git/*',
  'public/**/*'
