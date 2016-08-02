@@ -78,7 +78,6 @@ EOS
   task :upgrade_pip do
     run "cd #{release_path} && #{shared_path}/venv/bin/pip install --upgrade pip==7.1.0"
   end
-
 end
 
 after "deploy:setup", "deploy:create_virtualenv"

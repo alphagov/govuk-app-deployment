@@ -17,7 +17,7 @@ set :copy_exclude, [
 ]
 
 namespace :deploy do
-  task :restart, :roles => :app, :except => {:no_release => true} do
+  task :restart, :roles => :app, :except => { :no_release => true } do
   end
 
   namespace :rummager do

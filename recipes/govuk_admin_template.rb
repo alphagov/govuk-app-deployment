@@ -1,6 +1,5 @@
 
 namespace :govuk_admin_template do
-
   task :configure do
     case ENV['ORGANISATION']
     when "production"

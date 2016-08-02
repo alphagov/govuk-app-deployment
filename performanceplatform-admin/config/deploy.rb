@@ -8,7 +8,6 @@ load "defaults"
 load "python"
 
 namespace :deploy do
-
   task :compile_scss do
     run_python_command('tools/compile_sass.py')
   end

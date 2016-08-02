@@ -32,7 +32,7 @@ namespace :deploy do
       end
     end
   end
-  task :upload_private_initializers, :only => {:server_class => "backend"} do
+  task :upload_private_initializers, :only => { :server_class => "backend" } do
     config_folder = File.expand_path("secrets/to_upload/private_initializers/#{rails_env}", Dir.pwd)
     if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
@@ -40,7 +40,7 @@ namespace :deploy do
       end
     end
   end
-  task :upload_unicorn_config, :only => {:server_class => "frontend"} do
+  task :upload_unicorn_config, :only => { :server_class => "frontend" } do
     config_file = File.expand_path("secrets/to_upload/unicorn.rb", Dir.pwd)
     if File.exist?(config_file)
       top.upload(config_file, File.join(release_path, "config/unicorn.rb"))

@@ -13,7 +13,6 @@ end
 load 'defaults'
 
 namespace :deploy do
-
   # This overrides the default update_code task
   desc "Copies the CI build artefact to the remote servers."
   task :update_code, :except => { :no_release => true } do

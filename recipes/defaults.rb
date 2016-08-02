@@ -124,17 +124,17 @@ namespace :deploy do
       end
     end
 
-    task :errbit, :only => {:primary => true} do
+    task :errbit, :only => { :primary => true } do
       run "cd #{current_release} && #{rake} airbrake:deploy REVISION=#{current_revision} TO=#{organisation} REPO='#{repository}' USER=#{user}", :once => true
     end
 
-    task :github, :only => {:primary => true} do
+    task :github, :only => { :primary => true } do
       run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
     end
   end
 
   namespace :panopticon do
-    task :register, :only => {:primary => true, :draft => false} do
+    task :register, :only => { :primary => true, :draft => false } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} panopticon:register", :once => true
@@ -142,13 +142,13 @@ namespace :deploy do
   end
 
   namespace :publishing_api do
-    task :publish, :only => {:primary => true, :draft => false} do
+    task :publish, :only => { :primary => true, :draft => false } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} publishing_api:publish", :once => true
     end
 
-    task :publish_special_routes, :only => {:primary => true, :draft => false} do
+    task :publish_special_routes, :only => { :primary => true, :draft => false } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} publishing_api:publish_special_routes", :once => true
@@ -156,7 +156,7 @@ namespace :deploy do
   end
 
   namespace :email do
-    task :register_subscriptions, :only => {:primary => true} do
+    task :register_subscriptions, :only => { :primary => true } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} email_subscriptions:register_subscriptions", :once => true
@@ -164,7 +164,7 @@ namespace :deploy do
   end
 
   namespace :rummager do
-    task :index, :only => {:primary => true} do
+    task :index, :only => { :primary => true } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} rummager:index", :once => true

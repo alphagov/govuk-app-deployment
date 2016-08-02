@@ -1,5 +1,4 @@
 namespace :deploy do
-
   # deploy:set_servers
   #
   # This uses the 'server_class' cap parameter, if set, to determine the
@@ -16,7 +15,7 @@ namespace :deploy do
       next
     end
 
-    DEFAULT_CONFIG = {roles: [:web, :app, :db]}.freeze
+    DEFAULT_CONFIG = { roles: [:web, :app, :db] }.freeze
 
     classes = if cls.respond_to? :join
                 # Array of strings or symbols, e.g
@@ -61,7 +60,6 @@ namespace :deploy do
       logger.info "set_servers: deploying to #{c} => #{nodes_to_deploy.join(', ')}"
     end
   end
-
 end
 
 on :start, 'deploy:set_servers'

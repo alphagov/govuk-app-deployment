@@ -51,7 +51,6 @@ EOS
       top.upload(f, File.join(release_path, File.basename(f)))
     end
   end
-
 end
 
 before "deploy:finalize_update", "deploy:install_deps"

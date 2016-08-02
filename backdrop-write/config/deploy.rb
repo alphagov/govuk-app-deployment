@@ -8,7 +8,6 @@ load "defaults"
 load "python"
 
 namespace :deploy do
-
   task :upload_environment_settings do
     config_folder = File.expand_path("secrets/settings/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exist?(config_folder)
