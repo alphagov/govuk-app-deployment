@@ -5,9 +5,9 @@ set :deploy_to,     "/data/apps/#{application}"
 set :deploy_via,    :rsync_with_remote_cache
 set :organisation,  ENV['ORGANISATION']
 set :keep_releases, 5
-set :rake,          "govuk_setenv #{application} #{fetch(:rake, "bundle exec rake")}"
-set :repo_name,     "#{fetch(:repo_name, application)}" # XXX: this must appear before the `require 'defaults' in recipe names
-set :repository,    "#{ENV.fetch('GIT_ORIGIN_PREFIX', "git@github.com:alphagov")}/#{repo_name}.git"
+set :rake,          "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
+set :repo_name,     fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
+set :repository,    "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}.git"
 set :scm,           :git
 set :ssh_options,   { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa" }
 set :use_sudo,      false
@@ -118,7 +118,7 @@ namespace :deploy do
                      tags: "#{application} #{ENV['ORGANISATION']} deploys",
                      data: "#{branch} #{current_revision[0, 7]} #{user}" }.to_json
         req.basic_auth(ENV['GRAPHITE_USER'], ENV['GRAPHITE_PASSWORD'])
-        Net::HTTP.new('graphite.cluster', '80').start {|http| http.request(req) }
+        Net::HTTP.new('graphite.cluster', '80').start { |http| http.request(req) }
       rescue => e
         puts "Graphite notification failed: #{e.message}"
       end

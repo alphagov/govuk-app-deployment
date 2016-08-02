@@ -5,7 +5,7 @@
 # "requirements.txt" at the root of your repository. For the sake of simplicity,
 # the latter is usually desirable.
 
-set :shared_children, shared_children  + %w(venv)
+set :shared_children, shared_children + %w(venv)
 set :virtualenv_name, 'venv'
 set(:virtualenv_path) { "#{shared_path}/#{virtualenv_name}" }
 set :sleep_after_server_start, 1
@@ -19,11 +19,11 @@ namespace :deploy do
   end
 
   task :create_virtualenv, :roles => :app do
-    if fetch(:virtualenv_setuptools, false)
-      setuptools_flag = '--setuptools'
-    else
-      setuptools_flag = ''
-    end
+    setuptools_flag = if fetch(:virtualenv_setuptools, false)
+                        '--setuptools'
+                      else
+                        ''
+                      end
     run "test -f '#{virtualenv_path}/bin/python' || virtualenv -q #{setuptools_flag} --no-site-packages '#{virtualenv_path}'"
   end
 
@@ -45,7 +45,7 @@ EOS
     commands = []
     shared_children.each do |dir|
       d = dir.shellescape
-      if dir.rindex('/') then
+      if dir.rindex('/')
         commands += ["rm -rf -- #{release_path}/#{d}",
                      "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
         # When symlinking we need to be sure this doesn't have a

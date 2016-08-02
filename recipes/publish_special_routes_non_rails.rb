@@ -29,9 +29,9 @@ namespace :deploy do
       json = File.read(special_route_file)
       base_path = JSON.parse(json)['routes'][0]['path']
 
-      top.upload "#{special_route_file}", "#{release_path}/special_routes.json"
+      top.upload special_route_file.to_s, "#{release_path}/special_routes.json"
       publishing_api_host = "https://publishing-api.#{ENV['GOVUK_APP_DOMAIN']}"
-      run %Q(govuk_setenv #{application} curl -sS -XPUT -H "Authorization: Bearer $PUBLISHING_API_BEARER_TOKEN" -H "Content-type: application/json" #{publishing_api_host}/content#{base_path} -d @#{release_path}/special_routes.json)
+      run %(govuk_setenv #{application} curl -sS -XPUT -H "Authorization: Bearer $PUBLISHING_API_BEARER_TOKEN" -H "Content-type: application/json" #{publishing_api_host}/content#{base_path} -d @#{release_path}/special_routes.json)
     end
   end
 end

@@ -12,7 +12,7 @@ def fetch_last_build_number(base_url)
 end
 
 def fetch_to_tempfile(url)
-  file = Tempfile.new("#{application}")
+  file = Tempfile.new(application.to_s)
   file.binmode
   setup_http_request(url) do |http, req|
     http.request req do |response|

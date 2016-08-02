@@ -51,6 +51,7 @@ class ConfigPutter
     end
 
   private
+
     def without_erb_extension(filename)
       filename[0..-5]
     end
