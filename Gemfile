@@ -9,3 +9,4 @@ gem "railsless-deploy", :require => false
 
 gem "rake"
 gem "whenever", "0.7.3"
+gem "govuk-lint", "~> 1.2"
