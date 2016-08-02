@@ -23,7 +23,15 @@ class ConfigPutter
     filepath[-4..-1] == '.erb'
   end
 
-  class FilePutter < Struct.new(:cap, :filepath, :remote_path)
+  class FilePutter
+    attr_accessor :cap, filepath, remote_path
+
+    def initialize(cap, filepath, remote_path)
+      @cap = cap
+      @filepath = filepath
+      @remote_path = remote_path
+    end
+
     def put
       cap.put(read_file, destination)
     end
