@@ -40,7 +40,7 @@ namespace :deploy do
     # save empty folders
     unless fetch(:config_files_to_upload, nil).nil?
       config_files_to_upload.each do |from_path, to_path|
-        unless File.exists? from_path
+        unless File.exist? from_path
           raise "Does not exist: #{from_path}"
         end
         if from_path.end_with? ".erb"

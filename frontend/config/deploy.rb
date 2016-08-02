@@ -26,7 +26,7 @@ set :config_files_to_upload, {
 namespace :deploy do
   task :upload_integration_initializers do
     config_folder = File.expand_path("secrets/to_upload/initializers/integration", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
       end
@@ -34,7 +34,7 @@ namespace :deploy do
   end
   task :upload_private_initializers, :only => {:server_class => "backend"} do
     config_folder = File.expand_path("secrets/to_upload/private_initializers/#{rails_env}", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
       end
@@ -42,7 +42,7 @@ namespace :deploy do
   end
   task :upload_unicorn_config, :only => {:server_class => "frontend"} do
     config_file = File.expand_path("secrets/to_upload/unicorn.rb", Dir.pwd)
-    if File.exists?(config_file)
+    if File.exist?(config_file)
       top.upload(config_file, File.join(release_path, "config/unicorn.rb"))
     end
   end

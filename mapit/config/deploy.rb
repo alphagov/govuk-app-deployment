@@ -25,7 +25,7 @@ namespace :deploy do
 
   task :upload_configuration do
     config_folder = File.expand_path("secrets/settings/#{ENV['ORGANISATION']}", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.yml")).each do |settings|
         top.upload(settings, File.join(release_path, "conf/#{File.basename(settings)}"))
       end
