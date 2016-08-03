@@ -1,6 +1,6 @@
 set :application, "tariff"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
-set :server_class,       "calculators_frontend"
+set :server_class, "calculators_frontend"
 set :repo_name, "trade-tariff-frontend"
 
 set :source_db_config_file, false
@@ -11,7 +11,7 @@ load 'ruby'
 load 'deploy/assets'
 
 set :rails_env, 'production'
-set :bundle_without,  [:development, :test, :webkit]
+set :bundle_without, [:development, :test, :webkit]
 
 set :copy_exclude, [
   '.git/*',

@@ -1,6 +1,6 @@
 set :application, "calendars"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
-set :server_class,       "calculators_frontend"
+set :server_class, "calculators_frontend"
 
 load 'defaults'
 load 'ruby'

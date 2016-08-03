@@ -20,7 +20,7 @@ set :copy_exclude, [
 
 # cronjobs should be disabled in the staging organisation, to prevent it collecting
 # production fact-check emails for example.
-if ENV['ORGANISATION'] == 'production' or ENV['ORGANISATION'] == 'integration'
+if ENV['ORGANISATION'] == 'production' || ENV['ORGANISATION'] == 'integration'
   set :whenever_command, "bundle exec whenever"
   require "whenever/capistrano"
 end

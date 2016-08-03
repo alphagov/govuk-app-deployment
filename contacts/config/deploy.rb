@@ -18,8 +18,8 @@ require 'config_putter'
 set :assets_prefix, 'contacts-assets'
 
 set :server_class, {
-  frontend: {roles: [:frontend, :web, :app]},
-  backend: {roles: [:backend, :db, :web, :app]},
+  frontend: { roles: [:frontend, :web, :app] },
+  backend: { roles: [:backend, :db, :web, :app] },
 }
 
 require "whenever/capistrano"

@@ -13,7 +13,6 @@ end
 load 'defaults'
 
 namespace :deploy do
-
   # This overrides the default update_code task
   desc "Copies the CI build artefact to the remote servers."
   task :update_code, :except => { :no_release => true } do
@@ -21,7 +20,7 @@ namespace :deploy do
     run "mkdir -p #{release_path}"
 
     ci_base_url = "https://deploy_jenkins:#{ENV['CI_DEPLOY_JENKINS_API_KEY']}@ci.dev.publishing.service.gov.uk/job/govuk_#{application}"
-    filename = "#{application}"
+    filename = application.to_s
 
     artefact_to_deploy = fetch(:artefact_number, fetch_last_build_number(ci_base_url))
     put "#{artefact_to_deploy}\n", "#{release_path}/build_number"

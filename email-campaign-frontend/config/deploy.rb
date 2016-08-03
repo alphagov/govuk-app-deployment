@@ -1,8 +1,5 @@
 set :application,  "email-campaign-frontend"
-set :server_class, [
-  "draft_email_campaign_frontend",
-  "email_campaign_frontend"
-]
+set :server_class, %w(draft_email_campaign_frontend email_campaign_frontend)
 set :capfile_dir,  File.expand_path("../", File.dirname(__FILE__))
 
 load "defaults"

@@ -6,16 +6,16 @@ set :default_environment, {
   "PATH" => "/usr/lib/rbenv/shims:$PATH"
 }
 
-set :bundle_cmd,  'bundle'
+set :bundle_cmd, 'bundle'
 set(:source_db_config_file, 'secrets/to_upload/database.yml') unless fetch(:source_db_config_file, false)
 set(:db_config_file, 'config/database.yml') unless fetch(:db_config_file, false)
 set(:rack_env,  :production)
 set(:rails_env, :production)
-set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, "bundle exec rake")}")
+set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake')}")
 
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
+  task :start do; end
+  task :stop do; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
@@ -43,7 +43,7 @@ namespace :deploy do
 
   task :upload_initializers do
     config_folder = File.expand_path("secrets/to_upload/initializers/#{rails_env}", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
       end
@@ -52,7 +52,7 @@ namespace :deploy do
 
   task :upload_organisation_initializers do
     config_folder = File.expand_path("secrets/initializers_by_organisation/#{ENV['ORGANISATION']}", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.rb")).each do |initializer|
         top.upload(initializer, File.join(release_path, "config/initializers/#{File.basename(initializer)}"))
       end
@@ -61,7 +61,7 @@ namespace :deploy do
 
   task :upload_organisation_config do
     config_folder = File.expand_path("secrets/to_upload/config/#{ENV['ORGANISATION']}", Dir.pwd)
-    if File.exists?(config_folder)
+    if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.{rb,yml,json,p12}")).each do |config_file|
         top.upload(config_file, File.join(release_path, "config/#{File.basename(config_file)}"))
       end
@@ -72,11 +72,11 @@ namespace :deploy do
     run "ln -sf /etc/govuk/actionmailer_ses_smtp_config.rb #{release_path}/config/initializers/mailer.rb"
   end
 
-  task :create_mongoid_indexes, :only => {:primary => true} do
+  task :create_mongoid_indexes, :only => { :primary => true } do
     run "cd #{current_release}; #{rake} db:mongoid:create_indexes"
   end
 
-  task :seed_db, :only => {:primary => true} do
+  task :seed_db, :only => { :primary => true } do
     rails_env = fetch(:rails_env, "production")
     run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} db:seed"
   end

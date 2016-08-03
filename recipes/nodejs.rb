@@ -3,7 +3,7 @@
 # In order for this to work for your node application, you will need to
 # specify your dependencies in a packages.json at the root of your repository.
 
-set :shared_children, shared_children  + %w(log)
+set :shared_children, shared_children + %w(log)
 
 namespace :deploy do
   task :start do; end
@@ -30,13 +30,13 @@ EOS
     commands = []
     shared_children.each do |dir|
       d = dir.shellescape
-      if dir.rindex('/') then
+      if dir.rindex('/')
         commands += ["rm -rf -- #{release_path}/#{d}",
-          "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
+                     "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
           # When symlinking we need to be sure this doesn't have a
           # trailing slash
-          dir = dir.slice(0...(dir.rindex('/')))
-          d = dir.shellescape
+        dir = dir.slice(0...(dir.rindex('/')))
+        d = dir.shellescape
       else
         commands << "rm -rf -- #{release_path}/#{d}"
       end
@@ -51,7 +51,6 @@ EOS
       top.upload(f, File.join(release_path, File.basename(f)))
     end
   end
-
 end
 
 before "deploy:finalize_update", "deploy:install_deps"
