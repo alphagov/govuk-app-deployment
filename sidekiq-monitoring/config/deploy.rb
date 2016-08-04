@@ -4,5 +4,3 @@ set :server_class, 'backend'
 
 load 'defaults'
 load 'ruby'
-
-after 'deploy:notify', 'deploy:notify:errbit'
