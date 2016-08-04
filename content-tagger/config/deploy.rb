@@ -21,3 +21,4 @@ set :copy_exclude, [
 ]
 
 after "deploy:notify", "deploy:notify:errbit"
+after "deploy:restart", "deploy:restart_procfile_worker"
