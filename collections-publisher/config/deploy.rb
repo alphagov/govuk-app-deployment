@@ -12,11 +12,6 @@ load 'govuk_admin_template'
 
 set :source_db_config_file, false
 
-set :config_files_to_upload, {
-  'secrets/to_upload/redis.yml' => 'config/redis.yml',
-  'secrets/to_upload/secrets.yml' => 'config/secrets.yml',
-}
-
 set :copy_exclude, [
   '.git/*',
   'public/images',
