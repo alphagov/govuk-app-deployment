@@ -16,4 +16,27 @@ set :copy_exclude, [
  'public/**/*'
 ]
 
+namespace :deploy do
+  desc <<-DESC
+    Create the data directory for CSV exports.
+  DESC
+  task :setup_data_directory do
+    run <<-EOT
+mkdir -p #{shared_path}/data
+    EOT
+  end
+
+  desc <<-DESC
+    Symlink the shared data directory into the new release.
+  DESC
+  task :symlink_data_directory do
+    run <<-EOT
+rm -rf #{latest_release}/public/data &&
+ln -s #{shared_path}/data #{latest_release}/public/data
+    EOT
+  end
+end
+
+after "deploy:setup", "deploy:setup_data_directory"
+after "deploy:finalize_update", "deploy:symlink_data_directory"
 after "deploy:notify", "deploy:notify:errbit"
