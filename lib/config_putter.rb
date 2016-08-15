@@ -24,7 +24,7 @@ class ConfigPutter
   end
 
   class FilePutter
-    attr_accessor :cap, filepath, remote_path
+    attr_accessor :cap, :filepath, :remote_path
 
     def initialize(cap, filepath, remote_path)
       @cap = cap
