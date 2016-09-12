@@ -14,3 +14,4 @@ set :config_files_to_upload, {
 }
 
 after "deploy:notify", "deploy:notify:errbit"
+after "deploy:symlink", "deploy:publishing_api:publish"
