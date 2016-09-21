@@ -93,8 +93,8 @@ namespace :deploy do
             "deployment[environment]" => organisation
           }
           request.set_form_data(form_data)
-          request["Accept"] = "application/json" # So that gds-sso will treat us as an API client
-          request["Authorization"] = "Bearer #{bearer_token}"
+          request["Accept"] = "application/json"
+          request["Authorization"] = "Bearer #{bearer_token}" # So that gds-sso will treat us as an API client
           response = conn.request(request)
           puts "Deployment notification response:"
           puts "#{response.code} #{response.body}"
