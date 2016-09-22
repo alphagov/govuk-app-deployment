@@ -67,6 +67,7 @@ namespace :deploy do
   namespace :notify do
     task :default do
       release_app
+      slack_message
       graphite_event
     end
 
@@ -102,6 +103,23 @@ namespace :deploy do
           puts "Release notification failed: #{e.message}"
           raise manual_resolution_message
         end
+      end
+    end
+
+    desc "Announce the deploy on Slack"
+    task :slack_message do
+      begin
+        require 'http'
+
+        message_payload = {
+          username: "Badger",
+          icon_emoji: ":badger:",
+          text: "[#{application}](https://github.com/alphagov/#{repo_name}) was just deployed to **#{ENV['ORGANISATION']}**",
+        }
+
+        HTTP.post(ENV["BADGER_SLACK_WEBHOOK_URL"], body: JSON.dump(message_payload))
+      rescue => e
+        puts "Release notification to slack failed: #{e.message}"
       end
     end
 
