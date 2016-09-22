@@ -114,7 +114,8 @@ namespace :deploy do
         message_payload = {
           username: "Badger",
           icon_emoji: ":badger:",
-          text: "[#{application}](https://github.com/alphagov/#{repo_name}) was just deployed to **#{ENV['ORGANISATION']}**",
+          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{ENV['ORGANISATION']}* (SHA: <https://github.com/alphagov/#{repo_name}/commits/#{current_revision}|#{current_revision[0..7]}>)",
+          mrkdwn: true,
         }
 
         HTTP.post(ENV["BADGER_SLACK_WEBHOOK_URL"], body: JSON.dump(message_payload))
