@@ -29,6 +29,12 @@ namespace :deploy do
     fetch(:perform_hard_restart, false) ? hard_restart : restart
   end
 
+  desc "Perform a normal deployment with a hard restart instead of a normal restart"
+  task :with_hard_restart do
+    set :perform_hard_restart, true
+    default
+  end
+
   desc "Deploy without running migrations. Use with caution."
   task :without_migrations do
     set :run_migrations_by_default, false
@@ -39,6 +45,18 @@ namespace :deploy do
   task :with_migrations do
     set :run_migrations_by_default, true
     default
+  end
+
+  desc "Deploy without running migrations. End with a hard restart."
+  task :without_migrations_and_hard_restart do
+    set :perform_hard_restart, true
+    without_migrations
+  end
+
+  desc "Deploy with migrations run. End with a hard restart."
+  task :with_migrations_and_hard_restart do
+    set :perform_hard_restart, true
+    with_migrations
   end
 
   # run database migrations, and then hard restart the app.
