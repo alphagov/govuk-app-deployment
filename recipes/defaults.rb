@@ -41,6 +41,15 @@ namespace :deploy do
     default
   end
 
+  # run database migrations, and then hard restart the app.
+  # Intended for use on integration when the data sync scripts have run to pick up
+  # any schema differences between production and integration
+  desc "Migrate database and hard restart the application"
+  task :migrate_and_hard_restart, :roles => :app, :except => { :no_release => true } do
+    migrate
+    hard_restart
+  end
+
   task :upload_config, :roles => [:app, :web] do
     # mkdir -p is making sure that the directories are there for some SCM's that don't
     # save empty folders

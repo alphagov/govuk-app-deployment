@@ -30,14 +30,6 @@ namespace :deploy do
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
   end
 
-  # run database migrations, and then hard restart the app.
-  # Intended for use on integration when the data sync scripts have run to pick up
-  # any schema differences between production and integration
-  task :migrate_and_hard_restart, :roles => :app, :except => { :no_release => true } do
-    migrate
-    hard_restart
-  end
-
   task :notify_ruby_version do
     run "cd #{latest_release} && ruby -v"
   end
