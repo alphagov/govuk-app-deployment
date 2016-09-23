@@ -241,3 +241,31 @@ end
 after "deploy", "deploy:notify"
 after "deploy:cold", "deploy:notify"
 after "deploy:migrations", "deploy:notify"
+
+namespace :app do
+  # These tasks are aliases to tasks under the deploy namespace. By using a
+  # different namespace these tasks will be less confusing to people selecting
+  # the tasks from jenkins.
+
+  desc "Migrate the application without a deployment"
+  task :migrate do
+    deploy.migrate
+  end
+
+  desc "Restart the application without a deployment"
+  task :restart do
+    deploy.restart
+  end
+
+
+  desc "Hard restart the application without a deployment"
+  task :hard_restart do
+    deploy.hard_restart
+  end
+
+  desc "Migrate and hard restart the application without a deployment"
+  task :migrate_and_hard_restart do
+    migrate
+    hard_restart
+  end
+end
