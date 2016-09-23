@@ -29,10 +29,16 @@ namespace :deploy do
     restart
   end
 
-  desc "Deploy without running migrations.  Use with caution."
+  desc "Deploy without running migrations. Use with caution."
   task :without_migrations do
-    update
-    restart
+    set :run_migrations_by_default, false
+    default
+  end
+
+  desc "Deploy with migrations. Not dependent on the app setting."
+  task :with_migrations do
+    set :run_migrations_by_default, true
+    default
   end
 
   task :upload_config, :roles => [:app, :web] do
