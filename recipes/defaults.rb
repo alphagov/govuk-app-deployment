@@ -26,7 +26,7 @@ namespace :deploy do
       migrate
     end
     symlink
-    restart
+    fetch(:perform_hard_restart, false) ? hard_restart : restart
   end
 
   desc "Deploy without running migrations. Use with caution."
@@ -202,6 +202,12 @@ namespace :deploy do
   task :restart_procfile_worker do
     procfile_worker_name = "#{application}-procfile-worker"
     run "sudo initctl start #{procfile_worker_name} || sudo initctl restart #{procfile_worker_name}"
+  end
+
+  desc "Not implemented. Falls back to a normal restart"
+  task :hard_restart do
+    puts "A hard restart task hasn't been configured, a normal restart will be performed"
+    restart
   end
 end
 
