@@ -16,7 +16,7 @@ set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake
 namespace :deploy do
   task :start do; end
   task :stop do; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
   end
@@ -25,7 +25,7 @@ namespace :deploy do
   # of being immediate, and blocking.  Used by some of the post data-syncing
   # scripts
   desc "A non-graceful restart of the app. Useful for changing ruby version"
-  task :hard_restart, :roles => :app, :except => { :no_release => true } do
+  task :hard_restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
   end
