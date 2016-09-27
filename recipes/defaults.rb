@@ -26,13 +26,46 @@ namespace :deploy do
       migrate
     end
     symlink
-    restart
+    fetch(:perform_hard_restart, false) ? hard_restart : restart
   end
 
-  desc "Deploy without running migrations.  Use with caution."
+  desc "Perform a normal deployment with a hard restart instead of a normal restart"
+  task :with_hard_restart do
+    set :perform_hard_restart, true
+    default
+  end
+
+  desc "Deploy without running migrations. Use with caution."
   task :without_migrations do
-    update
-    restart
+    set :run_migrations_by_default, false
+    default
+  end
+
+  desc "Deploy with migrations. Not dependent on the app setting."
+  task :with_migrations do
+    set :run_migrations_by_default, true
+    default
+  end
+
+  desc "Deploy without running migrations. End with a hard restart."
+  task :without_migrations_and_hard_restart do
+    set :perform_hard_restart, true
+    without_migrations
+  end
+
+  desc "Deploy with migrations run. End with a hard restart."
+  task :with_migrations_and_hard_restart do
+    set :perform_hard_restart, true
+    with_migrations
+  end
+
+  # run database migrations, and then hard restart the app.
+  # Intended for use on integration when the data sync scripts have run to pick up
+  # any schema differences between production and integration
+  desc "Migrate database and hard restart the application"
+  task :migrate_and_hard_restart, :roles => :app, :except => { :no_release => true } do
+    migrate
+    hard_restart
   end
 
   task :upload_config, :roles => [:app, :web] do
@@ -197,8 +230,42 @@ namespace :deploy do
     procfile_worker_name = "#{application}-procfile-worker"
     run "sudo initctl start #{procfile_worker_name} || sudo initctl restart #{procfile_worker_name}"
   end
+
+  desc "Not implemented. Falls back to a normal restart"
+  task :hard_restart do
+    puts "A hard restart task hasn't been configured, a normal restart will be performed"
+    restart
+  end
 end
 
 after "deploy", "deploy:notify"
 after "deploy:cold", "deploy:notify"
 after "deploy:migrations", "deploy:notify"
+
+namespace :app do
+  # These tasks are aliases to tasks under the deploy namespace. By using a
+  # different namespace these tasks will be less confusing to people selecting
+  # the tasks from jenkins.
+
+  desc "Migrate the application without a deployment"
+  task :migrate do
+    deploy.migrate
+  end
+
+  desc "Restart the application without a deployment"
+  task :restart do
+    deploy.restart
+  end
+
+
+  desc "Hard restart the application without a deployment"
+  task :hard_restart do
+    deploy.hard_restart
+  end
+
+  desc "Migrate and hard restart the application without a deployment"
+  task :migrate_and_hard_restart do
+    migrate
+    hard_restart
+  end
+end

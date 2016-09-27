@@ -16,7 +16,7 @@ set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake
 namespace :deploy do
   task :start do; end
   task :stop do; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
   end
@@ -24,17 +24,10 @@ namespace :deploy do
   # hard-restart is a non-graceful restart of the app.  This has the advantage
   # of being immediate, and blocking.  Used by some of the post data-syncing
   # scripts
-  task :hard_restart, :roles => :app, :except => { :no_release => true } do
+  desc "A non-graceful restart of the app. Useful for changing ruby version"
+  task :hard_restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
-  end
-
-  # run database migrations, and then hard restart the app.
-  # Intended for use on integration when the data sync scripts have run to pick up
-  # any schema differences between production and integration
-  task :migrate_and_hard_restart, :roles => :app, :except => { :no_release => true } do
-    migrate
-    hard_restart
   end
 
   task :notify_ruby_version do
