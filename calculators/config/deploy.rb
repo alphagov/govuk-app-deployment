@@ -14,5 +14,6 @@ set :source_db_config_file, false
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:symlink", "deploy:panopticon:register"
+after "deploy:symlink", "deploy:rummager:index_all"
 after "deploy:symlink", "deploy:publishing_api:publish"
 after "deploy:notify", "deploy:notify:errbit"
