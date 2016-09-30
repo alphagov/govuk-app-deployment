@@ -144,11 +144,16 @@ namespace :deploy do
       begin
         require 'http'
 
+        environment_name = ENV['ORGANISATION']
+
+        next unless environment_name.in?(%w(production staging))
+
         message_payload = {
           username: "Badger",
           icon_emoji: ":badger:",
-          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{ENV['ORGANISATION']}* (SHA: <https://github.com/alphagov/#{repo_name}/commits/#{current_revision}|#{current_revision[0..7]}>)",
+          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{environment_name}*",
           mrkdwn: true,
+          channel: '#2ndline',
         }
 
         HTTP.post(ENV["BADGER_SLACK_WEBHOOK_URL"], body: JSON.dump(message_payload))
