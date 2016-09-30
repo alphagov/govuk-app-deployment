@@ -147,7 +147,7 @@ namespace :deploy do
         message_payload = {
           username: "Badger",
           icon_emoji: ":badger:",
-          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{ENV['ORGANISATION']}* (SHA: <https://github.com/alphagov/#{repo_name}/commits/#{current_revision}|#{current_revision[0..7]}>)",
+          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{ENV['ORGANISATION']}*",
           mrkdwn: true,
         }
 
