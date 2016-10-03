@@ -146,7 +146,7 @@ namespace :deploy do
 
         environment_name = ENV['ORGANISATION']
 
-        next unless environment_name.in?(%w(production staging))
+        next unless %w(production staging).include?(environment_name)
 
         message_payload = {
           username: "Badger",
