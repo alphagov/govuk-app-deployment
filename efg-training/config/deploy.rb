@@ -9,7 +9,8 @@ require "whenever/capistrano"
 set :source_db_config_file, 'secrets/to_upload/database.yml'
 set :db_config_file, 'config/database.yml'
 
-set :run_migrations_by_default, true
+# FIXME: Set to true when the database is set up
+set :run_migrations_by_default, false
 
 load 'defaults'
 load 'ruby'
