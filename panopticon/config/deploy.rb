@@ -19,10 +19,6 @@ set :copy_exclude, [
   'public/templates'
 ]
 
-# Include the Whenever cap task, and copy schedule.rb to production
-set :whenever_command, "bundle exec whenever"
-require "whenever/capistrano"
-
 after "deploy:migrate", "deploy:create_mongoid_indexes"
 after "deploy:symlink", "deploy:seed_db"
 after "deploy:notify", "deploy:notify:errbit"
