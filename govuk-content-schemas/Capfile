@@ -1,0 +1,14 @@
+# This application has no service, as other applications that use it
+# (e.g. the Publishing API) just load the schemas that it provides
+# directly from the file system.
+#
+# The deployment process only needs to make the files in the
+# repository available on the machines where applications depending on
+# the govuk-content-schemas are running.
+
+load 'deploy'
+
+$:.unshift(File.expand_path('../../lib', __FILE__))
+load_paths << File.expand_path('../../recipes', __FILE__)
+
+load 'config/deploy'
