@@ -30,5 +30,5 @@ set :copy_exclude, [
   "public/templates"
 ]
 
-after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
+after "deploy:symlink", "deploy:publishing_api:publish"
 after "deploy:notify", "deploy:notify:errbit"
