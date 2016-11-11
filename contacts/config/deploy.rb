@@ -1,5 +1,6 @@
 set :application, "contacts"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
+set :server_class, "backend"
 
 set :repo_name, "contacts-admin"
 
@@ -12,11 +13,6 @@ load "deploy/assets"
 load 'govuk_admin_template'
 
 set :assets_prefix, 'contacts-assets'
-
-set :server_class, {
-  frontend: { roles: [:frontend, :web, :app] },
-  backend: { roles: [:backend, :db, :web, :app] },
-}
 
 require "whenever/capistrano"
 set :whenever_command, "bundle exec whenever"
