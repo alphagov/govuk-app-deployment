@@ -22,4 +22,3 @@ set :copy_exclude, [
 after "deploy:migrate", "deploy:create_mongoid_indexes"
 after "deploy:symlink", "deploy:seed_db"
 after "deploy:notify", "deploy:notify:errbit"
-after "deploy:restart", "deploy:restart_procfile_worker"
