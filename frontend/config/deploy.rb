@@ -18,11 +18,6 @@ set :copy_exclude, [
   'public/templates'
 ]
 
-org = ENV.fetch('ORGANISATION')
-set :config_files_to_upload, {
-  "secrets/to_upload/config/#{org}/secrets.yml" => "config/secrets.yml"
-}
-
 namespace :deploy do
   task :upload_integration_initializers do
     config_folder = File.expand_path("secrets/to_upload/initializers/integration", Dir.pwd)
