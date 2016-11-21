@@ -9,10 +9,4 @@ load 'ruby'
 
 after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:notify", "deploy:notify:errbit"
-after "deploy:finalize_update", "deploy:symlink_schemas"
-
-namespace :deploy do
-  task :symlink_schemas do
-    run "ln -sfn /data/apps/publishing-api/shared/govuk-content-schemas #{latest_release}/govuk-content-schemas"
-  end
-end
+after "deploy:finalize_update"
