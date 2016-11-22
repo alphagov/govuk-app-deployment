@@ -17,10 +17,4 @@ set :whenever_command, "govuk_setenv content-store bundle exec whenever"
 
 after "deploy:symlink", "deploy:create_mongoid_indexes"
 after "deploy:notify", "deploy:notify:errbit"
-after "deploy:finalize_update", "deploy:symlink_schemas"
-
-namespace :deploy do
-  task :symlink_schemas do
-    run "ln -sfn /data/apps/content-store/shared/govuk-content-schemas #{latest_release}/govuk-content-schemas"
-  end
-end
+after "deploy:finalize_update"
