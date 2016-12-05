@@ -2,15 +2,6 @@ set :application, "short-url-manager"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "backend"
 
-set :source_db_config_file, 'to_upload/mongoid.yml'
-set :db_config_file, 'config/mongoid.yml'
-
-set :config_files_to_upload, {
-  "to_upload/redis.yml" => 'config/redis.yml',
-  "to_upload/secrets.yml" => "config/secrets.yml",
-  "to_upload/schedule.rb" => "config/schedule.rb",
-}
-
 set :run_migrations_by_default, true
 
 load "defaults"
