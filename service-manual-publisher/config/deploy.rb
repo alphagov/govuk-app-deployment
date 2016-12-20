@@ -10,3 +10,4 @@ load 'deploy/assets'
 load 'govuk_admin_template'
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
+after "deploy:notify", "deploy:notify:errbit"
