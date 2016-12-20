@@ -1,6 +1,5 @@
 set :application, "imminence"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
-set :skip_cdn_tasks, true
 set :server_class, "backend"
 
 set :run_migrations_by_default, true
