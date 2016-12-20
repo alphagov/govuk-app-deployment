@@ -3,7 +3,6 @@ set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "backend"
 set :repo_name,    "signonotron2"
 
-set :skip_cdn_tasks, true
 set :run_migrations_by_default, true
 
 load 'defaults'
