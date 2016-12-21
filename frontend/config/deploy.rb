@@ -52,7 +52,6 @@ end
 after "deploy:upload_initializers", "deploy:upload_private_initializers"
 after "deploy:upload_initializers", "deploy:upload_unicorn_config"
 
-after "deploy:symlink", "deploy:panopticon:register"
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:symlink", "deploy:rummager:index"
 
