@@ -190,14 +190,6 @@ namespace :deploy do
     end
   end
 
-  namespace :panopticon do
-    task :register, :only => { :primary => true, :draft => false } do
-      rails_env = fetch(:rails_env, "production")
-      rake = fetch(:rake)
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} panopticon:register", :once => true
-    end
-  end
-
   namespace :publishing_api do
     task :publish, :only => { :primary => true, :draft => false } do
       rails_env = fetch(:rails_env, "production")
