@@ -6,6 +6,3 @@ set :run_migrations_by_default, true
 
 load 'defaults'
 load 'ruby'
-
-require "whenever/capistrano"
-set :whenever_command, "bundle exec whenever"
