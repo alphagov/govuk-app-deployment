@@ -7,3 +7,6 @@ set :run_migrations_by_default, true
 load 'defaults'
 load 'ruby'
 load 'deploy/assets'
+
+set :assets_prefix, 'content-performance-manager'
+set :rails_env, 'production'
