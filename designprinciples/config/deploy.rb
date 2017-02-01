@@ -19,6 +19,5 @@ namespace :deploy do
 end
 
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
-after "deploy:symlink", "deploy:rummager:index"
 
 after "deploy:notify", "deploy:notify:errbit"
