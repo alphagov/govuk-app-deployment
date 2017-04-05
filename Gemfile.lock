@@ -19,6 +19,7 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     chronic (0.6.7)
+    diff-lcs (1.2.5)
     domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
     govuk-lint (1.2.0)
@@ -47,6 +48,19 @@ GEM
     railsless-deploy (1.0.2)
     rainbow (2.1.0)
     rake (0.9.2)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.2)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     rubocop (0.39.0)
       parser (>= 2.3.0.7, < 3.0)
       powerpack (~> 0.1)
@@ -76,4 +90,8 @@ DEPENDENCIES
   http (~> 2.0)
   railsless-deploy
   rake
+  rspec
   whenever (= 0.7.3)
+
+BUNDLED WITH
+   1.14.5

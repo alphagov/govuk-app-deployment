@@ -141,25 +141,8 @@ namespace :deploy do
 
     desc "Announce the deploy on Slack"
     task :slack_message do
-      begin
-        require 'http'
-
-        environment_name = ENV['ORGANISATION']
-
-        next unless %w(production staging).include?(environment_name)
-
-        message_payload = {
-          username: "Badger",
-          icon_emoji: ":badger:",
-          text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{environment_name}*",
-          mrkdwn: true,
-          channel: '#2ndline',
-        }
-
-        HTTP.post(ENV["BADGER_SLACK_WEBHOOK_URL"], body: JSON.dump(message_payload))
-      rescue => e
-        puts "Release notification to slack failed: #{e.message}"
-      end
+      annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+      annoucer.announce(repo_name, application)
     end
 
     desc "Record the deployment as a Graphite event"
