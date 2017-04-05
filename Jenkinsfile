@@ -33,6 +33,10 @@ node {
     stage("Lint Ruby") {
       govuk.rubyLinter("*/*")
     }
+
+    stage("Tests") {
+      govuk.runTests()
+    }
   } catch (e) {
     currentBuild.result = "FAILED"
     step([$class: 'Mailer',
