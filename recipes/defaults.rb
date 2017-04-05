@@ -1,5 +1,7 @@
 load "set_servers"
 
+require "slack_announcer"
+
 set :branch,        ENV["TAG"] ? ENV["TAG"] : "master"
 set :deploy_to,     "/data/apps/#{application}"
 set :deploy_via,    :rsync_with_remote_cache
