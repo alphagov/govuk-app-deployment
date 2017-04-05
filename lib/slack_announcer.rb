@@ -6,7 +6,7 @@ class SlackAnnouncer
     @slack_url = slack_url
   end
 
-  def announce(repo_name, application)
+  def announce(repo_name, application, slack_channel = "#2ndline")
     return unless %w(production staging).include?(@environment_name)
 
     message_payload = {
@@ -14,7 +14,7 @@ class SlackAnnouncer
       icon_emoji: ":badger:",
       text: "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*",
       mrkdwn: true,
-      channel: '#2ndline',
+      channel: slack_channel,
     }
 
     HTTP.post(@slack_url, body: JSON.dump(message_payload))

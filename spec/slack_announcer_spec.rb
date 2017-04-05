@@ -32,4 +32,15 @@ RSpec.describe SlackAnnouncer do
     expect(announcer).to receive(:puts).with(/StandardError/)
     expect { announcer.announce("alphagov/whitehall", "Whitehall") }.not_to raise_error
   end
+
+  it "can override the Slack channel" do
+    expect(HTTP).to receive(:post) do |_url, params|
+      expect(JSON.parse(params[:body])).to include(
+        "channel" => "#some_other_channel",
+      )
+    end
+
+    announcer = described_class.new("production", "http://slack.url")
+    announcer.announce("alphagov/whitehall", "Whitehall", "#some_other_channel")
+  end
 end
