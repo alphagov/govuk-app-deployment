@@ -10,7 +10,7 @@ class SlackAnnouncer
     return unless %w(production staging).include?(@environment_name)
 
     text = "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*"
-    if repo_name == "alphagov/whitehall"
+    if repo_name == "whitehall"
       text += "\n:chart_with_upwards_trend: Why not check out the <https://#{dashboard_host_name}/dashboard/db/prototype-dashboard-whitehall|#{application} deployment dashboard>?"
     end
 
