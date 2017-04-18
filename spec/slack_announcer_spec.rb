@@ -44,9 +44,9 @@ RSpec.describe SlackAnnouncer do
     announcer.announce("application", "Application", "#some_other_channel")
   end
 
-  it "includes dashboard links in the message for whitehall production deployments" do
+  it "includes dashboard links when dashboard exists in Grafana production deployments" do
     expected_text = "<https://github.com/alphagov/whitehall|Whitehall> was just deployed to *production*\n" +
-      ":chart_with_upwards_trend: Why not check out the <https://grafana.publishing.service.gov.uk/dashboard/db/prototype-dashboard-whitehall|Whitehall deployment dashboard>?"
+      ":chart_with_upwards_trend: Why not check out the <https://grafana.publishing.service.gov.uk/dashboard/file/deployment_whitehall.json|Whitehall deployment dashboard>?"
 
     expect(HTTP).to receive(:post) do |_url, params|
       expect(JSON.parse(params[:body])).to include(
@@ -58,9 +58,9 @@ RSpec.describe SlackAnnouncer do
     announcer.announce("whitehall", "Whitehall")
   end
 
-  it "includes dashboard links in the message for whitehall staging deployments" do
+  it "includes dashboard links when dashboard exists in Grafana staging deployments" do
     expected_text = "<https://github.com/alphagov/whitehall|Whitehall> was just deployed to *staging*\n" +
-      ":chart_with_upwards_trend: Why not check out the <https://grafana.staging.publishing.service.gov.uk/dashboard/db/prototype-dashboard-whitehall|Whitehall deployment dashboard>?"
+      ":chart_with_upwards_trend: Why not check out the <https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_whitehall.json|Whitehall deployment dashboard>?"
 
     expect(HTTP).to receive(:post) do |_url, params|
       expect(JSON.parse(params[:body])).to include(

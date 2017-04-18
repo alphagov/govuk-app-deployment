@@ -10,8 +10,10 @@ class SlackAnnouncer
     return unless %w(production staging).include?(@environment_name)
 
     text = "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*"
-    if repo_name == "whitehall"
-      text += "\n:chart_with_upwards_trend: Why not check out the <https://#{dashboard_host_name}/dashboard/db/prototype-dashboard-whitehall|#{application} deployment dashboard>?"
+
+    url = dashboard_url(dashboard_host_name, repo_name)
+    if url
+      text += "\n:chart_with_upwards_trend: Why not check out the <#{url}|#{application} deployment dashboard>?"
     end
 
     message_payload = {
@@ -32,5 +34,12 @@ class SlackAnnouncer
       "production" => "grafana.publishing.service.gov.uk",
       "staging" => "grafana.staging.publishing.service.gov.uk",
     }[@environment_name]
+  end
+
+  def dashboard_url(host_name, application_name)
+    url = "https://#{host_name}/api/dashboards/file/deployment_#{application_name}.json"
+    return nil unless (200..399).cover?(HTTP.get(url).code)
+
+    "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
   end
 end
