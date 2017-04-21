@@ -54,7 +54,7 @@ RSpec.describe SlackAnnouncer do
     announcer.announce("application", "Application", "#some_other_channel")
   end
 
-  it "includes dashboard links for production when dashboard exists in Grafana production deployments" do
+  it "includes dashboard links for production when dashboard exists" do
     expected_text = "<https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*\n" +
       ":chart_with_upwards_trend: Why not check out the <https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
 
@@ -71,12 +71,12 @@ RSpec.describe SlackAnnouncer do
     announcer.announce("existing_app", "Existing App")
   end
 
-  it "includes dashboard links for staging when dashboard exists in Grafana production deployments" do
+  it "includes dashboard links for staging when dashboard exists" do
     expected_text = "<https://github.com/alphagov/existing_app|Existing App> was just deployed to *staging*\n" +
       ":chart_with_upwards_trend: Why not check out the <https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
 
     expect(HTTP).to receive(:get)
-      .with("https://grafana.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
+      .with("https://grafana.staging.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
       .and_return(double(:response, code: 200))
     expect(HTTP).to receive(:post) do |_url, params|
       expect(JSON.parse(params[:body])).to include(
