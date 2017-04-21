@@ -37,7 +37,7 @@ class SlackAnnouncer
   end
 
   def dashboard_url(host_name, application_name)
-    url = "https://grafana.publishing.service.gov.uk/api/dashboards/file/deployment_#{application_name}.json"
+    url = "https://#{host_name}/api/dashboards/file/deployment_#{application_name}.json"
     return nil unless (200..399).cover?(HTTP.get(url).code)
 
     "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
