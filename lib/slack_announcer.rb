@@ -1,9 +1,12 @@
 require 'http'
 
 class SlackAnnouncer
-  def initialize(environment_name, slack_url)
+  GRAFANA_TIMEOUT = 5
+
+  def initialize(environment_name, slack_url, grafana_timeout: GRAFANA_TIMEOUT)
     @environment_name = environment_name
     @slack_url = slack_url
+    @grafana_timeout = grafana_timeout
   end
 
   def announce(repo_name, application, slack_channel = "#2ndline")
@@ -37,10 +40,12 @@ class SlackAnnouncer
   end
 
   def dashboard_url(host_name, application_name)
-    url = "https://#{host_name}/api/dashboards/file/deployment_#{application_name}.json"
-    return nil unless (200..399).cover?(HTTP.get(url).code)
+    Timeout.timeout(@grafana_timeout) do
+      url = "https://#{host_name}/api/dashboards/file/deployment_#{application_name}.json"
+      return nil unless (200..399).cover?(HTTP.get(url).code)
 
-    "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
+      "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
+    end
   rescue => e
     puts "Unable to connect to grafana server: #{e.message}"
     nil
