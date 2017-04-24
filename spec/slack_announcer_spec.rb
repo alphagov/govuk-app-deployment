@@ -102,4 +102,23 @@ RSpec.describe SlackAnnouncer do
     expect(announcer).to receive(:puts).with('Unable to connect to grafana server: HTTP::ConnectionError')
     announcer.announce("existing_app", "Existing App")
   end
+
+  it "Will only wait for grafana until the timeout is reached before failing teh request" do
+    expected_text = "<https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
+
+    expect(HTTP).to receive(:get) do
+      sleep 10
+      double(:response, code: 200)
+    end
+
+    expect(HTTP).to receive(:post) do |_url, params|
+      expect(JSON.parse(params[:body])).to include(
+        "text" => expected_text,
+      )
+    end
+
+    announcer = described_class.new("production", "http://slack.url", grafana_timeout: 0.1)
+    expect(announcer).to receive(:puts).with('Unable to connect to grafana server: execution expired')
+    announcer.announce("existing_app", "Existing App")
+  end
 end
