@@ -251,3 +251,30 @@ namespace :app do
     hard_restart
   end
 end
+
+namespace :deploy_docker do
+  # These tasks are specific to a docker deployment
+  desc "Deploy the application as a docker image"
+  task :default do
+    pull
+    tag_to_current
+    restart
+  end
+
+  desc "Pull the docker image using a specific tag"
+  task :pull do
+    run "sudo docker image pull #{application}:#{branch}"
+  end
+
+  desc "Tag the image to use the 'current' tag"
+  task :tag_to_current do
+    run "sudo docker image tag #{application}:#{branch} #{application}:current"
+  end
+
+  desc "Restart the docker service for the application"
+  task :restart do
+    run "sudo service docker-#{application} restart"
+  end
+end
+
+after "deploy_docker", "deploy:notify"
