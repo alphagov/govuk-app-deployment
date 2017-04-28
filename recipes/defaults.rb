@@ -2,18 +2,19 @@ load "set_servers"
 
 require "slack_announcer"
 
-set :branch,        ENV["TAG"] ? ENV["TAG"] : "master"
-set :deploy_to,     "/data/apps/#{application}"
-set :deploy_via,    :rsync_with_remote_cache
-set :organisation,  ENV['ORGANISATION']
-set :keep_releases, 5
-set :rake,          "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
-set :repo_name,     fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
-set :repository,    "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}.git"
-set :scm,           :git
-set :ssh_options,   { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa" }
-set :use_sudo,      false
-set :user,          "deploy"
+set :branch,         ENV["TAG"] ? ENV["TAG"] : "master"
+set :deploy_to,      "/data/apps/#{application}"
+set :deploy_via,     :rsync_with_remote_cache
+set :organisation,   ENV['ORGANISATION']
+set :keep_releases,  5
+set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
+set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
+set :repository,     "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}.git"
+set :scm,            :git
+set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa" }
+set :use_sudo,       false
+set :user,           "deploy"
+set :dockerhub_repo, "govuk"
 
 # Always run deploy:setup on every server as it's idempotent
 after "deploy:set_servers", "deploy:setup"
@@ -263,12 +264,12 @@ namespace :deploy_docker do
 
   desc "Pull the docker image using a specific tag"
   task :pull do
-    run "sudo docker image pull #{application}:#{branch}"
+    run "sudo docker image pull #{dockerhub_repo}/#{application}:#{branch}"
   end
 
   desc "Tag the image to use the 'current' tag"
   task :tag_to_current do
-    run "sudo docker image tag #{application}:#{branch} #{application}:current"
+    run "sudo docker image tag #{dockerhub_repo}/#{application}:#{branch} #{dockerhub_repo}/#{application}:current"
   end
 
   desc "Restart the docker service for the application"
