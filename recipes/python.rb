@@ -62,7 +62,7 @@ EOS
   end
 
   task :upload_organisation_config do
-    Dir.glob(File.join(Dir.pwd, "to_upload/#{ENV['ORGANISATION']}/*")).each do |f|
+    Dir.glob(File.join(Dir.pwd, "secrets/to_upload/#{ENV['ORGANISATION']}/*")).each do |f|
       top.upload(f, File.join(release_path, File.basename(f)))
     end
   end
