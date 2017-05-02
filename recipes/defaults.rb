@@ -29,7 +29,7 @@ namespace :deploy do
       migrate
     end
     symlink
-    fetch(:perform_hard_restart, false) ? hard_restart : restart
+    restart
   end
 
   desc "Perform a normal deployment with a hard restart instead of a normal restart"
@@ -67,8 +67,9 @@ namespace :deploy do
   # any schema differences between production and integration
   desc "Migrate database and hard restart the application"
   task :migrate_and_hard_restart, :roles => :app, :except => { :no_release => true } do
+    set :perform_hard_restart, true
     migrate
-    hard_restart
+    restart
   end
 
   task :upload_config, :roles => [:app, :web] do
