@@ -20,7 +20,7 @@ namespace :deploy do
   end
 
   task :upload_environment_settings do
-    config_folder = File.expand_path("settings/#{ENV['ORGANISATION']}", Dir.pwd)
+    config_folder = File.expand_path("secrets/settings/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exist?(config_folder)
       Dir.glob(File.join(config_folder, "*.py")).each do |settings|
         top.upload(settings, File.join(release_path, "stagecraft/settings/#{File.basename(settings)}"))
