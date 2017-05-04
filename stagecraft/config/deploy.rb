@@ -42,8 +42,7 @@ namespace :deploy do
   desc "Restart CeleryBeat"
   task :restart_celery_beat do
     process_name = "stagecraft-beat-procfile-worker"
-    process_file = File.expand_path("/etc/init/#{process_name}.conf", Dir.pwd)
-    if File.exist?(process_file)
+    if File.exist?("/etc/init/#{process_name}.conf")
       run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
     end
   end
@@ -52,8 +51,7 @@ namespace :deploy do
   desc "Restart CeleryCam"
   task :restart_celery_cam do
     process_name = "stagecraft-celerycam-procfile-worker"
-    process_file = File.expand_path("/etc/init/#{process_name}.conf", Dir.pwd)
-    if File.exist?(process_file)
+    if File.exist?("/etc/init/#{process_name}.conf")
       run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
     end
   end
