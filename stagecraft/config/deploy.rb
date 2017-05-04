@@ -35,25 +35,22 @@ namespace :deploy do
 
   desc "Restart the Celery workers"
   task :restart_procfile_worker do
-    run "sudo initctl start stagecraft-worker-procfile-worker 2>/dev/null || sudo initctl restart stagecraft-worker-procfile-worker"
+    process_name = "stagecraft-worker-procfile-worker"
+    run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name} "
   end
 
   # we only have celery beat on a single server
   desc "Restart CeleryBeat"
   task :restart_celery_beat do
     process_name = "stagecraft-beat-procfile-worker"
-    if File.exist?("/etc/init/#{process_name}.conf")
-      run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
-    end
+    run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name} 2>/dev/null || true"
   end
 
   # we only have celery cam on a single server
   desc "Restart CeleryCam"
   task :restart_celery_cam do
     process_name = "stagecraft-celerycam-procfile-worker"
-    if File.exist?("/etc/init/#{process_name}.conf")
-      run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
-    end
+    run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name} 2>/dev/null || true"
   end
 
   def run_django_command(command)
