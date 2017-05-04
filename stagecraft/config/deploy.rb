@@ -38,14 +38,24 @@ namespace :deploy do
     run "sudo initctl start stagecraft-worker-procfile-worker 2>/dev/null || sudo initctl restart stagecraft-worker-procfile-worker"
   end
 
+  # we only have celery beat on a single server
   desc "Restart CeleryBeat"
   task :restart_celery_beat do
-    run "sudo initctl start stagecraft-beat-procfile-worker 2>/dev/null || sudo initctl restart stagecraft-beat-procfile-worker"
+    process_name = "stagecraft-beat-procfile-worker"
+    process_file = File.expand_path("/etc/init/#{process_name}.conf", Dir.pwd)
+    if File.exist?(process_file)
+      run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
+    end
   end
 
+  # we only have celery cam on a single server
   desc "Restart CeleryCam"
   task :restart_celery_cam do
-    run "sudo initctl start stagecraft-celerycam-procfile-worker 2>/dev/null || sudo initctl restart stagecraft-celerycam-procfile-worker"
+    process_name = "stagecraft-celerycam-procfile-worker"
+    process_file = File.expand_path("/etc/init/#{process_name}.conf", Dir.pwd)
+    if File.exist?(process_file)
+      run "sudo initctl start #{process_name} 2>/dev/null || sudo initctl restart #{process_name}"
+    end
   end
 
   def run_django_command(command)
