@@ -9,7 +9,7 @@ namespace :deploy do
     desc "Notifies external services of a successful deployment"
     task :default do
       release_app
-      slack_message
+      slack_message_done
       graphite_event
     end
 
@@ -48,10 +48,16 @@ namespace :deploy do
       end
     end
 
-    desc "Announce the deploy on Slack"
-    task :slack_message do
+    desc "Announce on Slack the deploy has started"
+    task :slack_message_start do
       annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
-      annoucer.announce(repo_name, application)
+      annoucer.announce_start(repo_name, application)
+    end
+
+    desc "Announce on Slack the deploy has finished"
+    task :slack_message_done do
+      annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+      annoucer.announce_done(repo_name, application)
     end
 
     desc "Record the deployment as a Graphite event"

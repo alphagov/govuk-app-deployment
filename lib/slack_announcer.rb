@@ -9,15 +9,24 @@ class SlackAnnouncer
     @grafana_timeout = grafana_timeout
   end
 
-  def announce(repo_name, application, slack_channel = "#2ndline")
-    return unless %w(production staging).include?(@environment_name)
+  def announce_start(repo_name, application, slack_channel = '#govuk-deploy')
+    text = "#{environment_emoji} :spinner: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> is being deployed to *#{@environment_name}*"
+    post_text(slack_channel, text)
+  end
 
-    text = "<https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*"
+  def announce_done(repo_name, application, slack_channel = '#govuk-deploy')
+    text = "#{environment_emoji} :white_check_mark: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*"
 
     url = dashboard_url(dashboard_host_name, repo_name)
     if url
       text += "\n:chart_with_upwards_trend: Why not check out the <#{url}|#{application} deployment dashboard>?"
     end
+
+    post_text(slack_channel, text)
+  end
+
+  def post_text(slack_channel, text)
+    return unless %w(production staging).include?(@environment_name)
 
     message_payload = {
       username: "Badger",
@@ -30,6 +39,10 @@ class SlackAnnouncer
     HTTP.post(@slack_url, body: JSON.dump(message_payload))
   rescue => e
     puts "Release notification to slack failed: #{e.message}"
+  end
+
+  def environment_emoji
+    @environment_name == 'production' ? ':bangbang:' : ':large_orange_diamond:'
   end
 
   def dashboard_host_name
