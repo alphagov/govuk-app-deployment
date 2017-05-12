@@ -7,11 +7,6 @@ set :run_migrations_by_default, true
 load 'defaults'
 load 'ruby'
 
-set :config_files_to_upload, {
-  "secrets/to_upload/rabbitmq.yml.erb" => "config/rabbitmq.yml",
-  "secrets/to_upload/unicorn.rb" => "config/unicorn.rb",
-}
-
 require "whenever/capistrano"
 set :whenever_command, "govuk_setenv content-store bundle exec whenever"
 
