@@ -56,6 +56,8 @@ fi
 cd "$TARGET_APPLICATION_LOCATION"
 if ! git remote | grep -q failover ; then
   git remote add failover git@github.digital.cabinet-office.gov.uk:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME".git
+elif git remote -v | egrep -q 'failover(.*)github.gds' ; then
+  git remote set-url failover git@github.digital.cabinet-office.gov.uk:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME".git
 fi
 git push -f failover deploy:master
 echo "Backed up ${TARGET_APPLICATION_REPO_NAME} successfully"
