@@ -8,7 +8,7 @@ We're in the process of moving our deployment code from a
 
 ## Adding a new app
 
-See [the documentation in the opsmanual](https://github.digital.cabinet-office.gov.uk/pages/gds/opsmanual/infrastructure/howto/setting-up-new-rails-app.html).
+See [the documentation in the manual](https://docs.publishing.service.gov.uk/manual/setting-up-new-rails-app.html).
 
 ## How deployments work
 
