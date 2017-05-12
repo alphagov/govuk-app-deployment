@@ -22,10 +22,10 @@ if ! cd "$TARGET_APPLICATION_LOCATION"; then
 fi
 
 
-# Sync only github.com/alphagov repositories not github.gds/gds repositories
+# Sync only github.com/alphagov repositories not github.digital.cabinet-office.gov.uk/gds repositories
 TARGET_APPLICATION_GIT_URL=$(git config --get remote.origin.url)
-if echo $TARGET_APPLICATION_GIT_URL | grep 'github.gds'; then
-  echo ">> We don't backup github.gds(enterprise) repos using this script" >&2
+if echo $TARGET_APPLICATION_GIT_URL | grep 'github.digital.cabinet-office.gov.uk'; then
+  echo ">> We don't backup GitHub Enterprise repos using this script" >&2
   exit 0
 fi
 
@@ -43,9 +43,9 @@ TEMPTARGET=${TARGET_APPLICATION_GIT_URL%%.git}
 # Strip of everything up to and including the last slash
 TARGET_APPLICATION_REPO_NAME=${TEMPTARGET##*/}
 
-# Create repo if not present in github.gds
+# Create repo if not present in github.digital.cabinet-office.gov.uk
 if ! gh-repo gds:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME" get >/dev/null; then
-  echo ">> Creating an application in github.gds"
+  echo ">> Creating an application in github.digital.cabinet-office.gov.uk"
   if ! (gh-repo gds:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME" create >/dev/null); then
     echo ">> [FAILURE] Repository could not be created"
     exit 1
@@ -55,7 +55,7 @@ fi
 # Pushing to remote gitgub.gds/gds-production-backup endpoint
 cd "$TARGET_APPLICATION_LOCATION"
 if ! git remote | grep -q failover ; then
-  git remote add failover git@github.gds:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME".git
+  git remote add failover git@github.digital.cabinet-office.gov.uk:gds-production-backup/"$TARGET_APPLICATION_REPO_NAME".git
 fi
 git push -f failover deploy:master
 echo "Backed up ${TARGET_APPLICATION_REPO_NAME} successfully"
