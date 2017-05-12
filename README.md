@@ -8,7 +8,7 @@ We're in the process of moving our deployment code from a
 
 ## Adding a new app
 
-See [the documentation in the opsmanual](https://github.gds/pages/gds/opsmanual/infrastructure/howto/setting-up-new-rails-app.html).
+See [the documentation in the opsmanual](https://github.digital.cabinet-office.gov.uk/pages/gds/opsmanual/infrastructure/howto/setting-up-new-rails-app.html).
 
 ## How deployments work
 
@@ -36,4 +36,4 @@ deploy scripts:
 * `ORGANISATION` - The vCloud organisation being deployed to
 * `CI_DEPLOY_JENKINS_API_KEY` - API key used to fetch build artefacts from ci.dev.publishing.service.gov.uk.
 
-[alphagov-deployment]: https://github.gds/gds/alphagov-deployment
+[alphagov-deployment]: https://github.digital.cabinet-office.gov.uk/gds/alphagov-deployment
