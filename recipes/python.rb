@@ -61,12 +61,6 @@ EOS
     run commands.join(' && ') if commands.any?
   end
 
-  task :upload_organisation_config do
-    Dir.glob(File.join(Dir.pwd, "to_upload/#{ENV['ORGANISATION']}/*")).each do |f|
-      top.upload(f, File.join(release_path, File.basename(f)))
-    end
-  end
-
   task :crontab, :roles => :app do
     fetch(:cronjobs, {}).each do |name, cronjob|
       job = "#{cronjob.join(' ')} >> #{release_path}/log/cron.out.log 2>> #{release_path}/log/cron.err.log"
@@ -82,7 +76,6 @@ end
 
 after "deploy:setup", "deploy:create_virtualenv"
 before "deploy:finalize_update", "deploy:install_deps"
-after "deploy:finalize_update", "deploy:upload_organisation_config"
 after "deploy:finalize_update", "deploy:link_shared_children"
 before "deploy:restart", "deploy:run_post_deploy_hook"
 before "deploy:restart", "deploy:crontab"
