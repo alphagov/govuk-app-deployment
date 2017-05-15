@@ -146,6 +146,7 @@ namespace :deploy do
   end
 end
 
+before "deploy", "deploy:notify:slack_message_start"
 after "deploy", "deploy:notify"
 after "deploy:cold", "deploy:notify"
 after "deploy:migrations", "deploy:notify"
