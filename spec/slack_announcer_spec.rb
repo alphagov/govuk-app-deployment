@@ -23,7 +23,7 @@ RSpec.describe SlackAnnouncer do
         expect(url).to eq('http://slack.url')
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
-          "text" => ":govuk-#{environment_name}: :white_check_mark: Version release_123 of <https://github.com/alphagov/application|Application> was just deployed to *#{environment_name}*",
+          "text" => ":govuk-#{environment_name}: :white_check_mark: Version release_123 of <https://github.com/alphagov/application|Application> deployed to *#{environment_name}*",
           "channel" => "#govuk-deploy",
         )
       end
@@ -60,8 +60,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes dashboard links for production when dashboard exists" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*\n" +
-      ":chart_with_upwards_trend: Why not check out the <https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production* (<https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
 
     expect(HTTP).to receive(:get)
       .with("https://grafana.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
@@ -77,8 +76,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes dashboard links for staging when dashboard exists" do
-    expected_text = ":govuk-staging: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *staging*\n" +
-      ":chart_with_upwards_trend: Why not check out the <https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
+    expected_text = ":govuk-staging: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *staging* (<https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
 
     expect(HTTP).to receive(:get)
       .with("https://grafana.staging.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
@@ -94,7 +92,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes does not include dashboard links when an error occurs connecting to grafana server" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production*"
 
     expect(HTTP).to receive(:get).and_raise(HTTP::ConnectionError)
     expect(HTTP).to receive(:post) do |_url, params|
@@ -109,7 +107,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "Will only wait for grafana until the timeout is reached before failing the request" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production*"
 
     expect(HTTP).to receive(:get) do
       sleep 10

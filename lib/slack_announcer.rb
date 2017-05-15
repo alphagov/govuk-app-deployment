@@ -15,12 +15,10 @@ class SlackAnnouncer
   end
 
   def announce_done(repo_name, application, slack_channel = '#govuk-deploy')
-    text = "#{environment_emoji} :white_check_mark: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> was just deployed to *#{@environment_name}*"
+    text = "#{environment_emoji} :white_check_mark: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> deployed to *#{@environment_name}*"
 
     url = dashboard_url(dashboard_host_name, repo_name)
-    if url
-      text += "\n:chart_with_upwards_trend: Why not check out the <#{url}|#{application} deployment dashboard>?"
-    end
+    text += " (<#{url}|check dashboard>)" if url
 
     post_text(slack_channel, text)
   end
