@@ -42,7 +42,7 @@ class SlackAnnouncer
   end
 
   def environment_emoji
-    @environment_name == 'production' ? ':bangbang:' : ':large_orange_diamond:'
+    ":govuk-#{@environment_name}:"
   end
 
   def dashboard_host_name

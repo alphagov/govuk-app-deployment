@@ -18,13 +18,12 @@ RSpec.describe SlackAnnouncer do
   end
 
   %w(staging production).each do |environment_name|
-    emoji = environment_name == 'production' ? ':bangbang:' : ':large_orange_diamond:'
     it "annouces a #{environment_name} deploy to slack" do
       expect(HTTP).to receive(:post) do |url, params|
         expect(url).to eq('http://slack.url')
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
-          "text" => "#{emoji} :white_check_mark: Version release_123 of <https://github.com/alphagov/application|Application> was just deployed to *#{environment_name}*",
+          "text" => ":govuk-#{environment_name}: :white_check_mark: Version release_123 of <https://github.com/alphagov/application|Application> was just deployed to *#{environment_name}*",
           "channel" => "#govuk-deploy",
         )
       end
@@ -61,7 +60,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes dashboard links for production when dashboard exists" do
-    expected_text = ":bangbang: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*\n" +
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*\n" +
       ":chart_with_upwards_trend: Why not check out the <https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
 
     expect(HTTP).to receive(:get)
@@ -78,7 +77,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes dashboard links for staging when dashboard exists" do
-    expected_text = ":large_orange_diamond: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *staging*\n" +
+    expected_text = ":govuk-staging: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *staging*\n" +
       ":chart_with_upwards_trend: Why not check out the <https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|Existing App deployment dashboard>?"
 
     expect(HTTP).to receive(:get)
@@ -95,7 +94,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes does not include dashboard links when an error occurs connecting to grafana server" do
-    expected_text = ":bangbang: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
 
     expect(HTTP).to receive(:get).and_raise(HTTP::ConnectionError)
     expect(HTTP).to receive(:post) do |_url, params|
@@ -110,7 +109,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "Will only wait for grafana until the timeout is reached before failing the request" do
-    expected_text = ":bangbang: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
+    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> was just deployed to *production*"
 
     expect(HTTP).to receive(:get) do
       sleep 10
@@ -129,13 +128,12 @@ RSpec.describe SlackAnnouncer do
   end
 
   %w(staging production).each do |environment_name|
-    emoji = environment_name == 'production' ? ':bangbang:' : ':large_orange_diamond:'
     it "annouces a #{environment_name} deployment starting to slack" do
       expect(HTTP).to receive(:post) do |url, params|
         expect(url).to eq('http://slack.url')
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
-          "text" => "#{emoji} :spinner: Version release_123 of <https://github.com/alphagov/application|Application> is being deployed to *#{environment_name}*",
+          "text" => ":govuk-#{environment_name}: :spinner: Version release_123 of <https://github.com/alphagov/application|Application> is being deployed to *#{environment_name}*",
           "channel" => "#govuk-deploy",
         )
       end
