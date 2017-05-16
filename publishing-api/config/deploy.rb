@@ -1,9 +1,6 @@
 set :application, "publishing-api"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
-set :server_class, {
-  publishing_api: { roles: [:db, :app, :web] },
-  backend: { roles: [:app, :web] },
-}
+set :server_class, "publishing_api"
 
 set :run_migrations_by_default, true
 
