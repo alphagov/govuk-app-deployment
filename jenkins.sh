@@ -12,7 +12,7 @@ if [ "$TARGET_APPLICATION" == 'govuk-puppet' ]; then
   git clone --depth 1 git@github.digital.cabinet-office.gov.uk:gds/deployment.git
   cd "deployment/puppet"
   echo "---> Running deploy.sh" >&2
-  exec env BUNDLE_GEMFILE="$WORKSPACE/Gemfile" sh -e deploy.sh
+  exec sh -e deploy.sh
   exit 0
 fi
 
