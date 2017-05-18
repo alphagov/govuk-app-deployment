@@ -60,7 +60,7 @@ RSpec.describe SlackAnnouncer do
   end
 
   it "includes dashboard links for production when dashboard exists" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production* (<https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
+    expected_text = ":govuk-production: :mega: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> is being deployed to *production* (<https://grafana.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
 
     expect(HTTP).to receive(:get)
       .with("https://grafana.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
@@ -72,11 +72,11 @@ RSpec.describe SlackAnnouncer do
     end
 
     announcer = described_class.new("production", "http://slack.url")
-    announcer.announce_done("existing_app", "Existing App")
+    announcer.announce_start("existing_app", "Existing App")
   end
 
   it "includes dashboard links for staging when dashboard exists" do
-    expected_text = ":govuk-staging: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *staging* (<https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
+    expected_text = ":govuk-staging: :mega: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> is being deployed to *staging* (<https://grafana.staging.publishing.service.gov.uk/dashboard/file/deployment_existing_app.json|check dashboard>)"
 
     expect(HTTP).to receive(:get)
       .with("https://grafana.staging.publishing.service.gov.uk/api/dashboards/file/deployment_existing_app.json")
@@ -88,11 +88,11 @@ RSpec.describe SlackAnnouncer do
     end
 
     announcer = described_class.new("staging", "http://slack.url")
-    announcer.announce_done("existing_app", "Existing App")
+    announcer.announce_start("existing_app", "Existing App")
   end
 
   it "includes does not include dashboard links when an error occurs connecting to grafana server" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production*"
+    expected_text = ":govuk-production: :mega: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> is being deployed to *production*"
 
     expect(HTTP).to receive(:get).and_raise(HTTP::ConnectionError)
     expect(HTTP).to receive(:post) do |_url, params|
@@ -103,11 +103,11 @@ RSpec.describe SlackAnnouncer do
 
     announcer = described_class.new("production", "http://slack.url")
     expect(announcer).to receive(:puts).with('Unable to connect to grafana server: HTTP::ConnectionError')
-    announcer.announce_done("existing_app", "Existing App")
+    announcer.announce_start("existing_app", "Existing App")
   end
 
   it "Will only wait for grafana until the timeout is reached before failing the request" do
-    expected_text = ":govuk-production: :white_check_mark: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> deployed to *production*"
+    expected_text = ":govuk-production: :mega: Version release_123 of <https://github.com/alphagov/existing_app|Existing App> is being deployed to *production*"
 
     expect(HTTP).to receive(:get) do
       sleep 10
@@ -122,7 +122,7 @@ RSpec.describe SlackAnnouncer do
 
     announcer = described_class.new("production", "http://slack.url", grafana_timeout: 0.1)
     expect(announcer).to receive(:puts).with('Unable to connect to grafana server: execution expired')
-    announcer.announce_done("existing_app", "Existing App")
+    announcer.announce_start("existing_app", "Existing App")
   end
 
   %w(staging production).each do |environment_name|
@@ -131,7 +131,7 @@ RSpec.describe SlackAnnouncer do
         expect(url).to eq('http://slack.url')
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
-          "text" => ":govuk-#{environment_name}: :spinner: Version release_123 of <https://github.com/alphagov/application|Application> is being deployed to *#{environment_name}*",
+          "text" => ":govuk-#{environment_name}: :mega: Version release_123 of <https://github.com/alphagov/application|Application> is being deployed to *#{environment_name}*",
           "channel" => "#govuk-deploy",
         )
       end
