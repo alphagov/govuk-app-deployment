@@ -1,0 +1,16 @@
+{
+  "content_id": "d82ec90e-79cb-4b6f-ae2a-82eea07f2856",
+  "format": "special_route",
+  "title": "Spotlight",
+  "description": "",
+  "routes": [
+    {
+      "path": "/performance",
+      "type": "prefix"
+    }
+  ],
+  "publishing_app": "spotlight",
+  "rendering_app": "spotlight",
+  "update_type": "major",
+  "public_updated_at": "2015-08-14T13:00:03+00:00"
+}
