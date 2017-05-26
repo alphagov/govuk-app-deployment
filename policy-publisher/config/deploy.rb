@@ -9,9 +9,5 @@ load 'ruby'
 load 'deploy/assets'
 load 'govuk_admin_template'
 
-set :config_files_to_upload, {
-  "secrets/to_upload/secrets.yml" => "config/secrets.yml",
-}
-
 after "deploy:notify", "deploy:notify:errbit"
 after "deploy:symlink", "deploy:publishing_api:publish"
