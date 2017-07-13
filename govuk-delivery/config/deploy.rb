@@ -5,8 +5,6 @@ set :shared_children, shared_children + %w(log)
 
 load "defaults"
 
-set :repository, "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.gds:gds')}/govuk_delivery.git"
-
 load "python"
 
 namespace :deploy do
