@@ -49,9 +49,14 @@ namespace :deploy do
     teardown_connections_to(find_servers)
   end
 
-  desc "Restart rummager's publishing-api listener"
+  desc "Restart rummager's publishing-api listener for link updates"
   task :restart_publishing_api_listener do
     run "sudo initctl start rummager-publishing-queue-listener-procfile-worker || sudo initctl restart rummager-publishing-queue-listener-procfile-worker"
+  end
+
+  desc "Restart rummager's publishing-api listener for govuk-index"
+  task :restart_published_content_listener do
+    run "sudo initctl start rummager-govuk-index-queue-listener-procfile-worker || sudo initctl restart rummager-govuk-index-queue-listener-procfile-worker"
   end
 end
 
@@ -59,5 +64,6 @@ after "deploy:finalize_update", "deploy:symlink_sitemaps"
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:restart", "deploy:restart_publishing_api_listener"
+after "deploy:restart", "deploy:restart_published_content_listener"
 after "deploy:notify", "deploy:notify:errbit"
 after "deploy:migrate", "deploy:teardown_connections"
