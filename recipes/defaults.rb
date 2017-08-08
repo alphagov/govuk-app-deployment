@@ -6,6 +6,7 @@ require "slack_announcer"
 set :branch,         ENV["TAG"] ? ENV["TAG"] : "master"
 set :deploy_to,      "/data/apps/#{application}"
 set :deploy_via,     :rsync_with_remote_cache
+set :rsync_options,  ""
 set :organisation,   ENV['ORGANISATION']
 set :keep_releases,  5
 set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
