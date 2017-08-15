@@ -35,4 +35,5 @@ namespace :docker do
   end
 end
 
-after "docker", "deploy:notify:slack_message"
+before "docker", "deploy:notify:slack_message_start"
+after "docker", "deploy:notify:slack_message_done"

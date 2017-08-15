@@ -6,16 +6,6 @@ cd "$WORKSPACE"
 
 logger -p INFO -t jenkins "DEPLOYMENT: ${JOB_NAME} ${BUILD_NUMBER} ${TARGET_APPLICATION} ${TAG} (${BUILD_URL})"
 
-# Puppet is a special unicorn that has it's own secret repository that we run the
-# deployment scripts from
-if [ "$TARGET_APPLICATION" == 'govuk-puppet' ]; then
-  git clone --depth 1 git@github.digital.cabinet-office.gov.uk:gds/deployment.git
-  cd "deployment/puppet"
-  echo "---> Running deploy.sh" >&2
-  exec sh -e deploy.sh
-  exit 0
-fi
-
 git clone --depth 1 git@github.digital.cabinet-office.gov.uk:gds/alphagov-deployment.git
 
 # If the application doesn't exist in this repo, fall back to
