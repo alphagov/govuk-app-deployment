@@ -111,4 +111,4 @@ end
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:finalize_update", "deploy:symlink_uploads"
 after "deploy:restart_backend", "deploy:restart_workers"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

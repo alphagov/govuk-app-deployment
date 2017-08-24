@@ -47,4 +47,4 @@ after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:symlink", "deploy:rummager:index"
 
 before "deploy:assets:precompile", "deploy:mustache_precompile"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

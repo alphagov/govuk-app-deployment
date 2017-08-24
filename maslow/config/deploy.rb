@@ -14,4 +14,4 @@ set :rails_env, 'production'
 set :source_db_config_file, 'secrets/to_upload/mongoid.yml'
 set :db_config_file, 'config/mongoid.yml'
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

@@ -19,4 +19,4 @@ set :copy_exclude, [
 ]
 
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

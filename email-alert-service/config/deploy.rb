@@ -14,4 +14,4 @@ set :config_files_to_upload, {
   "secrets/to_upload/redis.yml" => "config/redis.yml",
 }
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

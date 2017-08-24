@@ -11,4 +11,4 @@ require "whenever/capistrano"
 set :whenever_command, "govuk_setenv content-store bundle exec whenever"
 
 after "deploy:symlink", "deploy:create_mongoid_indexes"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"
