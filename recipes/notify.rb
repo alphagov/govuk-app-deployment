@@ -80,7 +80,7 @@ namespace :deploy do
     end
 
     task :error_tracker, :only => { :primary => true } do
-      run "cd #{current_release} && #{rake} airbrake:deploy REVISION=#{current_revision} TO=#{organisation} REPO='#{repository}' USER=#{user}", :once => true
+      run "cd #{current_release} && #{rake} airbrake:deploy REVISION=#{current_revision} TO=#{organisation} REPO='#{repository}' USER=#{user}; true", :once => true
     end
 
     task :github, :only => { :primary => true } do
