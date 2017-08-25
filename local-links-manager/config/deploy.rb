@@ -39,4 +39,4 @@ end
 
 after "deploy:setup", "deploy:setup_data_directory"
 after "deploy:finalize_update", "deploy:symlink_data_directory"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

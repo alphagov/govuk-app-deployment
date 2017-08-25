@@ -15,4 +15,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

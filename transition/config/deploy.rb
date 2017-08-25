@@ -38,4 +38,4 @@ end
 after "deploy:finalize_update", "deploy:symlink_data_dir"
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:restart", "deploy:restart_procfile_worker"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

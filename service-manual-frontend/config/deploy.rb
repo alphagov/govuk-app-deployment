@@ -9,4 +9,4 @@ load 'deploy/assets'
 set :assets_prefix, 'service-manual-frontend'
 set :rails_env, 'production'
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

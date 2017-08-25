@@ -40,8 +40,4 @@ namespace :deploy do
 end
 after "deploy:symlink", "deploy:sync_legacy_assets"
 
-
-task :notify_errbit, :only => { :primary => true } do
-  run "cd #{current_release} && #{rake} errbit:deploy REVISION=#{current_revision} TO=#{ENV['ORGANISATION']} REPO='#{repository}' USER=#{user}", :once => true
-end
-after "deploy:notify", "notify_errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

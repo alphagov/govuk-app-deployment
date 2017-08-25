@@ -18,4 +18,4 @@ set :config_files_to_upload, {
 
 after "deploy:symlink", "deploy:create_mongoid_indexes"
 after "deploy:symlink", "deploy:seed_db"
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

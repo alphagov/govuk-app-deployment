@@ -14,4 +14,4 @@ require "whenever/capistrano"
 
 set :rails_env, 'production'
 
-after "deploy:notify", "deploy:notify:errbit"
+after "deploy:notify", "deploy:notify:error_tracker"

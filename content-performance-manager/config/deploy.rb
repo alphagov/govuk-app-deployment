@@ -12,3 +12,4 @@ load 'govuk_admin_template'
 
 set :rails_env, 'production'
 after "deploy:restart", "deploy:restart_procfile_worker"
+after "deploy:notify", "deploy:notify:error_tracker"
