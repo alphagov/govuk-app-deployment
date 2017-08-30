@@ -48,7 +48,7 @@ namespace :deploy do
       end
 
       nodes.each_with_index do |node, index|
-        is_draft_server = !!(node =~ /^draft/)
+        is_draft_server = !!(c =~ /^draft/)
         parent.server node, *extra[:roles], :server_class => c, :primary => (index == 0), :draft => is_draft_server
       end
 
