@@ -51,7 +51,7 @@ namespace :deploy do
 
   desc "Restart rummager's publishing-api listener"
   task :restart_publishing_api_listener do
-    run "sudo initctl start rummager-publishing-queue-listener-procfile-worker || sudo initctl restart rummager-publishing-queue-listener-procfile-worker"
+    run "sudo initctl restart rummager-publishing-queue-listener-procfile-worker || sudo initctl start rummager-publishing-queue-listener-procfile-worker"
   end
 end
 

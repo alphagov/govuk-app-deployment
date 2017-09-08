@@ -136,7 +136,7 @@ namespace :deploy do
   desc "Restart the procfile worker"
   task :restart_procfile_worker do
     procfile_worker_name = "#{application}-procfile-worker"
-    run "sudo initctl start #{procfile_worker_name} || sudo initctl restart #{procfile_worker_name}"
+    run "sudo initctl restart #{procfile_worker_name} || sudo initctl start #{procfile_worker_name}"
   end
 
   desc "Not implemented. Falls back to a normal restart"
