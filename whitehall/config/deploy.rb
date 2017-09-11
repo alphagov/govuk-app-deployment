@@ -92,7 +92,7 @@ namespace :deploy do
   end
 
   task :restart_workers, roles: [:backend], except: { no_release: true } do
-    run "sudo initctl start whitehall-admin-procfile-worker 2>/dev/null || sudo initctl restart whitehall-admin-procfile-worker"
+    run "sudo initctl restart whitehall-admin-procfile-worker || sudo initctl start whitehall-admin-procfile-worker"
   end
 end
 
