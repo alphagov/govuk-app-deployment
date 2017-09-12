@@ -19,15 +19,24 @@ namespace :deploy do
     on_rollback { run "rm -rf #{release_path}; true" }
     run "mkdir -p #{release_path}"
 
-    ci_base_url = "https://ci_alphagov:#{ENV['CI_DEPLOY_JENKINS_API_KEY']}@ci.integration.publishing.service.gov.uk/job/router/job/master"
 
-    artefact_to_deploy = fetch(:artefact_number, fetch_last_build_number(ci_base_url))
-    put "#{artefact_to_deploy}\n", "#{release_path}/build_number"
+    if ENV['USE_S3']
+      # Write a file on the remote with the release info
+      put "#{ENV['TAG']}\n", "#{release_path}/build_number"
+      artefact_url = "https://#{ENV['S3_ARTEFACT_BUCKET']}.s3.amazonaws.com/#{application}/#{ENV['TAG']}/#{application}"
+    else
+      ci_base_url = "https://ci_alphagov:#{ENV['CI_DEPLOY_JENKINS_API_KEY']}@ci.integration.publishing.service.gov.uk/job/#{application}/job/master"
+      filename = application.to_s
 
-    artefact_url = "#{ci_base_url}/#{artefact_to_deploy}/artifact/router"
-    logger.info "Fetching #{artefact_url} from CI server"
+      artefact_to_deploy = fetch(:artefact_number, fetch_last_build_number(ci_base_url))
+      # Write a file on the remote with the release info
+      put "#{artefact_to_deploy}\n", "#{release_path}/build_number"
+      artefact_url = "#{ci_base_url}/#{artefact_to_deploy}/artifact/#{filename}"
+    end
+
+    logger.info "Fetching #{artefact_url}"
     file = fetch_to_tempfile(artefact_url)
-    top.upload file, "#{release_path}/router", :mode => "0755"
+    top.upload file, "#{release_path}/#{application}", :mode => "0755"
   end
 
   task :restart, :roles => :app, :except => { :no_release => true } do
