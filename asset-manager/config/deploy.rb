@@ -5,6 +5,9 @@ set :server_class, "backend"
 load 'defaults'
 load 'ruby'
 
+load 'deploy/assets'
+set :assets_prefix, 'asset-manager'
+
 set :rails_env, 'production'
 
 namespace :deploy do
