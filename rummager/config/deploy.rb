@@ -56,7 +56,7 @@ namespace :deploy do
 
   desc "Restart rummager's publishing-api listener for govuk-index"
   task :restart_published_content_listener do
-    run "sudo initctl start rummager-govuk-index-queue-listener-procfile-worker || sudo initctl restart rummager-govuk-index-queue-listener-procfile-worker"
+    run "sudo initctl restart rummager-govuk-index-queue-listener-procfile-worker || sudo initctl start rummager-govuk-index-queue-listener-procfile-worker"
   end
 end
 
