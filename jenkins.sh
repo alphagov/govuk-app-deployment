@@ -6,7 +6,7 @@ cd "$WORKSPACE"
 
 logger -p INFO -t jenkins "DEPLOYMENT: ${JOB_NAME} ${BUILD_NUMBER} ${TARGET_APPLICATION} ${TAG} (${BUILD_URL})"
 
-git clone --depth 1 git@github.digital.cabinet-office.gov.uk:gds/alphagov-deployment.git
+git clone --depth 1 git@github.com:alphagov/alphagov-deployment.git
 
 # If the application doesn't exist in this repo, fall back to
 # alphagov-deployment. FIXME: Remove this when apps have migrated
