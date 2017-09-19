@@ -31,7 +31,9 @@ def setup_http_request(url)
   uri = URI.parse(url)
   Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
     req = Net::HTTP::Get.new(uri.request_uri)
-    req.basic_auth(uri.user, uri.password)
+    if uri.user && uri.password
+      req.basic_auth(uri.user, uri.password)
+    end
     yield http, req
   end
 end
