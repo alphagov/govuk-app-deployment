@@ -36,4 +36,4 @@ deploy scripts:
 * `ORGANISATION` - The vCloud organisation being deployed to
 * `CI_DEPLOY_JENKINS_API_KEY` - API key used to fetch build artefacts from ci.dev.publishing.service.gov.uk.
 
-[alphagov-deployment]: https://github.com/alphagov/alphagov-deployment
+[alphagov-deployment]: https://github.digital.cabinet-office.gov.uk/gds/alphagov-deployment
