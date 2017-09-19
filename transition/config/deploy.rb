@@ -10,10 +10,6 @@ load 'govuk_admin_template'
 
 set :source_db_config_file, 'secrets/to_upload/database.yml'
 
-set :config_files_to_upload, {
-    "secrets/to_upload/redis.yml" => 'config/redis.yml',
-}
-
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano" # This hooks a task to run before deploy:finalize_update
 
