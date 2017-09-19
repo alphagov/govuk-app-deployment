@@ -9,7 +9,6 @@ load "ruby"
 
 set :config_files_to_upload, {
   "secrets/to_upload/redis.yml" => "config/redis.yml",
-  "secrets/to_upload/secrets.yml" => "config/secrets.yml",
 }
 
 after "deploy:restart", "deploy:restart_procfile_worker"

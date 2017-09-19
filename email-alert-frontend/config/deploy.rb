@@ -10,10 +10,6 @@ set :assets_prefix, 'email-alert-frontend'
 set :source_db_config_file, false
 set :db_config_file, false
 
-set :config_files_to_upload, {
-  'secrets/to_upload/secrets.yml' => 'config/secrets.yml'
-}
-
 set :copy_exclude, [
   '.git/*',
 ]
