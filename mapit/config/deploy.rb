@@ -33,7 +33,7 @@ namespace :deploy do
   end
 
   def run_django_command(command)
-    run "cd #{release_path} && #{shared_path}/venv/bin/python manage.py #{command} --settings=project.settings"
+    run "cd #{release_path} && govuk_setenv #{application} #{shared_path}/venv/bin/python manage.py #{command} --settings=project.settings"
   end
 end
 
