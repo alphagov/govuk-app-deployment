@@ -9,9 +9,4 @@ set :copy_exclude, [
   '.git/*',
 ]
 
-set :config_files_to_upload, {
-  "secrets/to_upload/rabbitmq.yml.erb" => "config/rabbitmq.yml",
-  "secrets/to_upload/redis.yml" => "config/redis.yml",
-}
-
 after "deploy:notify", "deploy:notify:error_tracker"
