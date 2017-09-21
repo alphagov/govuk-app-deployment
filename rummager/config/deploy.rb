@@ -11,10 +11,6 @@ require "whenever/capistrano"
 set :source_db_config_file, false
 set :db_config_file, false
 
-set :config_files_to_upload, {
-  "secrets/to_upload/redis.yml" => "config/redis.yml",
-}
-
 set :copy_exclude, [
   '.git/*',
   'public',
