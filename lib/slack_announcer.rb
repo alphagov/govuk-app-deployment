@@ -10,7 +10,9 @@ class SlackAnnouncer
   end
 
   def announce_start(repo_name, application, slack_channel = '#govuk-deploy')
-    text = "#{environment_emoji} :mega: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> is being deployed to *#{@environment_name}*"
+    text = "#{environment_emoji} :mega: #{version_and_link(repo_name, application)} " \
+           "is being deployed to *#{@environment_name}* by #{ENV['BUILD_USER']}"
+
     url = dashboard_url(dashboard_host_name, repo_name)
     text += " (<#{url}|check dashboard>)" if url
 
@@ -18,7 +20,9 @@ class SlackAnnouncer
   end
 
   def announce_done(repo_name, application, slack_channel = '#govuk-deploy')
-    text = "#{environment_emoji} :white_check_mark: Version #{ENV['TAG']} of <https://github.com/alphagov/#{repo_name}|#{application}> deployed to *#{@environment_name}*"
+    text = "#{environment_emoji} :white_check_mark: #{version_and_link(repo_name, application)} " \
+           "deployed to *#{@environment_name}* by #{ENV['BUILD_USER']}"
+
     post_text(slack_channel, text)
   end
 
@@ -36,6 +40,14 @@ class SlackAnnouncer
     HTTP.post(@slack_url, body: JSON.dump(message_payload))
   rescue => e
     puts "Release notification to slack failed: #{e.message}"
+  end
+
+  def version_and_link(repo_name, application)
+    "Version #{release_link(repo_name)} of <https://github.com/alphagov/#{repo_name}|#{application}>"
+  end
+
+  def release_link(repo_name)
+    "<https://release.publishing.service.gov.uk/applications/#{repo_name}/deploy?tag=#{ENV['TAG']}|#{ENV['TAG']}>"
   end
 
   def environment_emoji
