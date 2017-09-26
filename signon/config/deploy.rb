@@ -11,4 +11,5 @@ load 'deploy/assets'
 load 'govuk_admin_template'
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
+after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:notify", "deploy:notify:error_tracker"
