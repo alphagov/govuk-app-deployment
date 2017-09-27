@@ -71,7 +71,7 @@ namespace :deploy do
         req["Content-Type"] = 'application/json'
         req.body = { what: 'deploy',
                      tags: "#{application} #{ENV['ORGANISATION']} deploys",
-                     data: "#{branch} #{current_revision[0, 7]} #{user}" }.to_json
+                     data: "#{branch} #{current_revision[0, 7]} #{ENV['BUILD_USER']}" }.to_json
         req.basic_auth(ENV['GRAPHITE_USER'], ENV['GRAPHITE_PASSWORD'])
         Net::HTTP.new('graphite.cluster', '80').start { |http| http.request(req) }
       rescue => e
