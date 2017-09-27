@@ -19,4 +19,3 @@ end
 
 after "deploy:update_code", "deploy:create_uploads_symlink"
 after "deploy:restart", "deploy:restart_procfile_worker"
-after "deploy:notify", "deploy:notify:error_tracker"

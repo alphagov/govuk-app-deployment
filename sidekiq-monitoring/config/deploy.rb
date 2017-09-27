@@ -5,4 +5,3 @@ set :perform_hard_restart, true
 
 load 'defaults'
 load 'ruby'
-

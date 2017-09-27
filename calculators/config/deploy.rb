@@ -13,4 +13,3 @@ set :rails_env, 'production'
 set :source_db_config_file, false
 
 after "deploy:symlink", "deploy:publishing_api:publish"
-after "deploy:notify", "deploy:notify:error_tracker"

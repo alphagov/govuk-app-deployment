@@ -20,6 +20,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:notify", "deploy:notify:error_tracker"
-
 before "deploy:assets:precompile", "deploy:mustache_precompile"

@@ -11,5 +11,4 @@ set :rails_env, "production"
 set :source_db_config_file, false
 set :db_config_file, false
 
-after "deploy:notify", "deploy:notify:error_tracker"
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"

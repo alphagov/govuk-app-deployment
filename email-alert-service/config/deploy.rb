@@ -8,5 +8,3 @@ load 'ruby'
 set :copy_exclude, [
   '.git/*',
 ]
-
-after "deploy:notify", "deploy:notify:error_tracker"

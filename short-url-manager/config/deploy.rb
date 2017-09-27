@@ -14,4 +14,3 @@ require "whenever/capistrano"
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:symlink", "deploy:create_mongoid_indexes"
-after "deploy:notify", "deploy:notify:error_tracker"

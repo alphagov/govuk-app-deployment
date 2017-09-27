@@ -39,5 +39,3 @@ namespace :deploy do
   end
 end
 after "deploy:symlink", "deploy:sync_legacy_assets"
-
-after "deploy:notify", "deploy:notify:error_tracker"

@@ -18,4 +18,3 @@ namespace :deploy do
 end
 
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
-after "deploy:notify", "deploy:notify:error_tracker"

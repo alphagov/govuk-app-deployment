@@ -11,5 +11,4 @@ set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
 after "deploy:restart", "deploy:restart_procfile_worker"
-after "deploy:notify", "deploy:notify:error_tracker"
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
