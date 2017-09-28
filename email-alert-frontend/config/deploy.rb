@@ -13,6 +13,3 @@ set :db_config_file, false
 set :copy_exclude, [
   '.git/*',
 ]
-
-
-after "deploy:notify", "deploy:notify:error_tracker"

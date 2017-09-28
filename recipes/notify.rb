@@ -79,10 +79,6 @@ namespace :deploy do
       end
     end
 
-    task :error_tracker, :only => { :primary => true } do
-      run "cd #{current_release} && #{rake} airbrake:deploy REVISION=#{current_revision} TO=#{organisation} REPO='#{repository}' USER=#{user}; true", :once => true
-    end
-
     task :github, :only => { :primary => true } do
       run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
     end

@@ -9,5 +9,4 @@ load 'ruby'
 load 'deploy/assets'
 load 'govuk_admin_template'
 
-after "deploy:notify", "deploy:notify:error_tracker"
 after "deploy:symlink", "deploy:publishing_api:publish"

@@ -16,5 +16,3 @@ set :copy_exclude, [
   'public/stylesheets',
   'public/templates'
 ]
-
-after "deploy:notify", "deploy:notify:error_tracker"

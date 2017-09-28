@@ -13,4 +13,3 @@ load 'defaults'
 load 'ruby'
 
 after "deploy:symlink", "deploy:create_mongoid_indexes"
-after "deploy:notify", "deploy:notify:error_tracker"
