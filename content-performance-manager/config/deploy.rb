@@ -11,4 +11,22 @@ load 'deploy/assets'
 load 'govuk_admin_template'
 
 set :rails_env, 'production'
-after "deploy:restart", "deploy:restart_procfile_worker"
+
+namespace :deploy do
+  namespace :content_performance_manager do
+    desc "Restart the Google Analytics worker"
+    task :restart_google_analytics_worker do
+      run "sudo initctl restart content-performance-manager-google-analytics-worker-procfile-worker || "\
+          "sudo initctl start content-performance-manager-google-analytics-worker-procfile-worker"
+    end
+
+    desc "Restart the Publishing API worker"
+    task :restart_publishing_api_worker do
+      run "sudo initctl restart content-performance-manager-publishing-api-worker-procfile-worker || "\
+          "sudo initctl start content-performance-manager-publishing-api-worker-procfile-worker"
+    end
+  end
+end
+
+after "deploy:restart", "deploy:content_performance_manager:restart_google_analytics_worker"
+after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_worker"
