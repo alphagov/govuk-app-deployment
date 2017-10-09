@@ -44,5 +44,3 @@ namespace :deploy do
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
   end
 end
-
-after "deploy:notify", "deploy:notify:github"
