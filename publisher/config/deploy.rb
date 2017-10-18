@@ -25,10 +25,6 @@ if ENV['ORGANISATION'] == 'production' || ENV['ORGANISATION'] == 'integration'
   require "whenever/capistrano"
 end
 
-set :config_files_to_upload, {
-  "secrets/to_upload/redis.yml" => 'config/redis.yml',
-}
-
 namespace :deploy do
   desc "Create a symlink from the latest_release path to the /data/uploads directory"
   task :create_reports_symlink do
