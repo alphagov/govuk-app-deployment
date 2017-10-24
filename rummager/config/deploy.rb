@@ -5,7 +5,7 @@ set :server_class, "search"
 load 'defaults'
 load 'ruby'
 
-set :whenever_command, "bundle exec whenever"
+set :whenever_command, "govuk_setenv rummager bundle exec whenever"
 require "whenever/capistrano"
 
 set :source_db_config_file, false
