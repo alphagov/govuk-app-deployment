@@ -54,6 +54,11 @@ namespace :deploy do
   task :restart_published_content_listener do
     run "sudo initctl restart rummager-govuk-index-queue-listener-procfile-worker || sudo initctl start rummager-govuk-index-queue-listener-procfile-worker"
   end
+
+  desc "Restart rummager's publishing-api bulk reindex listener for govuk-index"
+  task :restart_published_content_bulk_reindex_listener do
+    run "sudo initctl restart rummager-bulk-reindex-queue-listener-procfile-worker || sudo initctl start rummager-bulk-reindex-queue-listener-procfile-worker"
+  end
 end
 
 after "deploy:finalize_update", "deploy:symlink_sitemaps"
@@ -61,4 +66,5 @@ after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:restart", "deploy:restart_publishing_api_listener"
 after "deploy:restart", "deploy:restart_published_content_listener"
+after "deploy:restart", "deploy:restart_published_content_bulk_reindex_listener"
 after "deploy:migrate", "deploy:teardown_connections"
