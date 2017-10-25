@@ -73,6 +73,7 @@ namespace :deploy do
     run "ln -sfn /data/uploads/whitehall/clean #{latest_release}/clean-uploads"
     run "ln -sfn /data/uploads/whitehall/incoming #{latest_release}/incoming-uploads"
     run "ln -sfn /data/uploads/whitehall/infected #{latest_release}/infected-uploads"
+    run "ln -sfn /data/uploads/whitehall/asset-manager-tmp #{latest_release}/asset-manager-tmp"
     run "mkdir -p /data/uploads/whitehall/attachment-cache && ln -sfn /data/uploads/whitehall/attachment-cache #{latest_release}/attachment-cache"
     run "mkdir -p /data/uploads/whitehall/bulk-upload-zip-file-tmp && ln -sfn /data/uploads/whitehall/bulk-upload-zip-file-tmp #{latest_release}/bulk-upload-zip-file-tmp"
     run "rm -f #{latest_release}/public/government/uploads"
