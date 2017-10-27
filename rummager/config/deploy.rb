@@ -37,7 +37,7 @@ namespace :deploy do
   end
 
   task :migrate, :roles => :db, :only => { :primary => true } do
-    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} RUMMAGER_INDEX=all rummager:migrate_index rummager:clean"
+    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} RUMMAGER_INDEX=all rummager:migrate_schema rummager:clean"
   end
 
   desc "Teardown SSH connections to force Capistrano to reopen them in case they have timed out"
