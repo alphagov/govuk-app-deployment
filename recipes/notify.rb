@@ -82,5 +82,20 @@ namespace :deploy do
     task :github, :only => { :primary => true } do
       run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
     end
+
+    desc "Makes a copy of the deployed artefact in the S3 bucket for future deployments"
+    task :copy_artefact do
+      if ENV['USE_S3']
+        s3 = Aws::S3::Client.new(region: 'eu-west-1')
+
+        unless ENV['TAG'] == "deployed-to-#{ENV['ORGANISATION']}"
+          puts "Copying object to deployed-to-#{ENV['ORGANISATION']} branch"
+          s3.copy_object({ :bucket      => ENV['S3_ARTEFACT_BUCKET'],
+                           :key         => "#{application}/#{ENV['TAG']}/#{application}",
+                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
+          })
+        end
+      end
+    end
   end
 end
