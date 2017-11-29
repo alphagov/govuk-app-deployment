@@ -1,5 +1,6 @@
 require 'tempfile'
 require 'net/http'
+require 'aws-sdk-s3'
 
 def fetch_last_build_number(base_url)
   number = nil
@@ -24,6 +25,20 @@ def fetch_to_tempfile(url)
     end
   end
   file.rewind
+  file
+end
+
+def fetch_from_s3_to_tempfile(bucket, key)
+  s3 = Aws::S3::Client.new(region: 'eu-west-1')
+  file = Tempfile.new(application.to_s)
+  file.binmode
+
+  object = {
+    :bucket => bucket,
+    :key    => key,
+  }
+
+  s3.get_object(object, target: file)
   file
 end
 
