@@ -1,6 +1,6 @@
 # Deploy docker applications
 #
-set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa" }
+set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :paranoid => false }
 set :use_sudo,       false
 set :user,           "deploy"
 set :dockerhub_repo, "govuk"
