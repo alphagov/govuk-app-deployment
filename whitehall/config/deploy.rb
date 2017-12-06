@@ -85,11 +85,19 @@ namespace :deploy do
   end
 
   task :restart_frontend, roles: [:frontend], except: { no_release: true } do
-    run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+    if fetch(:perform_hard_restart, false)
+      run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
+    else
+      run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+    end
   end
 
   task :restart_backend, roles: [:backend], except: { no_release: true } do
-    run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+    if fetch(:perform_hard_restart, false)
+      run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
+    else
+      run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+    end
   end
 
   task :restart_workers, roles: [:backend], except: { no_release: true } do
