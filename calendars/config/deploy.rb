@@ -17,5 +17,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:symlink", "deploy:rummager:index"
 after "deploy:symlink", "deploy:publishing_api:publish"
