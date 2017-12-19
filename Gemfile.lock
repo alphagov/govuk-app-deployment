@@ -9,7 +9,6 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.0.8)
     addressable (2.4.0)
     ast (2.3.0)
     aws-partitions (1.41.0)
@@ -31,7 +30,7 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
-    chronic (0.6.7)
+    chronic (0.10.2)
     diff-lcs (1.2.5)
     domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
@@ -90,9 +89,8 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode-display_width (1.1.0)
-    whenever (0.7.3)
-      activesupport (>= 2.3.4)
-      chronic (~> 0.6.3)
+    whenever (0.10.0)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -106,7 +104,7 @@ DEPENDENCIES
   railsless-deploy
   rake
   rspec
-  whenever (= 0.7.3)
+  whenever (= 0.10.0)
 
 BUNDLED WITH
    1.16.0

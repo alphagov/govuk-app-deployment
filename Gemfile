@@ -8,7 +8,7 @@ gem "capistrano_rsync_with_remote_cache",
 gem "railsless-deploy", :require => false
 
 gem "rake"
-gem "whenever", "0.7.3"
+gem "whenever", "0.10.0"
 gem "govuk-lint", "~> 1.2"
 gem "http", "~> 2.0"
 gem "aws-sdk-s3"
