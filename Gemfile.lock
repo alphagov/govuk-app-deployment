@@ -1,10 +1,14 @@
 GIT
   remote: https://github.com/alphagov/capistrano_rsync_with_remote_cache
-  revision: b04fad1fe9af4e23309f5ca17b2cf46e8b0b3c17
-  tag: v2.4.0govuk1
+  revision: 9851b49229d8cc283053b188a6e91e5c2d379ed3
+  tag: v2.4.1
   specs:
-    capistrano_rsync_with_remote_cache (2.4.0govuk1)
-      capistrano (~> 2.9.0)
+    capistrano_rsync_with_remote_cache (2.4.1)
+      capistrano (>= 2.1.0)
+      jnunemaker-matchy
+      mocha
+      rake
+      shoulda
 
 GEM
   remote: http://rubygems.org/
@@ -38,7 +42,7 @@ GEM
     govuk-lint (1.2.0)
       rubocop (~> 0.39.0)
       scss_lint
-    highline (1.6.11)
+    highline (1.7.10)
     http (2.0.3)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -49,13 +53,17 @@ GEM
     http-form_data (1.0.1)
     http_parser.rb (0.6.0)
     jmespath (1.3.1)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.3.0)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
+    jnunemaker-matchy (0.4.0)
+    metaclass (0.0.4)
+    mocha (1.3.0)
+      metaclass (~> 0.0.1)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (4.2.0)
+    net-ssh-gateway (2.0.0)
+      net-ssh (>= 4.0.0)
     parser (2.3.1.2)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -86,6 +94,12 @@ GEM
     scss_lint (0.49.0)
       rake (>= 0.9, < 12)
       sass (~> 3.4.20)
+    shoulda (3.5.0)
+      shoulda-context (~> 1.0, >= 1.0.1)
+      shoulda-matchers (>= 1.4.1, < 3.0)
+    shoulda-context (1.2.2)
+    shoulda-matchers (2.8.0)
+      activesupport (>= 3.0.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
