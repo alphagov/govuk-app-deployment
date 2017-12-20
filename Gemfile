@@ -10,7 +10,7 @@ gem "railsless-deploy", :require => false
 gem "rake"
 gem "whenever", "0.10.0"
 gem "govuk-lint", "~> 3.4"
-gem "http", "~> 2.0"
+gem "http", "~> 3.0"
 gem "aws-sdk-s3"
 
 gem "rspec"
