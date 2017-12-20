@@ -34,7 +34,7 @@ GEM
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
-    capistrano (2.9.0)
+    capistrano (2.15.9)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -139,7 +139,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk-s3
-  capistrano (= 2.9.0)
+  capistrano (~> 2.15)
   capistrano_rsync_with_remote_cache!
   govuk-lint (~> 3.4)
   http (~> 3.0)
