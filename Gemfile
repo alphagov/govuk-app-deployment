@@ -12,5 +12,6 @@ gem "whenever", "0.7.3"
 gem "govuk-lint", "~> 3.4"
 gem "http", "~> 3.0"
 gem "aws-sdk-s3"
+gem "webmock"
 
 gem "rspec"
