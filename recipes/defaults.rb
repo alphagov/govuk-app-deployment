@@ -12,7 +12,7 @@ set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec ra
 set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
 set :repository,     "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}.git"
 set :scm,            :git
-set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :paranoid => false }
+set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :verify_host_key => false }
 set :use_sudo,       false
 set :user,           "deploy"
 set :dockerhub_repo, "govuk"
