@@ -85,6 +85,11 @@ namespace :deploy do
     end
 
     task :docker, only: { primary: true } do
+      unless File.exist?("#{strategy.local_cache_path}/Dockerfile")
+        puts "Skipping Docker tag as a Dockerfile was not found"
+        next
+      end
+
       begin
         if ENV['DOCKER_HUB_USERNAME'] && ENV['DOCKER_HUB_PASSWORD']
           repo = "govuk/#{application}"
