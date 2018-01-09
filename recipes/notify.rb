@@ -101,8 +101,10 @@ namespace :deploy do
         pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
         manifest = pusher.get_manifest(repo, branch)
         pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
+
+        puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
       rescue RuntimeError => e
-        puts "Failed to push Docker tag for deployed-to-#{ENV['ORGANISATION']}: #{e.message}"
+        puts "Failed to push Docker tag for 'deployed-to-#{ENV['ORGANISATION']}': #{e.message}"
       end
     end
 
