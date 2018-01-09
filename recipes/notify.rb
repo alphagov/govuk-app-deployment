@@ -90,14 +90,17 @@ namespace :deploy do
         next
       end
 
-      begin
-        if ENV['DOCKER_HUB_USERNAME'] && ENV['DOCKER_HUB_PASSWORD']
-          repo = "govuk/#{application}"
+      if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
+        puts "Could not tag Docker image as credentials for Docker Hub were unavailable"
+        next
+      end
 
-          pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
-          manifest = pusher.get_manifest(repo, branch)
-          pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
-        end
+      begin
+        repo = "govuk/#{application}"
+
+        pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
+        manifest = pusher.get_manifest(repo, branch)
+        pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
       rescue RuntimeError => e
         puts "Failed to push Docker tag for deployed-to-#{ENV['ORGANISATION']}: #{e.message}"
       end
