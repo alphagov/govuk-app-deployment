@@ -91,7 +91,8 @@ namespace :deploy do
       end
 
       if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
-        puts "Could not tag Docker image as credentials for Docker Hub were unavailable"
+        # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
+        puts "DOCKER TAG FAILED: Could not tag Docker image as credentials for Docker Hub were unavailable"
         next
       end
 
@@ -104,7 +105,8 @@ namespace :deploy do
 
         puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
       rescue RuntimeError => e
-        puts "Failed to push Docker tag for 'deployed-to-#{ENV['ORGANISATION']}': #{e.message}"
+        # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
+        puts "DOCKER TAG FAILED: Failed to push Docker tag for 'deployed-to-#{ENV['ORGANISATION']}': #{e.message}"
       end
     end
 
