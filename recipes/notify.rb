@@ -73,7 +73,7 @@ namespace :deploy do
                      tags: "#{application} #{ENV['ORGANISATION']} deploys",
                      data: "#{branch} #{current_revision[0, 7]} #{ENV['BUILD_USER']}" }.to_json
         req.basic_auth(ENV['GRAPHITE_USER'], ENV['GRAPHITE_PASSWORD'])
-        Net::HTTP.new(ENV['GRAPHITE_HOST'], '80').start { |http| http.request(req) }
+        Net::HTTP.new(ENV['GRAPHITE_HOST'], ENV['GRAPHITE_PORT']).start { |http| http.request(req) }
       rescue => e
         puts "Graphite notification failed: #{e.message}"
       end
