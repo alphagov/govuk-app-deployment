@@ -3,6 +3,7 @@
 # Sends notifications to places when an app has been deployed
 #
 require "slack_announcer"
+require "docker_tag_pusher"
 
 namespace :deploy do
   namespace :notify do
@@ -81,6 +82,32 @@ namespace :deploy do
 
     task :github, :only => { :primary => true } do
       run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
+    end
+
+    task :docker, only: { primary: true } do
+      unless File.exist?("#{strategy.local_cache_path}/Dockerfile")
+        puts "Skipping Docker tag as a Dockerfile was not found"
+        next
+      end
+
+      if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
+        # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
+        puts "DOCKER TAG FAILED: Could not tag Docker image as credentials for Docker Hub were unavailable"
+        next
+      end
+
+      begin
+        repo = "govuk/#{application}"
+
+        pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
+        manifest = pusher.get_manifest(repo, branch)
+        pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
+
+        puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
+      rescue RuntimeError => e
+        # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
+        puts "DOCKER TAG FAILED: Failed to push Docker tag for 'deployed-to-#{ENV['ORGANISATION']}': #{e.message}"
+      end
     end
 
     desc "Makes a copy of the deployed artefact in the S3 bucket for future deployments"
