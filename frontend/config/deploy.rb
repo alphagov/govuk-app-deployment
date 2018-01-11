@@ -18,12 +18,4 @@ set :copy_exclude, [
   'public/templates'
 ]
 
-namespace :deploy do
-  task :mustache_precompile do
-    run "cd #{latest_release} && #{rake} shared_mustache:compile --trace"
-  end
-end
-
 after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
-
-before "deploy:assets:precompile", "deploy:mustache_precompile"
