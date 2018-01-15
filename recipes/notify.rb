@@ -85,11 +85,6 @@ namespace :deploy do
     end
 
     task :docker, only: { primary: true } do
-      unless File.exist?("#{strategy.local_cache_path}/Dockerfile")
-        puts "Skipping Docker tag as a Dockerfile was not found"
-        next
-      end
-
       if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
         # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
         puts "DOCKER TAG FAILED: Could not tag Docker image as credentials for Docker Hub were unavailable"
@@ -100,10 +95,15 @@ namespace :deploy do
         repo = "govuk/#{application}"
 
         pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
-        manifest = pusher.get_manifest(repo, branch)
-        pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
 
-        puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
+        if !pusher.has_repo?(repo)
+          puts "Didn't create docker tag as there is not a #{repo} repo"
+        else
+          manifest = pusher.get_manifest(repo, branch)
+          pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
+
+          puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
+        end
       rescue RuntimeError => e
         # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
         puts "DOCKER TAG FAILED: Failed to push Docker tag for 'deployed-to-#{ENV['ORGANISATION']}': #{e.message}"
