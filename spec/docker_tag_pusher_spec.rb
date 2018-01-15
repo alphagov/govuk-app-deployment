@@ -9,6 +9,41 @@ RSpec.describe DockerTagPusher do
       allow(instance).to receive(:token).with('govuk/publishing-api') { 'bazqux' }
     end
 
+    describe "#has_repo?" do
+      before do
+        stub_request(
+          :get,
+          'https://registry-1.docker.io/v2/govuk/publishing-api/tags/list?n=1'
+        ).with(headers: {
+          'Authorization' => 'Bearer bazqux',
+        }).to_return(status: status)
+      end
+
+      context "when a repo exists" do
+        let(:status) { 200 }
+
+        it "returns true" do
+          expect(instance.has_repo?('govuk/publishing-api')).to be true
+        end
+      end
+
+      context "when a repo doesn't exist" do
+        let(:status) { 404 }
+
+        it "returns false" do
+          expect(instance.has_repo?('govuk/publishing-api')).to be false
+        end
+      end
+
+      context "when an error occurs" do
+        let(:status) { 401 }
+
+        it "raises an error" do
+          expect { instance.has_repo?('govuk/publishing-api') }.to raise_error(/Error \(401\) checking repo exists/)
+        end
+      end
+    end
+
     describe '#get_manifest' do
       context 'when an image is found' do
         it 'returns the manifest as a string' do
