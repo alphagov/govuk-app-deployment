@@ -42,6 +42,20 @@ RSpec.describe DockerTagPusher do
         end
       end
 
+      context 'when an error occurs accessing the image' do
+        it 'raises an error' do
+          stub_request(
+            :get,
+            'https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master'
+          ).with(headers: {
+            'Authorization' => 'Bearer bazqux',
+            'Accept' => 'application/vnd.docker.distribution.manifest.v2+json'
+          }).to_return(status: 401)
+
+          expect { instance.get_manifest('govuk/publishing-api', 'master') }.to raise_error(/Error \(401\) while fetching manifest/)
+        end
+      end
+
       context 'when the image is in the wrong format' do
         it 'raises an error' do
           stub_request(

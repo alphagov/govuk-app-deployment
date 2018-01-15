@@ -23,8 +23,8 @@ class DockerTagPusher
     response = registry_client.request(request)
 
     raise 'Image or tag not found' if response.code == '404'
+    raise "Error (#{response.code}) while fetching manifest: #{response.body}" if response.code != '200'
     raise "Remote image not in correct format (must be #{MEDIA_TYPE})" if response['Content-Type'] != MEDIA_TYPE
-    raise "Server error while fetching manifest: #{response.body}" if response.code != '200'
 
     response.body
   end
