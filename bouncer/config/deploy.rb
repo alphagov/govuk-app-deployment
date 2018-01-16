@@ -17,6 +17,8 @@ set :legacy_asset_repositories, ['assets-directgov', 'assets-businesslink']
 
 namespace :deploy do
   task :sync_legacy_assets do
+    git_origin_prefix = ENV['DEPLOY_FROM_GITLAB'] == 'true' ? 'git@gitlab.com:govuk' : 'git@github.com:alphagov'
+
     legacy_asset_repositories.each do |repository|
       # Cache the checkout to avoid redownloading large repos on each deploy
       local_directory = "#{ENV['HOME']}/rsync-cache/#{repository}"
@@ -24,7 +26,8 @@ namespace :deploy do
       # Specify --depth 1 to avoid cloning the entire history of the repo, which
       # will include files which have been removed when we just need the current
       # state.
-      puts run_locally "if cd #{local_directory}; then git pull; else git clone --depth 1 git@github.com:alphagov/#{repository}.git #{local_directory}; fi"
+      remote_url = "#{git_origin_prefix}/#{repository}.git"
+      puts run_locally "if cd #{local_directory}; then git remote set-url origin #{remote_url}; git fetch origin; git reset --hard origin/master; else git clone --depth 1 #{remote_url} #{local_directory}; fi"
 
       find_servers.each do |server|
         # Update the existing files to the server in, for example:
