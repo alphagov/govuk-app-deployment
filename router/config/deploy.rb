@@ -49,4 +49,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:notify", "deploy:notify:copy_artefact"
+after "deploy:notify", "deploy:notify:copy_artefact", "deploy:notify:docker"

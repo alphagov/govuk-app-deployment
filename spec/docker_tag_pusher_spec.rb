@@ -9,6 +9,41 @@ RSpec.describe DockerTagPusher do
       allow(instance).to receive(:token).with('govuk/publishing-api') { 'bazqux' }
     end
 
+    describe "#has_repo?" do
+      before do
+        stub_request(
+          :get,
+          'https://registry-1.docker.io/v2/govuk/publishing-api/tags/list?n=1'
+        ).with(headers: {
+          'Authorization' => 'Bearer bazqux',
+        }).to_return(status: status)
+      end
+
+      context "when a repo exists" do
+        let(:status) { 200 }
+
+        it "returns true" do
+          expect(instance.has_repo?('govuk/publishing-api')).to be true
+        end
+      end
+
+      context "when a repo doesn't exist" do
+        let(:status) { 404 }
+
+        it "returns false" do
+          expect(instance.has_repo?('govuk/publishing-api')).to be false
+        end
+      end
+
+      context "when an error occurs" do
+        let(:status) { 401 }
+
+        it "raises an error" do
+          expect { instance.has_repo?('govuk/publishing-api') }.to raise_error(/Error \(401\) checking repo exists/)
+        end
+      end
+    end
+
     describe '#get_manifest' do
       context 'when an image is found' do
         it 'returns the manifest as a string' do
@@ -39,6 +74,20 @@ RSpec.describe DockerTagPusher do
           }).to_return(status: 404)
 
           expect { instance.get_manifest('govuk/publishing-api', 'master') }.to raise_error('Image or tag not found')
+        end
+      end
+
+      context 'when an error occurs accessing the image' do
+        it 'raises an error' do
+          stub_request(
+            :get,
+            'https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master'
+          ).with(headers: {
+            'Authorization' => 'Bearer bazqux',
+            'Accept' => 'application/vnd.docker.distribution.manifest.v2+json'
+          }).to_return(status: 401)
+
+          expect { instance.get_manifest('govuk/publishing-api', 'master') }.to raise_error(/Error \(401\) while fetching manifest/)
         end
       end
 

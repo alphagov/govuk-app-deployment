@@ -14,6 +14,17 @@ class DockerTagPusher
     @password = password
   end
 
+  def has_repo?(repo)
+    request = Net::HTTP::Get.new(
+      "#{REGISTRY}/v2/#{repo}/tags/list?n=1",
+      'Authorization' => "Bearer #{token(repo)}",
+    )
+    response = registry_client.request(request)
+    raise "Error (#{response.code}) checking repo exists: #{response.body}" unless %w[200 404].include?(response.code)
+
+    response.code == '200'
+  end
+
   def get_manifest(repo, tag)
     request = Net::HTTP::Get.new(
       "#{REGISTRY}/v2/#{repo}/manifests/#{tag}",
@@ -23,8 +34,8 @@ class DockerTagPusher
     response = registry_client.request(request)
 
     raise 'Image or tag not found' if response.code == '404'
+    raise "Error (#{response.code}) while fetching manifest: #{response.body}" if response.code != '200'
     raise "Remote image not in correct format (must be #{MEDIA_TYPE})" if response['Content-Type'] != MEDIA_TYPE
-    raise "Server error while fetching manifest: #{response.body}" if response.code != '200'
 
     response.body
   end
