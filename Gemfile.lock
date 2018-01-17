@@ -48,7 +48,7 @@ GEM
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     ffi (1.9.18)
-    govuk-lint (3.4.0)
+    govuk-lint (3.6.0)
       rubocop (~> 0.51.0)
       rubocop-rspec (~> 1.19.0)
       scss_lint
@@ -114,7 +114,7 @@ GEM
       rubocop (>= 0.51.0)
     ruby-progressbar (1.9.0)
     safe_yaml (1.0.4)
-    sass (3.5.4)
+    sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -150,7 +150,7 @@ DEPENDENCIES
   aws-sdk-s3
   capistrano (= 2.9.0)
   capistrano_rsync_with_remote_cache!
-  govuk-lint (~> 3.4)
+  govuk-lint (~> 3.6)
   http (~> 3.0)
   railsless-deploy
   rake
