@@ -86,8 +86,9 @@ namespace :deploy do
 
     task :git_clone_and_tag, :only => { :primary => true } do
       path = strategy.local_cache_path
+      revision = source.query_revision(branch) { |cmd| run_locally cmd }
       if File.exist?(path)
-        run_locally source.sync(branch, path)
+        run_locally source.sync(revision, path)
       else
         run_locally "mkdir -p #{path} && #{source.checkout(revision, path)}"
       end
