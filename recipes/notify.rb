@@ -84,6 +84,16 @@ namespace :deploy do
       run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
     end
 
+    task :git_clone_and_tag, :only => { :primary => true } do
+      path = strategy.local_cache_path
+      if File.exist?(path)
+        run_locally source.sync(branch, path)
+      else
+        run_locally "mkdir -p #{path} && #{source.checkout(revision, path)}"
+      end
+      notify.github
+    end
+
     task :docker, only: { primary: true } do
       if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
         # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
