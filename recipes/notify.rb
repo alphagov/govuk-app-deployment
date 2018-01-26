@@ -68,13 +68,18 @@ namespace :deploy do
       require 'uri'
 
       begin
-        req = Net::HTTP::Post.new('/events/')
+        graphite_protocol = ENV['GRAPHITE_PORT'] == '443' ? 'https' : 'http'
+        url = URI.parse("#{graphite_protocol}://#{ENV['GRAPHITE_HOST']}/events/")
+
+        req = Net::HTTP::Post.new(url.path)
         req["Content-Type"] = 'application/json'
         req.body = { what: 'deploy',
                      tags: "#{application} #{ENV['ORGANISATION']} deploys",
                      data: "#{branch} #{current_revision[0, 7]} #{ENV['BUILD_USER']}" }.to_json
         req.basic_auth(ENV['GRAPHITE_USER'], ENV['GRAPHITE_PASSWORD'])
-        Net::HTTP.new(ENV['GRAPHITE_HOST'], ENV['GRAPHITE_PORT']).start { |http| http.request(req) }
+        conn = Net::HTTP.new(url.host, url.port)
+        conn.use_ssl = true if graphite_protocol == 'https'
+        conn.request(req)
       rescue => e
         puts "Graphite notification failed: #{e.message}"
       end
