@@ -43,7 +43,7 @@ namespace :deploy do
             response = conn.request(request)
             puts "Deployment notification response:"
             puts "#{response.code} #{response.body}"
-          rescue => e
+          rescue StandardError => e
             puts "Release notification failed: #{e.message}"
             raise manual_resolution_message
           end
