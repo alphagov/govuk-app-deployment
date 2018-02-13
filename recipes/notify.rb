@@ -16,49 +16,55 @@ namespace :deploy do
 
     desc "Register the deployment with the 'release' app"
     task :release_app do
-      release_app_url = 'https://release.publishing.service.gov.uk'
-      manual_resolution_message = "ACTION REQUIRED: Failed to notify Release app of deploy. Please add this deploy manually at #{release_app_url}"
+      if ENV['NOTIFY_RELEASE_APP'] == 'true'
+        release_app_url = 'https://release.publishing.service.gov.uk'
+        manual_resolution_message = "ACTION REQUIRED: Failed to notify Release app of deploy. Please add this deploy manually at #{release_app_url}"
 
-      require "net/http"
-      bearer_token = ENV["RELEASE_APP_NOTIFICATION_BEARER_TOKEN"]
-      if bearer_token.nil?
-        puts "RELEASE_APP_NOTIFICATION_BEARER_TOKEN not set, can't notify Release app of deploy."
-        raise manual_resolution_message
-      else
-        begin
-          url = URI.parse("#{release_app_url}/deployments")
-          request = Net::HTTP::Post.new(url.path)
-          conn = Net::HTTP.new(url.host, url.port)
-          conn.use_ssl = true
-
-          form_data = {
-            "repo"                    => repository,
-            "deployment[version]"     => ENV['TAG'],
-            "deployment[environment]" => organisation
-          }
-          request.set_form_data(form_data)
-          request["Accept"] = "application/json"
-          request["Authorization"] = "Bearer #{bearer_token}" # So that gds-sso will treat us as an API client
-          response = conn.request(request)
-          puts "Deployment notification response:"
-          puts "#{response.code} #{response.body}"
-        rescue => e
-          puts "Release notification failed: #{e.message}"
+        require "net/http"
+        bearer_token = ENV["RELEASE_APP_NOTIFICATION_BEARER_TOKEN"]
+        if bearer_token.nil?
+          puts "RELEASE_APP_NOTIFICATION_BEARER_TOKEN not set, can't notify Release app of deploy."
           raise manual_resolution_message
+        else
+          begin
+            url = URI.parse("#{release_app_url}/deployments")
+            request = Net::HTTP::Post.new(url.path)
+            conn = Net::HTTP.new(url.host, url.port)
+            conn.use_ssl = true
+
+            form_data = {
+              "repo"                    => repository,
+              "deployment[version]"     => ENV['TAG'],
+              "deployment[environment]" => organisation
+            }
+            request.set_form_data(form_data)
+            request["Accept"] = "application/json"
+            request["Authorization"] = "Bearer #{bearer_token}" # So that gds-sso will treat us as an API client
+            response = conn.request(request)
+            puts "Deployment notification response:"
+            puts "#{response.code} #{response.body}"
+          rescue StandardError => e
+            puts "Release notification failed: #{e.message}"
+            raise manual_resolution_message
+          end
         end
       end
     end
 
     desc "Announce on Slack the deploy has started"
     task :slack_message_start do
-      annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
-      annoucer.announce_start(repo_name, application)
+      if ENV['SLACK_NOTIFICATIONS'] == 'true'
+        annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+        annoucer.announce_start(repo_name, application)
+      end
     end
 
     desc "Announce on Slack the deploy has finished"
     task :slack_message_done do
-      annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
-      annoucer.announce_done(repo_name, application)
+      if ENV['SLACK_NOTIFICATIONS'] == 'true'
+        annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+        annoucer.announce_done(repo_name, application)
+      end
     end
 
     desc "Record the deployment as a Graphite event"
