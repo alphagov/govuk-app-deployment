@@ -50,3 +50,4 @@ namespace :deploy do
 end
 
 after "deploy:notify", "deploy:notify:copy_artefact", "deploy:notify:docker"
+after "deploy:notify", "deploy:notify:github"
