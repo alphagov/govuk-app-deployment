@@ -25,8 +25,15 @@ namespace :deploy do
       run "sudo initctl restart content-performance-manager-publishing-api-worker-procfile-worker || "\
           "sudo initctl start content-performance-manager-publishing-api-worker-procfile-worker"
     end
+
+    desc "Restart the Publishing API consumer"
+    task :restart_publishing_api_consumer do
+      run "sudo initctl restart content-performance-manager-publishing-api-consumer-procfile-worker ||"\
+          "sudo initctl start content-performance-manager-publishing-api-consumer-procfile-worker"
+    end
   end
 end
 
 after "deploy:restart", "deploy:content_performance_manager:restart_google_analytics_worker"
 after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_worker"
+after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_consumer"
