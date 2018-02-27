@@ -1,6 +1,6 @@
 set :application, "email-alert-api"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
-set :server_class, %w(email_alert_api backend)
+set :server_class, "email_alert_api"
 
 set :run_migrations_by_default, true
 
