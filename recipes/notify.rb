@@ -137,12 +137,22 @@ namespace :deploy do
       if ENV['USE_S3']
         s3 = Aws::S3::Client.new(region: 'eu-west-1')
 
+        promote_to = case ENV['ORGANISATION']
+                     when "integration" then "staging"
+                     when "staging" then "production"
+                     else "integration"
+                     end
+
         unless ENV['TAG'] == "deployed-to-#{ENV['ORGANISATION']}"
           puts "Copying object to deployed-to-#{ENV['ORGANISATION']} branch"
-          s3.copy_object({ :bucket      => ENV['S3_ARTEFACT_BUCKET'],
+          s3.copy_object({ :bucket      => "ENV['S3_ARTEFACT_BUCKET']",
                            :key         => "#{application}/#{ENV['TAG']}/#{application}",
-                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
-          })
+                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}" })
+
+          puts "Promoting #{ENV['TAG']} to #{promote_to}: govuk-#{promote_to}-artefact"
+          s3.copy_object({ :bucket      => "govuk-#{promote_to}-artefact",
+                           :key         => "#{application}/#{ENV['TAG']}/#{application}",
+                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{application}/release/#{application}" })
         end
       end
     end
