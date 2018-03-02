@@ -1,9 +1,10 @@
 #!/usr/bin/env groovy
 
+library("govuk")
+
 REPOSITORY = 'govuk-app-deployment'
 
 node {
-  def govuk = load '/var/lib/jenkins/groovy_scripts/govuk_jenkinslib.groovy'
 
   properties([
     buildDiscarder(
