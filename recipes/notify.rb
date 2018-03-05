@@ -138,11 +138,12 @@ namespace :deploy do
         s3 = Aws::S3::Client.new(region: 'eu-west-1')
 
         unless ENV['TAG'] == "deployed-to-#{ENV['ORGANISATION']}"
-          puts "Copying object to deployed-to-#{ENV['ORGANISATION']} branch"
-          s3.copy_object({ :bucket      => ENV['S3_ARTEFACT_BUCKET'],
-                           :key         => "#{application}/#{ENV['TAG']}/#{application}",
-                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
-          })
+          source_key = "#{application}/#{ENV['TAG']}/#{application}"
+          target_key = "#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
+          s3.copy_object({ :bucket => ENV['S3_ARTEFACT_BUCKET'],
+                           :copy_source => ENV['S3_ARTEFACT_BUCKET'] + '/' + source_key,
+                           :key => target_key })
+          puts "Copying file #{source_key} to #{target_key}."
         end
       end
     end
