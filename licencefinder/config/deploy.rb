@@ -20,4 +20,3 @@ set :copy_exclude, [
 ]
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
-after "deploy:symlink", "deploy:publishing_api:publish"

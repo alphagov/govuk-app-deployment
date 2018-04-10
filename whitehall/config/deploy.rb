@@ -116,7 +116,5 @@ namespace :db do
 end
 
 
-# TODO -- make this only run on frontend servers?
-after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:finalize_update", "deploy:symlink_uploads"
 after "deploy:restart_backend", "deploy:restart_workers"

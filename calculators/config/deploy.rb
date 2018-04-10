@@ -11,5 +11,3 @@ set :assets_prefix, 'calculators'
 set :db_config_file, false
 set :rails_env, 'production'
 set :source_db_config_file, false
-
-after "deploy:symlink", "deploy:publishing_api:publish"

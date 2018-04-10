@@ -12,5 +12,4 @@ load 'govuk_admin_template'
 
 set :rails_env, 'production'
 
-after "deploy:symlink", "deploy:publishing_api:publish"
 after "deploy:restart", "deploy:restart_procfile_worker"

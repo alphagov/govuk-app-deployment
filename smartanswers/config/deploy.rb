@@ -20,5 +20,3 @@ namespace :deploy do
     puts "There's no cold task for this project, just deploy normally"
   end
 end
-
-after "deploy:symlink", "deploy:publishing_api:publish"
