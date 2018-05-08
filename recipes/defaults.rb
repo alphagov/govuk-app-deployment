@@ -101,20 +101,6 @@ after "deploy:finalize_update", "deploy:upload_config"
 after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do
-  namespace :publishing_api do
-    task :publish, :only => { :primary => true, :draft => false } do
-      rails_env = fetch(:rails_env, "production")
-      rake = fetch(:rake)
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} publishing_api:publish", :once => true
-    end
-
-    task :publish_special_routes, :only => { :primary => true, :draft => false } do
-      rails_env = fetch(:rails_env, "production")
-      rake = fetch(:rake)
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} publishing_api:publish_special_routes", :once => true
-    end
-  end
-
   namespace :email do
     task :register_subscriptions, :only => { :primary => true } do
       rails_env = fetch(:rails_env, "production")

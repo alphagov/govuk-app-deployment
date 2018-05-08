@@ -25,5 +25,3 @@ set :copy_exclude, [
   "public/stylesheets",
   "public/templates"
 ]
-
-after "deploy:symlink", "deploy:publishing_api:publish"

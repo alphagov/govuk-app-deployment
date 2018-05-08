@@ -62,7 +62,6 @@ namespace :deploy do
 end
 
 after "deploy:finalize_update", "deploy:symlink_sitemaps"
-after "deploy:symlink", "deploy:publishing_api:publish_special_routes"
 after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:restart", "deploy:restart_publishing_api_listener"
 after "deploy:restart", "deploy:restart_published_content_listener"

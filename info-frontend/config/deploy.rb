@@ -10,5 +10,3 @@ set :assets_prefix, "info-frontend"
 set :rails_env, "production"
 set :source_db_config_file, false
 set :db_config_file, false
-
-after "deploy:symlink", "deploy:publishing_api:publish_special_routes"

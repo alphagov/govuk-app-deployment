@@ -8,5 +8,3 @@ load 'defaults'
 load 'ruby'
 load 'deploy/assets'
 load 'govuk_admin_template'
-
-after "deploy:symlink", "deploy:publishing_api:publish"
