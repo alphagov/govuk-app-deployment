@@ -1,0 +1,4 @@
+git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat
+git+https://github.com/ckan/ckanext-harvest.git@v1.1.0#egg=ckanext-harvest
+git+https://github.com/ckan/ckanext-spatial.git#egg=ckanext-spatial
+gunicorn
