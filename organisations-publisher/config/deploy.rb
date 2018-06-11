@@ -9,3 +9,5 @@ load 'ruby'
 load 'deploy/assets'
 
 set :source_db_config_file, false
+
+after "deploy:restart", "deploy:restart_procfile_worker"
