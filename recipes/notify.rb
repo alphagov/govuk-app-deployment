@@ -33,9 +33,12 @@ namespace :deploy do
             conn.use_ssl = true
 
             form_data = {
-              "repo"                    => repository,
-              "deployment[version]"     => ENV['TAG'],
-              "deployment[environment]" => organisation
+              "repo" => repository,
+              "deployment[environment]" => organisation,
+              "deployment[jenkins_user_email]" => ENV['BUILD_USER_EMAIL'],
+              "deployment[jenkins_user_name]" => ENV['BUILD_USER'],
+              "deployment[deployed_sha]" => current_revision,
+              "deployment[version]" => ENV['TAG'],
             }
             request.set_form_data(form_data)
             request["Accept"] = "application/json"
