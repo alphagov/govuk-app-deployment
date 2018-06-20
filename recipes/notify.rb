@@ -32,12 +32,14 @@ namespace :deploy do
             conn = Net::HTTP.new(url.host, url.port)
             conn.use_ssl = true
 
+            deployed_sha = run_locally("git rev-list -n 1 #{current_revision}")
+
             form_data = {
               "repo" => repository,
               "deployment[environment]" => organisation,
               "deployment[jenkins_user_email]" => ENV['BUILD_USER_EMAIL'],
               "deployment[jenkins_user_name]" => ENV['BUILD_USER'],
-              "deployment[deployed_sha]" => current_revision,
+              "deployment[deployed_sha]" => deployed_sha,
               "deployment[version]" => ENV['TAG'],
             }
             request.set_form_data(form_data)
