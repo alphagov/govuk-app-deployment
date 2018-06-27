@@ -27,7 +27,9 @@ namespace :deploy do
     run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-harvest/v1.1.0/pip-requirements.txt)"
     run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-dcat/master/requirements.txt)"
     run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-spatial/master/pip-requirements.txt)"
+    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/alphagov/ckanext-ga-report/master/requirements.txt)"
     run "'#{virtualenv_path}/bin/pip' install -Ue 'git+https://github.com/ckan/ckan.git@ckan-2.7.0#egg=ckan'"
+    run "'#{virtualenv_path}/bin/pip' install -Ue 'git+https://github.com/alphagov/ckanext-ga-report.git#egg=ckanext-ga-report'"
     run "'#{virtualenv_path}/bin/pip' install -r #{virtualenv_path}/src/ckan/requirements.txt"
     deps = File.readlines(File.expand_path('config/requirements.txt', Dir.pwd)).map(&:strip).join(" ")
     run "'#{virtualenv_path}/bin/pip' install #{deps}"
