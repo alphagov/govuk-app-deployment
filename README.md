@@ -1,19 +1,46 @@
 # GOV.UK application deployment scripts
 
-This repository contains Capistrano deployment scripts for applications
-running on GOV.UK.
+Capistrano deployment scripts for applications running on GOV.UK.
 
 ## Adding a new app
 
-See [the documentation in the manual](https://docs.publishing.service.gov.uk/manual/setting-up-new-rails-app.html).
+Create a new directory for your app based on one of the other apps e.g.
+
+```
+# Capfile
+
+load 'deploy'
+
+$:.unshift(File.expand_path('../../lib', __FILE__))
+load_paths << File.expand_path('../../recipes', __FILE__)
+
+load 'config/deploy'
+```
+
+```
+# config/deploy.rb
+
+set :application, "myapp"
+set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :server_class, "myserverclass"
+set :repository, "git@github.com/alphagov/myapp.git"
+
+load 'defaults'
+load 'ruby'
+load 'deploy/assets'
+
+set :copy_exclude, [
+  '.git/*'
+]
+
+after "deploy:restart"
+```
 
 ## How deployments work
 
-The `jenkins.sh` script in this repo is run from the
-[Jenkins job](https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_jenkins/templates/jobs/deploy_app.yaml.erb)
-to deploy our applications.
-
-Deployments to all environments use the `master` branches of this repository.
+The master `jenkins.sh` script is run by
+[Jenkins](https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_jenkins/templates/jobs/deploy_app.yaml.erb)
+to deploy each app.
 
 ## Environment variables available to deploy scripts
 
