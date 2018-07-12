@@ -32,8 +32,6 @@ load 'deploy/assets'
 set :copy_exclude, [
   '.git/*'
 ]
-
-after "deploy:restart"
 ```
 
 ## How deployments work
