@@ -34,8 +34,8 @@ namespace :deploy do
 
     desc "Restart the Publishing API bulk import consumer"
     task :restart_publishing_api_bulk_import_consumer do
-      run "sudo initctl restart content-performance-manager-bulk-import-publishing-api-consumer-procfile-worker ||"\
-          "sudo initctl start content-performance-manager-bulk-import-publishing-api-consumer-procfile-worker"
+      run "sudo initctl restart cpm-bulk-import-publishing-api-consumer-procfile-worker ||"\
+          "sudo initctl start cpm-bulk-import-publishing-api-consumer-procfile-worker"
     end
   end
 end
