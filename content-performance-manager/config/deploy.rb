@@ -14,16 +14,10 @@ set :rails_env, 'production'
 
 namespace :deploy do
   namespace :content_performance_manager do
-    desc "Restart the Google Analytics worker"
-    task :restart_google_analytics_worker do
-      run "sudo initctl restart content-performance-manager-google-analytics-worker-procfile-worker || "\
-          "sudo initctl start content-performance-manager-google-analytics-worker-procfile-worker"
-    end
-
-    desc "Restart the Publishing API worker"
-    task :restart_publishing_api_worker do
-      run "sudo initctl restart content-performance-manager-publishing-api-worker-procfile-worker || "\
-          "sudo initctl start content-performance-manager-publishing-api-worker-procfile-worker"
+    desc "Restart the default worker"
+    task :restart_default_worker do
+      run "sudo initctl restart content-performance-manager-default-procfile-worker || "\
+          "sudo initctl start content-performance-manager-default-procfile-worker"
     end
 
     desc "Restart the Publishing API consumer"
@@ -40,7 +34,6 @@ namespace :deploy do
   end
 end
 
-after "deploy:restart", "deploy:content_performance_manager:restart_google_analytics_worker"
-after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_worker"
+after "deploy:restart", "deploy:content_performance_manager:restart_default_worker"
 after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_consumer"
 after "deploy:restart", "deploy:content_performance_manager:restart_publishing_api_bulk_import_consumer"
