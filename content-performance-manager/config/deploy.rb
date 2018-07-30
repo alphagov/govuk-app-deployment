@@ -16,8 +16,8 @@ namespace :deploy do
   namespace :content_performance_manager do
     desc "Restart the default worker"
     task :restart_default_worker do
-      run "sudo initctl restart content-performance-manager-default-procfile-worker || "\
-          "sudo initctl start content-performance-manager-default-procfile-worker"
+      run "sudo initctl restart content-performance-manager-default-worker-procfile-worker || "\
+          "sudo initctl start content-performance-manager-default-worker-procfile-worker"
     end
 
     desc "Restart the Publishing API consumer"
