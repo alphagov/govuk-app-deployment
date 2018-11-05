@@ -8,7 +8,7 @@ load "defaults"
 load "python"
 
 def run_paster_command(command)
-  run "cd #{release_path} && govuk_setenv #{application} #{shared_path}/venv/bin/paster --plugin ckan #{command} -c /var/ckan/ckan.ini"
+  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/paster --plugin ckan #{command} -c /var/ckan/ckan.ini"
 end
 
 namespace :deploy do
