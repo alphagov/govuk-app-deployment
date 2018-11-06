@@ -8,7 +8,7 @@ load "defaults"
 load "python"
 
 def run_paster_command(command)
-  run "cd #{release_path} && govuk_setenv #{application} #{shared_path}/venv/bin/paster --plugin ckan #{command} -c /var/ckan/ckan.ini"
+  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/paster --plugin ckan #{command} -c /var/ckan/ckan.ini"
 end
 
 namespace :deploy do
@@ -23,15 +23,7 @@ namespace :deploy do
   end
 
   task :install_deps, roles: :app do
-    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckan/2.7/requirement-setuptools.txt)"
-    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-harvest/v1.1.0/pip-requirements.txt)"
-    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-dcat/master/requirements.txt)"
-    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/ckan/ckanext-spatial/master/pip-requirements.txt)"
-    run "'#{virtualenv_path}/bin/pip' install -U $(curl -s https://raw.githubusercontent.com/alphagov/ckanext-s3-resources/master/requirements.txt)"
-    run "'#{virtualenv_path}/bin/pip' install -Ue 'git+https://github.com/ckan/ckan.git@ckan-2.7.4#egg=ckan'"
-    run "'#{virtualenv_path}/bin/pip' install -r #{virtualenv_path}/src/ckan/requirements.txt"
-    deps = File.readlines(File.expand_path('config/requirements.txt', Dir.pwd)).map(&:strip).join(" ")
-    run "'#{virtualenv_path}/bin/pip' install #{deps}"
+    run "cd #{release_path} && bin/install-dependencies.sh #{virtualenv_path}/bin/pip"
   end
 
   task :install_package, roles: :app do
