@@ -32,11 +32,17 @@ namespace :deploy do
             conn = Net::HTTP.new(url.host, url.port)
             conn.use_ssl = true
 
+            deployed_to_environment = if ENV['USE_S3'] == 'true'
+                                        "#{ENV['ORGANISATION']}-AWS"
+                                      else
+                                        ENV['ORGANISATION']
+                                      end
+
             deployed_sha = run_locally("cd #{strategy.local_cache_path} && git rev-list -n 1 #{current_revision}")
 
             form_data = {
               "repo" => repository,
-              "deployment[environment]" => organisation,
+              "deployment[environment]" => deployed_to_environment,
               "deployment[jenkins_user_email]" => ENV['BUILD_USER_EMAIL'],
               "deployment[jenkins_user_name]" => ENV['BUILD_USER'],
               "deployment[deployed_sha]" => deployed_sha,
