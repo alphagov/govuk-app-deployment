@@ -32,7 +32,7 @@ namespace :deploy do
             conn = Net::HTTP.new(url.host, url.port)
             conn.use_ssl = true
 
-            deployed_to_environment = if ENV['USE_S3'] == 'true'
+            deployed_to_environment = if ENV['USE_S3'] == 'true' && ENV['ORGANISATION'] != 'integration'
                                         "#{ENV['ORGANISATION']}-AWS"
                                       else
                                         ENV['ORGANISATION']
