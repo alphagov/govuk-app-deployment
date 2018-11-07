@@ -33,7 +33,7 @@ namespace :deploy do
             conn.use_ssl = true
 
             deployed_to_environment = if ENV['USE_S3'] == 'true' && ENV['ORGANISATION'] != 'integration'
-                                        "#{ENV['ORGANISATION']}-AWS"
+                                        "#{ENV['ORGANISATION']}-aws"
                                       else
                                         ENV['ORGANISATION']
                                       end
