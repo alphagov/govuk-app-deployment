@@ -38,7 +38,7 @@ namespace :deploy do
     classes.each_pair do |c, extra|
       begin
         # Fetch list of available nodes from govuk_node_list command
-        nodes = %x{govuk_node_list -c "#{c}"}.split
+        nodes = %x{govuk_node_list -c "#{c}" 2> /dev/null}.split
       rescue Errno::ENOENT
         raise CommandError.new("set_servers: govuk_node_list is not available!")
       end
