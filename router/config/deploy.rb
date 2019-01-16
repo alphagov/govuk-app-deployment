@@ -23,6 +23,9 @@ namespace :deploy do
       # Write a file on the remote with the release info
       put "#{ENV['TAG']}\n", "#{release_path}/build_number"
 
+      # Write a file on the remote with the revision info
+      put "release_#{ENV['TAG']}\n", "#{release_path}/REVISION"
+
       bucket = ENV['S3_ARTEFACT_BUCKET']
       key = "#{application}/#{ENV['TAG']}/#{application}"
 
