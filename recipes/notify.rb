@@ -38,7 +38,11 @@ namespace :deploy do
                                         ENV['ORGANISATION']
                                       end
 
-            deployed_sha = run_locally("cd #{strategy.local_cache_path} && git rev-list -n 1 #{current_revision}")
+            deployed_sha = if ENV['USE_S3'] == 'false'
+                             run_locally("cd #{strategy.local_cache_path} && git rev-list -n 1 #{current_revision}")
+                           else
+                             "from_s3"
+                           end
 
             form_data = {
               "repo" => repository,
