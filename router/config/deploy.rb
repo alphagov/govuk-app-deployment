@@ -1,4 +1,5 @@
 require 'fetch_build'
+require 'digest'
 
 set :application, "router"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
@@ -39,6 +40,11 @@ namespace :deploy do
       file = fetch_to_tempfile(artefact_url)
       logger.info "Fetching #{artefact_url}"
     end
+
+    # Write a file on the remote with the revision info, i.e sha256 of file
+    file_sha256 = Digest::SHA256.file file.path
+    ENV['FILE_SHA256'] = file_sha256.hexdigest
+    put "#{file_sha256.hexdigest}\n", "#{release_path}/REVISION"
 
     top.upload file, "#{release_path}/#{application}", :mode => "0755"
   end
