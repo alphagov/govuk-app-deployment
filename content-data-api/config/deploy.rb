@@ -1,7 +1,8 @@
 set :application, "content-data-api"
+set :repo_name, 'content-performance-manager'
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "backend"
-set :repository, "git@github.com/alphagov/content-performance-manager.git"
+
 set :run_migrations_by_default, true
 
 load 'defaults'
