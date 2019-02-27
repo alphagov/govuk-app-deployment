@@ -161,5 +161,8 @@ DEPENDENCIES
   webmock
   whenever (= 0.7.3)
 
+RUBY VERSION
+   ruby 2.6.1p33
+
 BUNDLED WITH
-   1.16.0
+   1.17.3

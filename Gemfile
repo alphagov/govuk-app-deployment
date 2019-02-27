@@ -1,5 +1,7 @@
 source "http://rubygems.org/"
 
+ruby File.read(".ruby-version").chomp
+
 gem "capistrano", "2.9.0"
 gem "capistrano_rsync_with_remote_cache",
   :git => "https://github.com/alphagov/capistrano_rsync_with_remote_cache",
