@@ -12,12 +12,6 @@ def run_paster_command(command)
 end
 
 namespace :deploy do
-  task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
-    # Override task from python recipe which invokes 'initctl restart' rather
-    # than 'reload' which plays nicely with unicornherder
-    run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application};"
-  end
-
   task :migrate, :only => { :primary => true } do
     run_paster_command("db upgrade")
   end
