@@ -6,9 +6,6 @@ set :run_migrations_by_default, true
 
 load 'defaults'
 load 'ruby'
-load 'deploy/assets'
-
-load 'govuk_admin_template'
 
 set :rails_env, 'production'
 
