@@ -110,7 +110,7 @@ namespace :deploy do
     end
   end
 
-  namespace :rummager do
+  namespace :"search-api" do
     task :index, :only => { :primary => true } do
       rails_env = fetch(:rails_env, "production")
       rake = fetch(:rake)
