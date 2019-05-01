@@ -56,15 +56,6 @@ namespace :deploy do
     end
   end
 
-  task :upload_shared_config do
-    config_folder = File.expand_path("../secrets/shared_config/", Dir.pwd)
-    if fetch(:do_upload_shared_config, false) && File.exist?(config_folder)
-      Dir.glob(File.join(config_folder, "*")).each do |config|
-        top.upload(config, File.join(release_path, "config/#{File.basename(config)}"))
-      end
-    end
-  end
-
   task :upload_organisation_config do
     config_folder = File.expand_path("secrets/to_upload/config/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exist?(config_folder)
@@ -90,6 +81,6 @@ end
 
 after "deploy:update_code", "deploy:notify_ruby_version"
 after "deploy:finalize_update", "deploy:upload_initializers"
-after "deploy:upload_config", "deploy:upload_shared_config", "deploy:upload_organisation_config"
+after "deploy:upload_config", "deploy:upload_organisation_config"
 after "deploy:upload_initializers", "deploy:upload_organisation_initializers"
 after "deploy:notify", "deploy:notify:github", "deploy:notify:docker"

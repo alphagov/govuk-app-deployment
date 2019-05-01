@@ -4,8 +4,6 @@ set :application, "search-api"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "search"
 
-set :do_upload_shared_config, true
-
 load 'defaults'
 load 'ruby'
 
