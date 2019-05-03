@@ -10,5 +10,8 @@ load 'deploy/assets'
 
 load 'govuk_admin_template'
 
+require "whenever/capistrano"
+set :whenever_command, "govuk_setenv signon bundle exec whenever"
+
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:restart", "deploy:restart_procfile_worker"
