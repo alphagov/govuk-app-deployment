@@ -23,6 +23,18 @@ namespace :deploy do
   task :install_package, roles: :app do
     run "cd #{release_path} && '#{virtualenv_path}/bin/python' #{release_path}/setup.py install"
   end
+
+  desc "Restart harvest gather process"
+  task :restart_harvest_gather_process do
+    run "sudo initctl restart harvester_gather_consumer-procfile-worker || sudo initctl start harvester_gather_consumer-procfile-worker"
+  end
+
+  desc "Restart harvest fetch process"
+  task :restart_harvest_fetch_process do
+    run "sudo initctl restart harvester_fetch_consumer-procfile-worker || sudo initctl start harvester_fetch_consumer-procfile-worker"
+  end
 end
 
 after "deploy:create_symlink", "deploy:install_package"
+after "deploy:restart", "deploy:restart_harvest_gather_process"
+after "deploy:restart", "deploy:restart_harvest_fetch_process"
