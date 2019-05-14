@@ -1,5 +1,4 @@
 set :application, "content-data-api"
-set :repo_name, 'content-performance-manager'
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "backend"
 
