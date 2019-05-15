@@ -15,9 +15,6 @@ namespace :deploy do
   task :cold do
     puts "There's no cold task for this project, just deploy normally"
   end
-  task :mustache_precompile do
-    run "cd #{latest_release} && #{rake} shared_mustache:compile --trace"
-  end
 end
 
-before "deploy:assets:precompile", "deploy:mustache_precompile"
+before "deploy:assets:precompile"
