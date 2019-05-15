@@ -16,5 +16,3 @@ namespace :deploy do
     puts "There's no cold task for this project, just deploy normally"
   end
 end
-
-before "deploy:assets:precompile"
