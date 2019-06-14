@@ -11,6 +11,10 @@ set :rails_env, 'production'
 set :source_db_config_file, false
 set :db_config_file, false
 
+# https://github.com/javan/whenever#capistrano-integration
+require "whenever/capistrano"
+set :whenever_command, "govuk_setenv finder-frontend bundle exec whenever"
+
 namespace :deploy do
   task :cold do
     puts "There's no cold task for this project, just deploy normally"
