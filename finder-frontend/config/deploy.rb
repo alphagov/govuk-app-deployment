@@ -12,7 +12,9 @@ set :source_db_config_file, false
 set :db_config_file, false
 
 namespace :deploy do
-  task :cold do
-    puts "There's no cold task for this project, just deploy normally"
+  task :update_registries_cache do
+    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} registries:cache_refresh"
   end
 end
+
+after "deploy:finalize_update", "deploy:update_registries_cache"
