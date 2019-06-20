@@ -29,7 +29,7 @@ def fetch_to_tempfile(url)
 end
 
 def fetch_from_s3_to_tempfile(bucket, key)
-  s3 = Aws::S3::Client.new(region: 'eu-west-1')
+  s3 = Aws::S3::Client.new(region: ENV['AWS_DEFAULT_REGION'])
   file = Tempfile.new(application.to_s)
   file.binmode
 
