@@ -150,7 +150,7 @@ namespace :deploy do
     desc "Makes a copy of the deployed artefact in the S3 bucket for future deployments"
     task :copy_artefact do
       if ENV['USE_S3']
-        s3 = Aws::S3::Client.new(region: 'eu-west-1')
+        s3 = Aws::S3::Client.new(region: ENV['AWS_DEFAULT_REGION'])
 
         unless ENV['TAG'] == "deployed-to-#{ENV['ORGANISATION']}"
           source_key = "#{application}/#{ENV['TAG']}/#{application}"
