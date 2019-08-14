@@ -45,7 +45,7 @@ namespace :deploy do
     -Dgds.application.name=#{application} \
     -Dgds.config.file=/etc/licensing/gds-licensing-config.properties \
     -Dlicensing.beta-payments=false \
-    -Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8 \
+    -Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8
     PROCFILE
 
     run "echo \"#{procfile_content}\" > #{release_path}/Procfile"
