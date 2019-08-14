@@ -26,7 +26,7 @@ namespace :deploy do
     put "#{ENV['TAG']}\n", "#{release_path}/REVISION"
 
     bucket = ENV['S3_ARTEFACT_BUCKET']
-    key = "#{application}/#{ENV['TAG']}/#{application}.zip"
+    key = "#{application}/#{ENV['TAG']}/#{application}"
 
     file = fetch_from_s3_to_tempfile(bucket, key)
     logger.info "Fetching s3://#{bucket}/#{key}"
