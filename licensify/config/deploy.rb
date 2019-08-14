@@ -12,7 +12,7 @@ end
 
 load 'defaults'
 
-set :deploy_to,      "/data/vhost/#{application}"
+set :deploy_to, "/data/vhost/#{application}"
 
 namespace :deploy do
   # This overrides the default update_code task
