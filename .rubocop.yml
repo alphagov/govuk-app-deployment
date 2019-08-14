@@ -12,8 +12,3 @@ Style/HashSyntax:
 # }
 Style/BracesAroundHashParameters:
   Enabled: false
-
-# The old-style hash syntax is often used in capistrano scripts. New hash-syntax
-# is not more readable here, so allow both styles.
-Style/ExpandPathArguments:
-  Enabled: False
