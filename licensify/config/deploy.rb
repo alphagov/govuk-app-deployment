@@ -26,13 +26,13 @@ namespace :deploy do
     put "#{ENV['TAG']}\n", "#{release_path}/REVISION"
 
     bucket = ENV['S3_ARTEFACT_BUCKET']
-    key = "#{application}/#{ENV['TAG']}/frontend.zip"
+    key = "#{application}/#{ENV['TAG']}/#{application}.zip"
 
     file = fetch_from_s3_to_tempfile(bucket, key)
     logger.info "Fetching s3://#{bucket}/#{key}"
 
-    top.upload file, "#{release_path}/frontend.zip", :mode => "0755"
-    run "cd #{release_path} && unzip frontend.zip && mv frontend-*/* . && rm frontend.zip"
+    top.upload file, "#{release_path}/#{application}.zip", :mode => "0755"
+    run "cd #{release_path} && unzip #{application}.zip && mv frontend-*/* . && rm #{application}.zip"
     run "chmod +x #{release_path}/bin/frontend"
 
     procfile_content = <<-PROCFILE
