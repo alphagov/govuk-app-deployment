@@ -33,7 +33,7 @@ namespace :deploy do
 
     top.upload file, "#{release_path}/#{application}.zip", :mode => "0755"
     run "cd #{release_path} && unzip #{application}.zip && mv backend-*/* . && rm #{application}.zip"
-    run "chmod +x #{release_path}/bin/frontend"
+    run "chmod +x #{release_path}/bin/backend"
 
     procfile_content = <<-PROCFILE
     web: ./bin/frontend -Dhttp.port=\\$PORT \
