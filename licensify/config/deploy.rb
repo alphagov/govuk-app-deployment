@@ -51,7 +51,8 @@ namespace :deploy do
     run "cd #{release_path} && unzip #{application}.zip && mv frontend-*/* . && rm #{application}.zip"
     run "chmod +x #{release_path}/bin/frontend"
 
-    procfile_content = <<-PROCFILE
+    procfile_content =
+<<-PROCFILE
 web: ./bin/frontend -Dhttp.port=\\$PORT \
 -Dpidfile.path=/dev/null \
 -J-Xms2048M -J-Xmx2048M -J-XX:+UseParallelGC -J-XX:ParallelGCThreads=4 -J-XX:+UseParallelOldGC \
