@@ -3,6 +3,8 @@ require 'fetch_build'
 set :application, "licensify-admin"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "licensing_backend"
+set :repository, "git@github.com/alphagov/licensify.git"
+set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
 
 # Use the build number from the release tag if given
 # Otherwise, this will fall back to using the lastSuccessfulBuild below.
