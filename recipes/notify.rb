@@ -107,7 +107,11 @@ namespace :deploy do
     end
 
     task :github, :only => { :primary => true } do
-      run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
+      if !exists?(:custom_git_tag)
+        run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/deployed-to-#{ENV['ORGANISATION']}"
+      else
+        run_locally "cd #{strategy.local_cache_path}; git push -f #{repository} HEAD:refs/heads/#{custom_git_tag}"
+      end
     end
 
     task :git_clone_and_tag, :only => { :primary => true } do
