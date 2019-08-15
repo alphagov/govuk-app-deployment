@@ -51,19 +51,18 @@ namespace :deploy do
     run "cd #{release_path} && unzip #{application}.zip && mv frontend-*/* . && rm #{application}.zip"
     run "chmod +x #{release_path}/bin/frontend"
 
-    procfile_content =
-<<-PROCFILE
-web: ./bin/frontend -Dhttp.port=\\$PORT \
--Dpidfile.path=/dev/null \
--J-Xms2048M -J-Xmx2048M -J-XX:+UseParallelGC -J-XX:ParallelGCThreads=4 -J-XX:+UseParallelOldGC \
--J-Xloggc:/var/log/#{application}/gc.log -J-XX:+PrintGCDateStamps -J-XX:+PrintGCDetails \
--Dsession.secure=true \
--Dlogger.resource=#{application}-logger.xml \
--Dconfig.file=/etc/licensing/gds-#{application}-config.conf \
--Dgds.application.name=#{application} \
--Dgds.config.file=/etc/licensing/gds-licensing-config.properties \
--Dlicensing.beta-payments=false \
--Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8
+    procfile_content = <<~PROCFILE
+  web: ./bin/frontend -Dhttp.port=\\$PORT \
+  -Dpidfile.path=/dev/null \
+  -J-Xms2048M -J-Xmx2048M -J-XX:+UseParallelGC -J-XX:ParallelGCThreads=4 -J-XX:+UseParallelOldGC \
+  -J-Xloggc:/var/log/#{application}/gc.log -J-XX:+PrintGCDateStamps -J-XX:+PrintGCDetails \
+  -Dsession.secure=true \
+  -Dlogger.resource=#{application}-logger.xml \
+  -Dconfig.file=/etc/licensing/gds-#{application}-config.conf \
+  -Dgds.application.name=#{application} \
+  -Dgds.config.file=/etc/licensing/gds-licensing-config.properties \
+  -Dlicensing.beta-payments=false \
+  -Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8
 PROCFILE
 
     run "echo \"#{procfile_content}\" > #{release_path}/Procfile"
