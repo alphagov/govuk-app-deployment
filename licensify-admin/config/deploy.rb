@@ -31,10 +31,8 @@ set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
 set :branch, ENV["TAG"] ? new_tag : "master"
 
 namespace :deploy do
-  # This overrides the default update_code task
-  desc "Copies the CI build artefact to the remote servers."
-  task :update_code, :except => { :no_release => true } do
-    on_rollback { run "rm -rf #{release_path}; true" }
+  desc "transfer app from S3 to remote servers."
+  task :transfer_app do
     run "mkdir -p #{release_path}"
 
     # Write a file on the remote with the release info
@@ -49,23 +47,36 @@ namespace :deploy do
 
     top.upload file, "#{release_path}/#{application}.zip", :mode => "0755"
     run "cd #{release_path} && unzip #{application}.zip && mv backend-*/* . && rm #{application}.zip"
+  end
+
+  desc "setup newly transferred artefact on remote servers."
+  task :setup_app do
     run "chmod +x #{release_path}/bin/backend"
 
-    procfile_content = <<-PROCFILE
-    web: ./bin/frontend -Dhttp.port=\\$PORT \
-    -Dpidfile.path=/dev/null \
-    -J-Xms2048M -J-Xmx2048M -J-XX:+UseParallelGC -J-XX:ParallelGCThreads=4 -J-XX:+UseParallelOldGC \
-    -J-Xloggc:/var/log/#{application}/gc.log -J-XX:+PrintGCDateStamps -J-XX:+PrintGCDetails \
-    -Dsession.secure=true \
-    -Dlogger.resource=#{application}-logger.xml \
-    -Dconfig.file=/etc/licensing/gds-#{application}-config.conf \
-    -Dgds.application.name=#{application} \
-    -Dgds.config.file=/etc/licensing/gds-licensing-config.properties \
-    -Dlicensing.beta-payments=false \
-    -Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8
+    procfile_content = <<~PROCFILE
+      web: ./bin/backend -Dhttp.port=\\$PORT \
+      -Dpidfile.path=/dev/null \
+      -J-Xms2048M -J-Xmx2048M -J-XX:+UseParallelGC -J-XX:ParallelGCThreads=4 -J-XX:+UseParallelOldGC \
+      -J-Xloggc:/var/log/#{application}/gc.log -J-XX:+PrintGCDateStamps -J-XX:+PrintGCDetails \
+      -Dsession.secure=true \
+      -Dlogger.resource=#{application}-logger.xml \
+      -Dconfig.file=/etc/licensing/gds-#{application}-config.conf \
+      -Dgds.application.name=#{application} \
+      -Dgds.config.file=/etc/licensing/gds-licensing-config.properties \
+      -Dlicensing.beta-payments=false \
+      -Djavax.net.ssl.trustStore=/etc/licensing/cacerts_java8
     PROCFILE
 
     run "echo \"#{procfile_content}\" > #{release_path}/Procfile"
+    run "ln -sfn #{release_path} #{current_path}"
+  end
+
+  # This overrides the default update_code task
+  desc "transfer and setup specified app version to the remote servers."
+  task :update_code, :except => { :no_release => true } do
+    on_rollback { run "rm -rf #{release_path}; true" }
+    deploy.transfer_app
+    deploy.setup_app
   end
 
   task :restart, :roles => :app, :except => { :no_release => true } do

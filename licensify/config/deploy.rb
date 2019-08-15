@@ -31,6 +31,24 @@ set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
 set :branch, ENV["TAG"] ? new_tag : "master"
 
 namespace :deploy do
+  desc "transfer app from S3 to remote servers."
+  task :transfer_app do
+    run "mkdir -p #{release_path}"
+
+    # Write a file on the remote with the release info
+    put "#{ENV['TAG']}\n", "#{release_path}/build_number"
+    put "#{ENV['TAG']}\n", "#{release_path}/REVISION"
+
+    bucket = ENV['S3_ARTEFACT_BUCKET']
+    key = "#{application}/#{ENV['TAG']}/#{application}"
+
+    file = fetch_from_s3_to_tempfile(bucket, key)
+    logger.info "Fetching s3://#{bucket}/#{key}"
+
+    top.upload file, "#{release_path}/#{application}.zip", :mode => "0755"
+    run "cd #{release_path} && unzip #{application}.zip && mv frontend-*/* . && rm #{application}.zip"
+  end
+
   desc "setup newly transferred artefact on remote servers."
   task :setup_app do
     run "chmod +x #{release_path}/bin/frontend"
@@ -54,24 +72,10 @@ namespace :deploy do
   end
 
   # This overrides the default update_code task
-  desc "Copies the CI build artefact to the remote servers."
+  desc "transfer and setup specified app version to the remote servers."
   task :update_code, :except => { :no_release => true } do
     on_rollback { run "rm -rf #{release_path}; true" }
-    run "mkdir -p #{release_path}"
-
-    # Write a file on the remote with the release info
-    put "#{ENV['TAG']}\n", "#{release_path}/build_number"
-    put "#{ENV['TAG']}\n", "#{release_path}/REVISION"
-
-    bucket = ENV['S3_ARTEFACT_BUCKET']
-    key = "#{application}/#{ENV['TAG']}/#{application}"
-
-    file = fetch_from_s3_to_tempfile(bucket, key)
-    logger.info "Fetching s3://#{bucket}/#{key}"
-
-    top.upload file, "#{release_path}/#{application}.zip", :mode => "0755"
-    run "cd #{release_path} && unzip #{application}.zip && mv frontend-*/* . && rm #{application}.zip"
-
+    deploy.transfer_app
     deploy.setup_app
   end
 
