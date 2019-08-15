@@ -66,6 +66,7 @@ web: ./bin/frontend -Dhttp.port=\\$PORT \
 PROCFILE
 
     run "echo \"#{procfile_content}\" > #{release_path}/Procfile"
+    run "ln -sfn #{release_path} #{current_path}"
   end
 
   task :restart, :roles => :app, :except => { :no_release => true } do
