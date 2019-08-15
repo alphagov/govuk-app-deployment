@@ -13,7 +13,7 @@ end
 load 'defaults'
 
 set :deploy_to, "/data/vhost/#{application}"
-set :repository, "git@github.com/alphagov/licensify.git"
+set :repository, "git@github.com:alphagov/licensify"
 set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
 
 namespace :deploy do
