@@ -10,11 +10,24 @@ if ENV["TAG"] =~ /\Arelease_(\d+)\z/
   set :artefact_number, $1
 end
 
+# the `deployed-to-#{environment}` tags needs to appended with the application
+# name for licensify apps because all licensify apps share the same repo
+if ENV["TAG"] == "deployed-to-integration"
+  new_tag = "#{application}-deployed-to-integration"
+elsif ENV["TAG"] == "deployed-to-staging"
+  new_tag = "#{application}-deployed-to-staging"
+elsif ENV["TAG"] == "deployed-to-production"
+  new_tag = "#{application}-deployed-to-production"
+else
+  new_tag = ENV["TAG"]
+end
+
 load 'defaults'
 
 set :deploy_to, "/data/vhost/#{application}"
 set :repository, "git@github.com:alphagov/licensify"
 set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
+set :branch, ENV["TAG"] ? "#{new_tag}" : "master"
 
 namespace :deploy do
   # This overrides the default update_code task
