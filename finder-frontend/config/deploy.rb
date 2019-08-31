@@ -17,7 +17,7 @@ set :whenever_command, "govuk_setenv finder-frontend bundle exec whenever"
 
 namespace :deploy do
   task :update_registries_cache do
-    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} registries:cache_refresh"
+    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} registries:cache_warm"
   end
 end
 
