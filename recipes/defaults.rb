@@ -13,7 +13,7 @@ set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear
 set :repository,     "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}"
 
 set :scm,            :git
-set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :verify_host_key => false }
+set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :verify_host_key => :never }
 set :use_sudo,       false
 set :user,           "deploy"
 set :dockerhub_repo, "govuk"
