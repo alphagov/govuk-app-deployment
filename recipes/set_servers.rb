@@ -36,7 +36,7 @@ namespace :deploy do
     roles[:db].clear
 
     classes.each_pair do |c, extra|
-      if ENV["TARGET_MACHINES"].nil? || ENV["TARGET_MACHINES"] == "all"
+      if ENV["TARGET_MACHINES"].nil? || ENV["TARGET_MACHINES"] == "all" || ENV["TARGET_MACHINES"] == ""
         begin
           # Fetch list of available nodes from govuk_node_list command
           nodes = %x{govuk_node_list -c "#{c}"}.split
