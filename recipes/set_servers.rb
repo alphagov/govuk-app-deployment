@@ -36,15 +36,15 @@ namespace :deploy do
     roles[:db].clear
 
     classes.each_pair do |c, extra|
-      if ENV["TARGET_MACHINES"] != 'all'
-        nodes = ENV["TARGET_MACHINES"].gsub(/\s+/, "").split(",")
-      else
+      if ENV["TARGET_MACHINES"].nil? || ENV["TARGET_MACHINES"] == "all"
         begin
           # Fetch list of available nodes from govuk_node_list command
           nodes = %x{govuk_node_list -c "#{c}"}.split
         rescue Errno::ENOENT
           raise CommandError.new("set_servers: govuk_node_list is not available!")
         end
+      else
+        nodes = ENV["TARGET_MACHINES"].gsub(/\s+/, "").split(",")
       end
 
       if nodes.empty?
