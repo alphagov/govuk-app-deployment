@@ -19,6 +19,10 @@ namespace :deploy do
   task :update_registries_cache do
     run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} registries:cache_warm"
   end
+
+  task :update_content_items_cache do
+    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} content_store:refresh_cache_soft"
+  end
 end
 
-after "deploy:finalize_update", "deploy:update_registries_cache"
+after "deploy:finalize_update", "deploy:update_registries_cache", "deploy:update_content_items_cache"
