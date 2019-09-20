@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/BlockLength, Naming/HeredocDelimiterNaming
+# rubocop:disable Naming/HeredocDelimiterNaming
 
 set :application, "search-api"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
