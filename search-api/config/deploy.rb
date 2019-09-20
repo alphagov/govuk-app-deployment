@@ -19,7 +19,7 @@ set :copy_exclude, [
 ]
 
 namespace :deploy do
-  task :symlink_sitemaps do
+  task :create_sitemaps do
     # Preserve the directory containing sitemap files between releases
     run <<-EOT
       rm -rf #{latest_release}/public/sitemaps &&
@@ -35,6 +35,14 @@ namespace :deploy do
     run <<-EOT
       test -L #{previous_release}/public/sitemap.xml || exit 0;
       ln -s `readlink -nf #{previous_release}/public/sitemap.xml` #{latest_release}/public/sitemap.xml
+    EOT
+
+    # Generate the sitemap files if they don't exist.
+    run <<-EOT
+      test -L #{latest_release}/public/sitemap.xml && exit 0;
+      echo "First deploy of search-api to this node, generating sitemap files..."
+      cd #{latest_release}
+      govuk_setenv search-api bundle exec rake sitemap:generate_and_replace
     EOT
   end
 
@@ -63,7 +71,7 @@ namespace :deploy do
   end
 end
 
-after "deploy:finalize_update", "deploy:symlink_sitemaps"
+after "deploy:finalize_update", "deploy:create_sitemaps"
 after "deploy:restart", "deploy:restart_procfile_worker"
 after "deploy:restart", "deploy:restart_publishing_api_listener"
 after "deploy:restart", "deploy:restart_published_content_listener"
