@@ -1,5 +1,3 @@
-# rubocop:disable Naming/HeredocDelimiterNaming
-
 set :application, "search-api"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
 set :server_class, "search"
@@ -19,6 +17,7 @@ set :copy_exclude, [
 ]
 
 namespace :deploy do
+  # rubocop:disable Naming/HeredocDelimiterNaming
   task :create_sitemaps do
     # Preserve the directory containing sitemap files between releases
     run <<-EOT
@@ -45,6 +44,7 @@ namespace :deploy do
       govuk_setenv search-api bundle exec rake sitemap:generate_and_replace
     EOT
   end
+  # rubocop:enable Naming/HeredocDelimiterNaming
 
   task :migrate, :roles => :db, :only => { :primary => true } do
     run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} RUMMAGER_INDEX=all rummager:migrate_schema rummager:clean"
