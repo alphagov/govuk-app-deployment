@@ -5,9 +5,6 @@ set :server_class, "search"
 load 'defaults'
 load 'ruby'
 
-set :whenever_command, "govuk_setenv search-api bundle exec whenever"
-require "whenever/capistrano"
-
 set :source_db_config_file, false
 set :db_config_file, false
 
