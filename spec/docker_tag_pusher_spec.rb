@@ -13,7 +13,7 @@ RSpec.describe DockerTagPusher do
       before do
         stub_request(
           :get,
-          "https://registry-1.docker.io/v2/govuk/publishing-api/tags/list?n=1"
+          "https://registry-1.docker.io/v2/govuk/publishing-api/tags/list?n=1",
         ).with(headers: {
           "Authorization" => "Bearer bazqux",
         }).to_return(status: status)
@@ -51,7 +51,7 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -67,7 +67,7 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -81,7 +81,7 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -95,7 +95,7 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -115,13 +115,13 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :put,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar",
           ).with(
             body: json,
             headers: {
               "Authorization" => "Bearer bazqux",
               "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
-            }
+            },
           ).to_return(status: 201)
 
           expect(instance.put_manifest("govuk/publishing-api", json, "foobar")).to be nil
@@ -134,13 +134,13 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :put,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar"
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar",
           ).with(
             body: json,
             headers: {
               "Authorization" => "Bearer bazqux",
               "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
-            }
+            },
           ).to_return(status: 500, body: "Error")
 
           expect { instance.put_manifest("govuk/publishing-api", json, "foobar") }

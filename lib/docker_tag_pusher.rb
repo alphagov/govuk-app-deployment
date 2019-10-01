@@ -29,7 +29,7 @@ class DockerTagPusher
     request = Net::HTTP::Get.new(
       "#{REGISTRY}/v2/#{repo}/manifests/#{tag}",
       "Authorization" => "Bearer #{token(repo)}",
-      "Accept" => MEDIA_TYPE
+      "Accept" => MEDIA_TYPE,
     )
     response = registry_client.request(request)
 
@@ -44,7 +44,7 @@ class DockerTagPusher
     request = Net::HTTP::Put.new(
       "#{REGISTRY}/v2/#{repo}/manifests/#{tag}",
       "Authorization" => "Bearer #{token(repo)}",
-      "Content-Type" => MEDIA_TYPE
+      "Content-Type" => MEDIA_TYPE,
     )
     request.body = manifest
     response = registry_client.request(request)
