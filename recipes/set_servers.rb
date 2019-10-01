@@ -15,7 +15,7 @@ namespace :deploy do
       next
     end
 
-    DEFAULT_CONFIG = { roles: [:web, :app, :db] }.freeze
+    DEFAULT_CONFIG = { roles: %i[web app db] }.freeze
 
     classes = if cls.respond_to? :join
                 # Array of strings or symbols, e.g

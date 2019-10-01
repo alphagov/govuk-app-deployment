@@ -74,7 +74,7 @@ namespace :deploy do
     restart
   end
 
-  task :upload_config, :roles => [:app, :web] do
+  task :upload_config, :roles => %i[app web] do
     # mkdir -p is making sure that the directories are there for some SCM's that don't
     # save empty folders
     unless fetch(:config_files_to_upload, nil).nil?

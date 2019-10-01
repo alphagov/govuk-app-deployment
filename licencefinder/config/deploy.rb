@@ -9,7 +9,7 @@ load 'deploy/assets'
 
 set :assets_prefix, "licencefinder"
 set :rails_env, 'production'
-set :bundle_without, [:development, :test, :webkit]
+set :bundle_without, %i[development test webkit]
 
 set :copy_exclude, [
   '.git/*',
