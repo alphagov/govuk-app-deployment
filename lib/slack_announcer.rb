@@ -38,7 +38,7 @@ class SlackAnnouncer
     }
 
     HTTP.post(@slack_url, body: JSON.dump(message_payload))
-  rescue => e
+  rescue StandardError => e
     puts "Release notification to slack failed: #{e.message}"
   end
 
@@ -72,7 +72,7 @@ class SlackAnnouncer
 
       "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
     end
-  rescue => e
+  rescue StandardError => e
     puts "Unable to connect to grafana server: #{e.message}"
     nil
   end

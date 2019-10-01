@@ -101,7 +101,7 @@ namespace :deploy do
         conn = Net::HTTP.new(url.host, url.port)
         conn.use_ssl = true if graphite_protocol == 'https'
         conn.request(req)
-      rescue => e
+      rescue StandardError => e
         puts "Graphite notification failed: #{e.message}"
       end
     end
