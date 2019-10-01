@@ -4,7 +4,7 @@ set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_
 set :use_sudo,       false
 set :user,           "deploy"
 set :dockerhub_repo, "govuk"
-set :branch,         ENV["TAG"] ? ENV["TAG"] : "master"
+set :branch,         ENV["TAG"] || "master"
 set :repo_name,      fetch(:repo_name, application).to_s
 
 load 'set_servers'
