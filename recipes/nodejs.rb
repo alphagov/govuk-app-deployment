@@ -30,12 +30,12 @@ namespace :deploy do
     commands = []
     shared_children.each do |dir|
       d = dir.shellescape
-      if dir.rindex('/')
+      if dir.rindex("/")
         commands += ["rm -rf -- #{release_path}/#{d}",
                      "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
           # When symlinking we need to be sure this doesn't have a
           # trailing slash
-        dir = dir.slice(0...(dir.rindex('/')))
+        dir = dir.slice(0...(dir.rindex("/")))
         d = dir.shellescape
       else
         commands << "rm -rf -- #{release_path}/#{d}"
@@ -43,7 +43,7 @@ namespace :deploy do
       commands << "ln -s -- #{shared_path}/#{dir.split('/').last.shellescape} #{release_path}/#{d}"
     end
 
-    run commands.join(' && ') if commands.any?
+    run commands.join(" && ") if commands.any?
   end
 
   task :upload_organisation_config do

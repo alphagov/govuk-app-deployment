@@ -1,24 +1,24 @@
 set :application, "transition"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "backend"
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
+load "defaults"
+load "ruby"
+load "deploy/assets"
 
-load 'govuk_admin_template'
+load "govuk_admin_template"
 
-set :source_db_config_file, 'secrets/to_upload/database.yml'
+set :source_db_config_file, "secrets/to_upload/database.yml"
 
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano" # This hooks a task to run before deploy:finalize_update
 
 set :copy_exclude, [
-  '.git/*',
-  'public/images',
-  'public/javascripts',
-  'public/stylesheets',
-  'public/templates',
+  ".git/*",
+  "public/images",
+  "public/javascripts",
+  "public/stylesheets",
+  "public/templates",
 ]
 
 namespace :deploy do

@@ -1,16 +1,16 @@
 set :application,        "smartanswers"
-set :capfile_dir,        File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir,        File.expand_path("../", File.dirname(__FILE__))
 set :server_class,       %w(draft_frontend calculators_frontend)
 set :repo_name,          "smart-answers"
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
+load "defaults"
+load "ruby"
+load "deploy/assets"
 
-set :assets_prefix, 'smartanswers'
+set :assets_prefix, "smartanswers"
 set :bundle_without, %i[development test webkit]
 set :db_config_file, false
-set :rails_env, 'production'
+set :rails_env, "production"
 set :source_db_config_file, false
 
 set :rsync_options, "-az --delete --exclude '.git/' -v --delete-excluded --exclude 'test/artefacts/'"

@@ -6,7 +6,7 @@ require "slack_announcer"
 set :branch,         ENV["TAG"] || "master"
 set :deploy_to,      "/data/apps/#{application}"
 set :deploy_via,     :rsync_with_remote_cache
-set :organisation,   ENV['ORGANISATION']
+set :organisation,   ENV["ORGANISATION"]
 set :keep_releases,  2
 set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
 set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names

@@ -1,13 +1,13 @@
 set :application, "authenticating-proxy"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, %w[
   draft_cache
 ]
 
-load 'defaults'
-load 'ruby'
+load "defaults"
+load "ruby"
 
-set :rails_env, 'production'
+set :rails_env, "production"
 
 namespace :deploy do
   task :cold do

@@ -6,7 +6,7 @@
 # the latter is usually desirable.
 
 set :shared_children, shared_children + %w(venv)
-set :virtualenv_name, 'venv'
+set :virtualenv_name, "venv"
 set(:virtualenv_path) { "#{shared_path}/#{virtualenv_name}" }
 set :sleep_after_server_start, 1
 
@@ -20,9 +20,9 @@ namespace :deploy do
 
   task :create_virtualenv, :roles => :app do
     setuptools_flag = if fetch(:virtualenv_setuptools, false)
-                        '--setuptools'
+                        "--setuptools"
                       else
-                        ''
+                        ""
                       end
     run "test -f '#{virtualenv_path}/bin/python' || virtualenv -q #{setuptools_flag} --no-site-packages '#{virtualenv_path}'"
   end
@@ -45,12 +45,12 @@ namespace :deploy do
     commands = []
     shared_children.each do |dir|
       d = dir.shellescape
-      if dir.rindex('/')
+      if dir.rindex("/")
         commands += ["rm -rf -- #{release_path}/#{d}",
                      "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
         # When symlinking we need to be sure this doesn't have a
         # trailing slash
-        dir = dir.slice(0...(dir.rindex('/')))
+        dir = dir.slice(0...(dir.rindex("/")))
         d = dir.shellescape
       else
         commands << "rm -rf -- #{release_path}/#{d}"
@@ -58,7 +58,7 @@ namespace :deploy do
       commands << "ln -s -- #{shared_path}/#{dir.split('/').last.shellescape} #{release_path}/#{d}"
     end
 
-    run commands.join(' && ') if commands.any?
+    run commands.join(" && ") if commands.any?
   end
 
   task :crontab, :roles => :app do

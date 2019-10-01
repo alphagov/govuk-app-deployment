@@ -7,8 +7,8 @@ set :dockerhub_repo, "govuk"
 set :branch,         ENV["TAG"] || "master"
 set :repo_name,      fetch(:repo_name, application).to_s
 
-load 'set_servers'
-load 'notify'
+load "set_servers"
+load "notify"
 
 namespace :docker do
   # These tasks are specific to a docker deployment

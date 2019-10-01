@@ -2,7 +2,7 @@ set :application, "ckan"
 set :server_class, "ckan"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :shared_children, shared_children + %w(log)
-set :repo_name, 'ckanext-datagovuk'
+set :repo_name, "ckanext-datagovuk"
 
 load "defaults"
 load "python"

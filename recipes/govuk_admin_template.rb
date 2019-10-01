@@ -1,6 +1,6 @@
 namespace :govuk_admin_template do
   task :configure do
-    case ENV['ORGANISATION']
+    case ENV["ORGANISATION"]
     when "production"
       environment_style = "production"
       environment_label = "Production"

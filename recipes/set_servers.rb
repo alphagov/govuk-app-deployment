@@ -57,7 +57,7 @@ namespace :deploy do
       end
 
       nodes_to_deploy = find_servers(:only => { :server_class => c }).map do |server|
-        opts = server.options[:primary] ? ' (primary)' : ''
+        opts = server.options[:primary] ? " (primary)" : ""
         "#{server.host}#{opts}"
       end
 
@@ -66,4 +66,4 @@ namespace :deploy do
   end
 end
 
-on :start, 'deploy:set_servers'
+on :start, "deploy:set_servers"
