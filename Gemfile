@@ -7,11 +7,11 @@ gem "capistrano_rsync_with_remote_cache",
 
 gem "railsless-deploy", :require => false
 
-gem "rake"
-gem "whenever", "0.7.3"
+gem "aws-sdk-s3"
 gem "govuk-lint", "4.0.0"
 gem "http", "~> 3.0"
-gem "aws-sdk-s3"
+gem "rake"
 gem "webmock"
+gem "whenever", "0.7.3"
 
 gem "rspec"
