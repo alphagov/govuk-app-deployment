@@ -11,7 +11,7 @@ namespace :deploy do
   task :upload_environment_settings do
     config_folder = File.expand_path("secrets/settings/#{ENV['ORGANISATION']}", Dir.pwd)
     if File.exist?(config_folder)
-      %w{ write transformers }.each do |app|
+      %w{write transformers}.each do |app|
         Dir.glob(File.join("#{config_folder}/#{app}", "*.py")).each do |settings|
           top.upload(settings, File.join(release_path, "backdrop/#{app}/config/#{File.basename(settings)}"))
         end
