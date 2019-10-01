@@ -1,4 +1,4 @@
-require 'http'
+require "http"
 
 class SlackAnnouncer
   GRAFANA_TIMEOUT = 5
@@ -9,7 +9,7 @@ class SlackAnnouncer
     @grafana_timeout = grafana_timeout
   end
 
-  def announce_start(repo_name, application, slack_channel = '#govuk-deploy')
+  def announce_start(repo_name, application, slack_channel = "#govuk-deploy")
     text = "#{environment_emoji} :mega: #{version_and_link(repo_name, application)} " \
            "is being deployed to *#{@environment_name}* by #{build_user}"
 
@@ -19,7 +19,7 @@ class SlackAnnouncer
     post_text(slack_channel, text)
   end
 
-  def announce_done(repo_name, application, slack_channel = '#govuk-deploy')
+  def announce_done(repo_name, application, slack_channel = "#govuk-deploy")
     text = "#{environment_emoji} :white_check_mark: #{version_and_link(repo_name, application)} " \
            "deployed to *#{@environment_name}* by #{build_user}"
 
@@ -55,7 +55,7 @@ class SlackAnnouncer
   end
 
   def build_user
-    ENV.fetch('BUILD_USER', 'Jenkins')
+    ENV.fetch("BUILD_USER", "Jenkins")
   end
 
   def dashboard_host_name

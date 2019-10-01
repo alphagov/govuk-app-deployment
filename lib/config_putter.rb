@@ -20,7 +20,7 @@ class ConfigPutter
   end
 
   def is_erb?(filepath)
-    filepath[-4..-1] == '.erb'
+    filepath[-4..-1] == ".erb"
   end
 
   class FilePutter
