@@ -16,7 +16,7 @@ set :copy_exclude, [
   'public/images',
   'public/javascripts',
   'public/stylesheets',
-  'public/templates'
+  'public/templates',
 ]
 
 after "deploy:upload_initializers", "deploy:symlink_mailer_config"

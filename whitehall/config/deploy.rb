@@ -22,7 +22,7 @@ set :whenever_command, "govuk_setenv whitehall bundle exec whenever"
 set :whenever_roles, [:backend]
 
 set :copy_exclude, [
-  '.git/*'
+  '.git/*',
 ]
 
 logger.level = Logger::MAX_LEVEL

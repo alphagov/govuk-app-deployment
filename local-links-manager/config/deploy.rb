@@ -13,7 +13,7 @@ require "whenever/capistrano" # This hooks a task to run before deploy:finalize_
 
 set :copy_exclude, [
  '.git/*',
- 'public/**/*'
+ 'public/**/*',
 ]
 
 namespace :deploy do

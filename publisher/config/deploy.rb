@@ -15,7 +15,7 @@ set :copy_exclude, [
   'public/images',
   'public/javascripts',
   'public/stylesheets',
-  'public/templates'
+  'public/templates',
 ]
 
 # cronjobs should be disabled in the staging organisation, to prevent it collecting

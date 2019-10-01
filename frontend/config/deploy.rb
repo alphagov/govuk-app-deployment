@@ -15,5 +15,5 @@ set :copy_exclude, [
   'public/images',
   'public/javascripts',
   'public/stylesheets',
-  'public/templates'
+  'public/templates',
 ]
