@@ -54,9 +54,9 @@ RSpec.describe DockerTagPusher do
             "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
-            "Accept" => "application/vnd.docker.distribution.manifest.v2+json"
+            "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(body: json, headers: {
-            "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json"
+            "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
           })
 
           expect(instance.get_manifest("govuk/publishing-api", "master")).to eq(json)
@@ -70,7 +70,7 @@ RSpec.describe DockerTagPusher do
             "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
-            "Accept" => "application/vnd.docker.distribution.manifest.v2+json"
+            "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 404)
 
           expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error("Image or tag not found")
@@ -84,7 +84,7 @@ RSpec.describe DockerTagPusher do
             "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
-            "Accept" => "application/vnd.docker.distribution.manifest.v2+json"
+            "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 401)
 
           expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error(/Error \(401\) while fetching manifest/)
@@ -98,9 +98,9 @@ RSpec.describe DockerTagPusher do
             "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master"
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
-            "Accept" => "application/vnd.docker.distribution.manifest.v2+json"
+            "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(headers: {
-            "Content-Type" => "application/vnd.docker.distribution.manifest.vWrong"
+            "Content-Type" => "application/vnd.docker.distribution.manifest.vWrong",
           })
 
           expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error(/Remote image not in correct format/)
@@ -120,7 +120,7 @@ RSpec.describe DockerTagPusher do
             body: json,
             headers: {
               "Authorization" => "Bearer bazqux",
-              "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json"
+              "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
             }
           ).to_return(status: 201)
 
@@ -139,7 +139,7 @@ RSpec.describe DockerTagPusher do
             body: json,
             headers: {
               "Authorization" => "Bearer bazqux",
-              "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json"
+              "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
             }
           ).to_return(status: 500, body: "Error")
 

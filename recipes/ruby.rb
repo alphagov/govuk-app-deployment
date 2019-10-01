@@ -3,7 +3,7 @@ require 'bundler/capistrano'
 # Use rbenv shims if available
 set :default_environment, {
   "RBENV_ROOT" => "/usr/lib/rbenv",
-  "PATH" => "/usr/lib/rbenv/shims:$PATH"
+  "PATH" => "/usr/lib/rbenv/shims:$PATH",
 }
 
 set :bundle_cmd, 'bundle'
