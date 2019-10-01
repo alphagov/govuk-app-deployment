@@ -1,7 +1,7 @@
 set :application, "authenticating-proxy"
 set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
-set :server_class, [
-  "draft_cache",
+set :server_class, %w[
+  draft_cache
 ]
 
 load 'defaults'

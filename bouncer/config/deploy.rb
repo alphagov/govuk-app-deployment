@@ -13,7 +13,7 @@ set :copy_exclude, [
   'public',
 ]
 
-set :legacy_asset_repositories, ['assets-directgov', 'assets-businesslink']
+set :legacy_asset_repositories, %w[assets-directgov assets-businesslink]
 
 namespace :deploy do
   task :sync_legacy_assets do
