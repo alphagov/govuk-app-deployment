@@ -53,7 +53,7 @@ namespace :deploy do
 
       nodes.each_with_index do |node, index|
         is_draft_server = !!(c =~ /^draft/)
-        parent.server node, *extra[:roles], :server_class => c, :primary => (index.zero?), :draft => is_draft_server
+        parent.server node, *extra[:roles], :server_class => c, :primary => index.zero?, :draft => is_draft_server
       end
 
       nodes_to_deploy = find_servers(:only => { :server_class => c }).map do |server|
