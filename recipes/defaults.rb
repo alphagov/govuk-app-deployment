@@ -82,6 +82,7 @@ namespace :deploy do
         unless File.exist? from_path
           raise "Does not exist: #{from_path}"
         end
+
         if from_path.end_with? ".erb"
           erb_file = ERB.new(File.read(from_path)).result(binding)
           put(erb_file, File.join(release_path, to_path))
