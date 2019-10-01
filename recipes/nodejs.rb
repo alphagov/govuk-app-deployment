@@ -19,11 +19,11 @@ namespace :deploy do
 
   # run post deploy hook inside the release directory with the correct environment
   task :run_post_deploy_hook, :roles => :app do
-    run <<-EOS
-if [ -f '#{release_path}/hooks/post_deploy' ]; then
-  cd #{release_path} && govuk_setenv #{application} hooks/post_deploy;
-fi
-EOS
+    run <<~EOS
+      if [ -f '#{release_path}/hooks/post_deploy' ]; then
+        cd #{release_path} && govuk_setenv #{application} hooks/post_deploy;
+      fi
+    EOS
   end
 
   task :link_shared_children, :roles => :app do

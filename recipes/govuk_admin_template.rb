@@ -15,9 +15,9 @@ namespace :govuk_admin_template do
       environment_label = "Integration"
     end
 
-    template = ERB.new <<-EOT
-GovukAdminTemplate.environment_style = '<%= environment_style %>'
-GovukAdminTemplate.environment_label = '<%= environment_label %>'
+    template = ERB.new <<~EOT
+      GovukAdminTemplate.environment_style = '<%= environment_style %>'
+      GovukAdminTemplate.environment_label = '<%= environment_label %>'
     EOT
 
     file_contents = template.result(binding)
