@@ -10,19 +10,19 @@ RSpec.describe SlackAnnouncer do
     allow(HTTP).to receive(:get)
       .with(%r{grafana.(staging\.|)publishing.service.gov.uk/api/dashboards/file/deployment_.+\.json})
       .and_return(double(:response, code: 404))
-    ENV['TAG'] = 'release_123'
-    ENV['BUILD_USER'] = 'Joe Bloggs'
+    ENV["TAG"] = "release_123"
+    ENV["BUILD_USER"] = "Joe Bloggs"
   end
 
   after do
-    ENV.delete('TAG')
-    ENV.delete('BUILD_USER')
+    ENV.delete("TAG")
+    ENV.delete("BUILD_USER")
   end
 
   %w(staging production).each do |environment_name|
     it "annouces a #{environment_name} deploy to slack" do
       expect(HTTP).to receive(:post) do |url, params|
-        expect(url).to eq('http://slack.url')
+        expect(url).to eq("http://slack.url")
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
           "text" => ":govuk-#{environment_name}: :white_check_mark: Version " \
@@ -115,7 +115,7 @@ RSpec.describe SlackAnnouncer do
     end
 
     announcer = described_class.new("production", "http://slack.url")
-    expect(announcer).to receive(:puts).with('Unable to connect to grafana server: HTTP::ConnectionError')
+    expect(announcer).to receive(:puts).with("Unable to connect to grafana server: HTTP::ConnectionError")
     announcer.announce_start("existing_app", "Existing App")
   end
 
@@ -136,14 +136,14 @@ RSpec.describe SlackAnnouncer do
     end
 
     announcer = described_class.new("production", "http://slack.url", grafana_timeout: 0.1)
-    expect(announcer).to receive(:puts).with('Unable to connect to grafana server: execution expired')
+    expect(announcer).to receive(:puts).with("Unable to connect to grafana server: execution expired")
     announcer.announce_start("existing_app", "Existing App")
   end
 
   %w(staging production).each do |environment_name|
     it "annouces a #{environment_name} deployment starting to slack" do
       expect(HTTP).to receive(:post) do |url, params|
-        expect(url).to eq('http://slack.url')
+        expect(url).to eq("http://slack.url")
         expect(JSON.parse(params[:body])).to include(
           "username" => "Badger",
           "text" => ":govuk-#{environment_name}: :mega: Version " \

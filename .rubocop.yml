@@ -12,3 +12,12 @@ Style/HashSyntax:
 # }
 Style/BracesAroundHashParameters:
   Enabled: false
+
+# People understand heredoc EOF/EOS syntax as it is.
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+# It's complaining about `recipes` files. These are deployment files
+# which would take time to fix. Maybe later?
+Metrics/BlockLength:
+  Enabled: false

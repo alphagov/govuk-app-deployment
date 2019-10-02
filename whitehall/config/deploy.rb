@@ -1,28 +1,28 @@
 set :application, "whitehall"
 set :assets_prefix, "government"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 
 set :run_migrations_by_default, true
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
-require 'config_putter'
+load "defaults"
+load "ruby"
+load "deploy/assets"
+require "config_putter"
 
-load 'govuk_admin_template'
+load "govuk_admin_template"
 
 set :server_class, {
-  'whitehall_frontend' => { roles: [:frontend, :web, :app] },
-  'whitehall_backend' => { roles: [:db, :backend, :web, :app] },
+  "whitehall_frontend" => { roles: %i[frontend web app] },
+  "whitehall_backend" => { roles: %i[db backend web app] },
 }
 
-set :bundle_without, [:development, :test, :test_coverage, :cucumber]
+set :bundle_without, %i[development test test_coverage cucumber]
 require "whenever/capistrano"
 set :whenever_command, "govuk_setenv whitehall bundle exec whenever"
 set :whenever_roles, [:backend]
 
 set :copy_exclude, [
-  '.git/*'
+  ".git/*",
 ]
 
 logger.level = Logger::MAX_LEVEL

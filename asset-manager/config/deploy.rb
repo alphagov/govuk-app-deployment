@@ -1,14 +1,14 @@
 set :application, "asset-manager"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "backend"
 
-load 'defaults'
-load 'ruby'
+load "defaults"
+load "ruby"
 
-load 'deploy/assets'
-set :assets_prefix, 'asset-manager'
+load "deploy/assets"
+set :assets_prefix, "asset-manager"
 
-set :rails_env, 'production'
+set :rails_env, "production"
 
 namespace :deploy do
   desc "Create a symlink from the latest_release path to the /data/uploads directory"

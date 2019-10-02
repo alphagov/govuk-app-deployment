@@ -19,23 +19,23 @@ namespace :deploy do
 
   # run post deploy hook inside the release directory with the correct environment
   task :run_post_deploy_hook, :roles => :app do
-    run <<-EOS
-if [ -f '#{release_path}/hooks/post_deploy' ]; then
-  cd #{release_path} && govuk_setenv #{application} hooks/post_deploy;
-fi
-EOS
+    run <<~EOS
+      if [ -f '#{release_path}/hooks/post_deploy' ]; then
+        cd #{release_path} && govuk_setenv #{application} hooks/post_deploy;
+      fi
+    EOS
   end
 
   task :link_shared_children, :roles => :app do
     commands = []
     shared_children.each do |dir|
       d = dir.shellescape
-      if dir.rindex('/')
+      if dir.rindex("/")
         commands += ["rm -rf -- #{release_path}/#{d}",
                      "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
           # When symlinking we need to be sure this doesn't have a
           # trailing slash
-        dir = dir.slice(0...(dir.rindex('/')))
+        dir = dir.slice(0...(dir.rindex("/")))
         d = dir.shellescape
       else
         commands << "rm -rf -- #{release_path}/#{d}"
@@ -43,7 +43,7 @@ EOS
       commands << "ln -s -- #{shared_path}/#{dir.split('/').last.shellescape} #{release_path}/#{d}"
     end
 
-    run commands.join(' && ') if commands.any?
+    run commands.join(" && ") if commands.any?
   end
 
   task :upload_organisation_config do

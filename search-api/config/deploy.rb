@@ -1,16 +1,16 @@
 set :application, "search-api"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "search"
 
-load 'defaults'
-load 'ruby'
+load "defaults"
+load "ruby"
 
 set :source_db_config_file, false
 set :db_config_file, false
 
 set :copy_exclude, [
-  '.git/*',
-  'public',
+  ".git/*",
+  "public",
 ]
 
 namespace :deploy do

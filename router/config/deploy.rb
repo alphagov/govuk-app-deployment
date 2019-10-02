@@ -1,8 +1,8 @@
-require 'fetch_build'
-require 'digest'
+require "fetch_build"
+require "digest"
 
 set :application, "router"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, %w(cache draft_cache)
 
 # Use the build number from the release tag if given
@@ -11,7 +11,7 @@ if ENV["TAG"] =~ /\Arelease_(\d+)\z/
   set :artefact_number, $1
 end
 
-load 'defaults'
+load "defaults"
 
 namespace :deploy do
   # This overrides the default update_code task
@@ -20,11 +20,11 @@ namespace :deploy do
     on_rollback { run "rm -rf #{release_path}; true" }
     run "mkdir -p #{release_path}"
 
-    if ENV['USE_S3']
+    if ENV["USE_S3"]
       # Write a file on the remote with the release info
       put "#{ENV['TAG']}\n", "#{release_path}/build_number"
 
-      bucket = ENV['S3_ARTEFACT_BUCKET']
+      bucket = ENV["S3_ARTEFACT_BUCKET"]
       key = "#{application}/#{ENV['TAG']}/#{application}"
 
       file = fetch_from_s3_to_tempfile(bucket, key)
@@ -43,7 +43,7 @@ namespace :deploy do
 
     # Write a file on the remote with the revision info, i.e sha256 of file
     file_sha256 = Digest::SHA256.file file.path
-    ENV['FILE_SHA256'] = file_sha256.hexdigest
+    ENV["FILE_SHA256"] = file_sha256.hexdigest
     put "#{file_sha256.hexdigest}\n", "#{release_path}/REVISION"
 
     top.upload file, "#{release_path}/#{application}", :mode => "0755"

@@ -1,23 +1,23 @@
 set :application, "bouncer"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "bouncer"
 
-load 'defaults'
-load 'ruby'
+load "defaults"
+load "ruby"
 
 set :source_db_config_file, false
 set :db_config_file, false
 
 set :copy_exclude, [
-  '.git/*',
-  'public',
+  ".git/*",
+  "public",
 ]
 
-set :legacy_asset_repositories, ['assets-directgov', 'assets-businesslink']
+set :legacy_asset_repositories, %w[assets-directgov assets-businesslink]
 
 namespace :deploy do
   task :sync_legacy_assets do
-    git_origin_prefix = ENV['DEPLOY_FROM_GITLAB'] == 'true' ? 'git@gitlab.com:govuk' : 'git@github.com:alphagov'
+    git_origin_prefix = ENV["DEPLOY_FROM_GITLAB"] == "true" ? "git@gitlab.com:govuk" : "git@github.com:alphagov"
 
     legacy_asset_repositories.each do |repository|
       # Cache the checkout to avoid redownloading large repos on each deploy

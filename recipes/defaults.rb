@@ -3,10 +3,10 @@ load "notify"
 
 require "slack_announcer"
 
-set :branch,         ENV["TAG"] ? ENV["TAG"] : "master"
+set :branch,         ENV["TAG"] || "master"
 set :deploy_to,      "/data/apps/#{application}"
 set :deploy_via,     :rsync_with_remote_cache
-set :organisation,   ENV['ORGANISATION']
+set :organisation,   ENV["ORGANISATION"]
 set :keep_releases,  2
 set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
 set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
@@ -74,7 +74,7 @@ namespace :deploy do
     restart
   end
 
-  task :upload_config, :roles => [:app, :web] do
+  task :upload_config, :roles => %i[app web] do
     # mkdir -p is making sure that the directories are there for some SCM's that don't
     # save empty folders
     unless fetch(:config_files_to_upload, nil).nil?
@@ -82,6 +82,7 @@ namespace :deploy do
         unless File.exist? from_path
           raise "Does not exist: #{from_path}"
         end
+
         if from_path.end_with? ".erb"
           erb_file = ERB.new(File.read(from_path)).result(binding)
           put(erb_file, File.join(release_path, to_path))

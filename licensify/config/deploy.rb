@@ -1,7 +1,7 @@
-require 'fetch_build'
+require "fetch_build"
 
 set :application, "licensify"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "licensing_frontend"
 
 # Use the build number from the release tag if given
@@ -23,7 +23,7 @@ new_tag = case ENV["TAG"]
             ENV["TAG"]
           end
 
-load 'defaults'
+load "defaults"
 
 set :deploy_to, "/data/vhost/#{application}"
 set :repository, "git@github.com:alphagov/licensify"
@@ -39,7 +39,7 @@ namespace :deploy do
     put "#{ENV['TAG']}\n", "#{release_path}/build_number"
     put "#{ENV['TAG']}\n", "#{release_path}/REVISION"
 
-    bucket = ENV['S3_ARTEFACT_BUCKET']
+    bucket = ENV["S3_ARTEFACT_BUCKET"]
     key = "#{application}/#{ENV['TAG']}/#{application}"
 
     file = fetch_from_s3_to_tempfile(bucket, key)

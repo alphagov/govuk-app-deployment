@@ -10,9 +10,9 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load 'govuk_admin_template'
+load "govuk_admin_template"
 
-set :assets_prefix, 'contacts-assets'
+set :assets_prefix, "contacts-assets"
 
 require "whenever/capistrano"
 set :whenever_command, "bundle exec whenever"
@@ -23,5 +23,5 @@ set :copy_exclude, [
   "public/images",
   "public/javascripts",
   "public/stylesheets",
-  "public/templates"
+  "public/templates",
 ]

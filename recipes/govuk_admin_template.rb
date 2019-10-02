@@ -1,7 +1,6 @@
-
 namespace :govuk_admin_template do
   task :configure do
-    case ENV['ORGANISATION']
+    case ENV["ORGANISATION"]
     when "production"
       environment_style = "production"
       environment_label = "Production"
@@ -15,9 +14,9 @@ namespace :govuk_admin_template do
       environment_label = "Integration"
     end
 
-    template = ERB.new <<-EOT
-GovukAdminTemplate.environment_style = '<%= environment_style %>'
-GovukAdminTemplate.environment_label = '<%= environment_label %>'
+    template = ERB.new <<~EOT
+      GovukAdminTemplate.environment_style = '<%= environment_style %>'
+      GovukAdminTemplate.environment_label = '<%= environment_label %>'
     EOT
 
     file_contents = template.result(binding)

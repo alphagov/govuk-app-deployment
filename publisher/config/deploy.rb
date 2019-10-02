@@ -1,26 +1,26 @@
 set :application, "publisher"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "backend"
 
 set :run_migrations_by_default, true
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
+load "defaults"
+load "ruby"
+load "deploy/assets"
 
-load 'govuk_admin_template'
+load "govuk_admin_template"
 
 set :copy_exclude, [
-  '.git/*',
-  'public/images',
-  'public/javascripts',
-  'public/stylesheets',
-  'public/templates'
+  ".git/*",
+  "public/images",
+  "public/javascripts",
+  "public/stylesheets",
+  "public/templates",
 ]
 
 # cronjobs should be disabled in the staging organisation, to prevent it collecting
 # production fact-check emails for example.
-if ENV['ORGANISATION'] == 'production' || ENV['ORGANISATION'] == 'integration'
+if ENV["ORGANISATION"] == "production" || ENV["ORGANISATION"] == "integration"
   set :whenever_command, "bundle exec whenever"
   require "whenever/capistrano"
 end

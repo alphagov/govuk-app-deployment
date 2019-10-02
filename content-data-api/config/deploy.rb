@@ -1,13 +1,13 @@
 set :application, "content-data-api"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "backend"
 
 set :run_migrations_by_default, true
 
-load 'defaults'
-load 'ruby'
+load "defaults"
+load "ruby"
 
-set :rails_env, 'production'
+set :rails_env, "production"
 
 namespace :deploy do
   namespace :content_data_api do

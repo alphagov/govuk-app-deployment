@@ -1,14 +1,14 @@
-require 'bundler/capistrano'
+require "bundler/capistrano"
 
 # Use rbenv shims if available
 set :default_environment, {
   "RBENV_ROOT" => "/usr/lib/rbenv",
-  "PATH" => "/usr/lib/rbenv/shims:$PATH"
+  "PATH" => "/usr/lib/rbenv/shims:$PATH",
 }
 
-set :bundle_cmd, 'bundle'
-set(:source_db_config_file, 'secrets/to_upload/database.yml') unless fetch(:source_db_config_file, false)
-set(:db_config_file, 'config/database.yml') unless fetch(:db_config_file, false)
+set :bundle_cmd, "bundle"
+set(:source_db_config_file, "secrets/to_upload/database.yml") unless fetch(:source_db_config_file, false)
+set(:db_config_file, "config/database.yml") unless fetch(:db_config_file, false)
 set(:rack_env,  :production)
 set(:rails_env, :production)
 set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake')}")

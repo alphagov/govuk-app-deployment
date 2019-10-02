@@ -1,7 +1,7 @@
-require 'fetch_build'
+require "fetch_build"
 
 set :application, "govuk_crawler_worker"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "mirrorer"
 
 # Use the build number from the release tag if given
@@ -10,7 +10,7 @@ if ENV["TAG"] =~ /\Arelease_(\d+)\z/
   set :artefact_number, $1
 end
 
-load 'defaults'
+load "defaults"
 
 namespace :deploy do
   # This overrides the default update_code task
@@ -19,11 +19,11 @@ namespace :deploy do
     on_rollback { run "rm -rf #{release_path}; true" }
     run "mkdir -p #{release_path}"
 
-    if ENV['USE_S3']
+    if ENV["USE_S3"]
       # Write a file on the remote with the release info
       put "#{ENV['TAG']}\n", "#{release_path}/build_number"
 
-      bucket = ENV['S3_ARTEFACT_BUCKET']
+      bucket = ENV["S3_ARTEFACT_BUCKET"]
       key = "#{application}/#{ENV['TAG']}/#{application}"
 
       file = fetch_from_s3_to_tempfile(bucket, key)

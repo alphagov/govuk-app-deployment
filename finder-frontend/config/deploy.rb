@@ -1,13 +1,13 @@
 set :application, "finder-frontend"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "calculators_frontend"
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
+load "defaults"
+load "ruby"
+load "deploy/assets"
 
-set :assets_prefix, 'finder-frontend'
-set :rails_env, 'production'
+set :assets_prefix, "finder-frontend"
+set :rails_env, "production"
 set :source_db_config_file, false
 set :db_config_file, false
 

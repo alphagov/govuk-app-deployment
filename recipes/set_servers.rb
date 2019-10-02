@@ -15,7 +15,7 @@ namespace :deploy do
       next
     end
 
-    DEFAULT_CONFIG = { roles: [:web, :app, :db] }.freeze
+    DEFAULT_CONFIG = { roles: %i[web app db] }.freeze
 
     classes = if cls.respond_to? :join
                 # Array of strings or symbols, e.g
@@ -53,11 +53,11 @@ namespace :deploy do
 
       nodes.each_with_index do |node, index|
         is_draft_server = !!(c =~ /^draft/)
-        parent.server node, *extra[:roles], :server_class => c, :primary => (index == 0), :draft => is_draft_server
+        parent.server node, *extra[:roles], :server_class => c, :primary => index.zero?, :draft => is_draft_server
       end
 
       nodes_to_deploy = find_servers(:only => { :server_class => c }).map do |server|
-        opts = server.options[:primary] ? ' (primary)' : ''
+        opts = server.options[:primary] ? " (primary)" : ""
         "#{server.host}#{opts}"
       end
 
@@ -66,4 +66,4 @@ namespace :deploy do
   end
 end
 
-on :start, 'deploy:set_servers'
+on :start, "deploy:set_servers"

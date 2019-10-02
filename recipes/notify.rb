@@ -16,8 +16,8 @@ namespace :deploy do
 
     desc "Register the deployment with the 'release' app"
     task :release_app do
-      if ENV['NOTIFY_RELEASE_APP'] == 'true'
-        release_app_url = 'https://release.publishing.service.gov.uk'
+      if ENV["NOTIFY_RELEASE_APP"] == "true"
+        release_app_url = "https://release.publishing.service.gov.uk"
         manual_resolution_message = "ACTION REQUIRED: Failed to notify Release app of deploy. Please add this deploy manually at #{release_app_url}"
 
         require "net/http"
@@ -32,25 +32,25 @@ namespace :deploy do
             conn = Net::HTTP.new(url.host, url.port)
             conn.use_ssl = true
 
-            deployed_to_environment = if ENV['USE_S3'] == 'true' && ENV['ORGANISATION'] != 'integration'
+            deployed_to_environment = if ENV["USE_S3"] == "true" && ENV["ORGANISATION"] != "integration"
                                         "#{ENV['ORGANISATION']}-aws"
                                       else
-                                        ENV['ORGANISATION']
+                                        ENV["ORGANISATION"]
                                       end
 
-            deployed_sha = if ENV['USE_S3'] == 'false'
+            deployed_sha = if ENV["USE_S3"] == "false"
                              run_locally("cd #{strategy.local_cache_path} && git rev-list -n 1 #{current_revision}")
                            else
-                             ENV['FILE_SHA256']
+                             ENV["FILE_SHA256"]
                            end
 
             form_data = {
               "repo" => repository,
               "deployment[environment]" => deployed_to_environment,
-              "deployment[jenkins_user_email]" => ENV['BUILD_USER_EMAIL'],
-              "deployment[jenkins_user_name]" => ENV['BUILD_USER'],
+              "deployment[jenkins_user_email]" => ENV["BUILD_USER_EMAIL"],
+              "deployment[jenkins_user_name]" => ENV["BUILD_USER"],
               "deployment[deployed_sha]" => deployed_sha,
-              "deployment[version]" => ENV['TAG'],
+              "deployment[version]" => ENV["TAG"],
             }
             request.set_form_data(form_data)
             request["Accept"] = "application/json"
@@ -68,40 +68,40 @@ namespace :deploy do
 
     desc "Announce on Slack the deploy has started"
     task :slack_message_start do
-      if ENV['SLACK_NOTIFICATIONS'] == 'true'
-        annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+      if ENV["SLACK_NOTIFICATIONS"] == "true"
+        annoucer = SlackAnnouncer.new(ENV["ORGANISATION"], ENV["BADGER_SLACK_WEBHOOK_URL"])
         annoucer.announce_start(repo_name, application)
       end
     end
 
     desc "Announce on Slack the deploy has finished"
     task :slack_message_done do
-      if ENV['SLACK_NOTIFICATIONS'] == 'true'
-        annoucer = SlackAnnouncer.new(ENV['ORGANISATION'], ENV['BADGER_SLACK_WEBHOOK_URL'])
+      if ENV["SLACK_NOTIFICATIONS"] == "true"
+        annoucer = SlackAnnouncer.new(ENV["ORGANISATION"], ENV["BADGER_SLACK_WEBHOOK_URL"])
         annoucer.announce_done(repo_name, application)
       end
     end
 
     desc "Record the deployment as a Graphite event"
     task :graphite_event do
-      require 'json'
-      require 'net/http'
-      require 'uri'
+      require "json"
+      require "net/http"
+      require "uri"
 
       begin
-        graphite_protocol = ENV['GRAPHITE_PORT'] == '443' ? 'https' : 'http'
+        graphite_protocol = ENV["GRAPHITE_PORT"] == "443" ? "https" : "http"
         url = URI.parse("#{graphite_protocol}://#{ENV['GRAPHITE_HOST']}/events/")
 
         req = Net::HTTP::Post.new(url.path)
-        req["Content-Type"] = 'application/json'
-        req.body = { what: 'deploy',
+        req["Content-Type"] = "application/json"
+        req.body = { what: "deploy",
                      tags: "#{application} #{ENV['ORGANISATION']} deploys",
                      data: "#{branch} #{current_revision[0, 7]} #{ENV['BUILD_USER']}" }.to_json
-        req.basic_auth(ENV['GRAPHITE_USER'], ENV['GRAPHITE_PASSWORD'])
+        req.basic_auth(ENV["GRAPHITE_USER"], ENV["GRAPHITE_PASSWORD"])
         conn = Net::HTTP.new(url.host, url.port)
-        conn.use_ssl = true if graphite_protocol == 'https'
+        conn.use_ssl = true if graphite_protocol == "https"
         conn.request(req)
-      rescue => e
+      rescue StandardError => e
         puts "Graphite notification failed: #{e.message}"
       end
     end
@@ -126,7 +126,7 @@ namespace :deploy do
     end
 
     task :docker, only: { primary: true } do
-      if !ENV['DOCKER_HUB_USERNAME'] || !ENV['DOCKER_HUB_PASSWORD']
+      if !ENV["DOCKER_HUB_USERNAME"] || !ENV["DOCKER_HUB_PASSWORD"]
         # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
         puts "DOCKER TAG FAILED: Could not tag Docker image as credentials for Docker Hub were unavailable"
         next
@@ -135,7 +135,7 @@ namespace :deploy do
       begin
         repo = "govuk/#{application}"
 
-        pusher = DockerTagPusher.new(ENV['DOCKER_HUB_USERNAME'], ENV['DOCKER_HUB_PASSWORD'])
+        pusher = DockerTagPusher.new(ENV["DOCKER_HUB_USERNAME"], ENV["DOCKER_HUB_PASSWORD"])
 
         if !pusher.has_repo?(repo)
           puts "Didn't create docker tag as there is not a #{repo} repo"
@@ -153,14 +153,14 @@ namespace :deploy do
 
     desc "Makes a copy of the deployed artefact in the S3 bucket for future deployments"
     task :copy_artefact do
-      if ENV['USE_S3']
-        s3 = Aws::S3::Client.new(region: ENV['AWS_DEFAULT_REGION'])
+      if ENV["USE_S3"]
+        s3 = Aws::S3::Client.new(region: ENV["AWS_DEFAULT_REGION"])
 
-        unless ENV['TAG'] == "deployed-to-#{ENV['ORGANISATION']}"
+        unless ENV["TAG"] == "deployed-to-#{ENV['ORGANISATION']}"
           source_key = "#{application}/#{ENV['TAG']}/#{application}"
           target_key = "#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
-          s3.copy_object({ :bucket => ENV['S3_ARTEFACT_BUCKET'],
-                           :copy_source => ENV['S3_ARTEFACT_BUCKET'] + '/' + source_key,
+          s3.copy_object({ :bucket => ENV["S3_ARTEFACT_BUCKET"],
+                           :copy_source => ENV["S3_ARTEFACT_BUCKET"] + "/" + source_key,
                            :key => target_key })
           puts "Copying file #{source_key} to #{target_key}."
         end
