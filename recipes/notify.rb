@@ -46,6 +46,8 @@ namespace :deploy do
 
             form_data = {
               "repo" => repository,
+              "application_by_name" => application_by_name,
+              "application_name" => application,
               "deployment[environment]" => deployed_to_environment,
               "deployment[jenkins_user_email]" => ENV["BUILD_USER_EMAIL"],
               "deployment[jenkins_user_name]" => ENV["BUILD_USER"],
