@@ -33,8 +33,14 @@ namespace :deploy do
   task :restart_harvest_fetch_process do
     run "sudo initctl restart harvester_fetch_consumer-procfile-worker || sudo initctl start harvester_fetch_consumer-procfile-worker"
   end
+
+  desc "Restart pycsw web process"
+  task :restart_pycsw_web_process do
+    run "sudo initctl restart pycsw_web-procfile-worker || sudo initctl start pycsw_web-procfile-worker"
+  end
 end
 
 after "deploy:create_symlink", "deploy:install_package"
 after "deploy:restart", "deploy:restart_harvest_gather_process"
 after "deploy:restart", "deploy:restart_harvest_fetch_process"
+after "deploy:restart", "deploy:restart_pycsw_web_process"
