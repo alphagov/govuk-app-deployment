@@ -3,20 +3,21 @@ load "notify"
 
 require "slack_announcer"
 
-set :branch,         ENV["TAG"] || "master"
-set :deploy_to,      "/data/apps/#{application}"
-set :deploy_via,     :rsync_with_remote_cache
-set :organisation,   ENV["ORGANISATION"]
-set :keep_releases,  2
-set :rake,           "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
-set :repo_name,      fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
-set :repository,     "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}"
+set :branch,              ENV["TAG"] || "master"
+set :deploy_to,           "/data/apps/#{application}"
+set :deploy_via,          :rsync_with_remote_cache
+set :organisation,        ENV["ORGANISATION"]
+set :keep_releases,       2
+set :rake,                "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
+set :repo_name,           fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
+set :repository,          "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}"
 
-set :scm,            :git
-set :ssh_options,    { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :verify_host_key => :never }
-set :use_sudo,       false
-set :user,           "deploy"
-set :dockerhub_repo, "govuk"
+set :scm,                 :git
+set :ssh_options,         { :forward_agent => true, :keys => "#{ENV['HOME']}/.ssh/id_rsa", :verify_host_key => :never }
+set :use_sudo,            false
+set :user,                "deploy"
+set :dockerhub_repo,      "govuk"
+set :application_by_name, false
 
 # Always run deploy:setup on every server as it's idempotent
 after "deploy:set_servers", "deploy:setup"

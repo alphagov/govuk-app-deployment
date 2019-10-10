@@ -29,6 +29,7 @@ set :deploy_to, "/data/vhost/#{application}"
 set :repository, "git@github.com:alphagov/licensify"
 set :custom_git_tag, "#{application}-deployed-to-#{ENV['ORGANISATION']}"
 set :branch, ENV["TAG"] ? new_tag : "master"
+set :application_by_name, true
 
 namespace :deploy do
   desc "transfer app from S3 to remote servers."
