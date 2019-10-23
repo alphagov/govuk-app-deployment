@@ -13,8 +13,6 @@ set :db_config_file, false
 set :rails_env, "production"
 set :source_db_config_file, false
 
-set :rsync_options, "-az --delete --exclude '.git/' -v --delete-excluded --exclude 'test/artefacts/'"
-
 namespace :deploy do
   task :cold do
     puts "There's no cold task for this project, just deploy normally"
