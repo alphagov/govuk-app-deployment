@@ -5,8 +5,9 @@
 # "requirements.txt" at the root of your repository. For the sake of simplicity,
 # the latter is usually desirable.
 
-set :shared_children, shared_children + %w(venv)
-set :virtualenv_name, "venv"
+set :virtualenv_name, fetch(:virtualenv_name, "venv")
+set :shared_children, shared_children + [virtualenv_name]
+set :virtualenv_python_binary, fetch(:virtualenv_python_binary, "python")
 set(:virtualenv_path) { "#{shared_path}/#{virtualenv_name}" }
 set :sleep_after_server_start, 1
 
@@ -24,7 +25,7 @@ namespace :deploy do
                       else
                         ""
                       end
-    run "test -f '#{virtualenv_path}/bin/python' || virtualenv -q #{setuptools_flag} --no-site-packages '#{virtualenv_path}'"
+    run "test -f '#{virtualenv_path}/bin/python' || virtualenv -p #{virtualenv_python_binary} -q #{setuptools_flag} --no-site-packages '#{virtualenv_path}'"
   end
 
   task :install_deps, :roles => :app do
