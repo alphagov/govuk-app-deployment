@@ -1,3 +1,7 @@
+inherit_gem:
+  rubocop-govuk:
+    - config/default.yml
+
 # The old-style hash syntax is often used in capistrano scripts. New hash-syntax
 # is not more readable here, so allow both styles.
 Style/HashSyntax:

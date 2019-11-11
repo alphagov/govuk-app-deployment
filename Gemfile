@@ -8,9 +8,9 @@ gem "capistrano_rsync_with_remote_cache",
 gem "railsless-deploy", :require => false
 
 gem "aws-sdk-s3"
-gem "govuk-lint", "4.0.0"
 gem "http", "~> 3.0"
 gem "rake"
+gem "rubocop-govuk"
 gem "webmock"
 gem "whenever", "0.7.3"
 
