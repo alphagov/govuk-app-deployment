@@ -2,48 +2,6 @@
 
 library("govuk")
 
-REPOSITORY = 'govuk-app-deployment'
-
 node {
-
-  properties([
-    buildDiscarder(
-      logRotator(
-        numToKeepStr: '50')
-      ),
-    [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
-  ])
-
-  try {
-    stage("Checkout") {
-      govuk.checkoutFromGitHubWithSSH(REPOSITORY)
-    }
-
-    stage("Clean up workspace") {
-      govuk.cleanupGit()
-    }
-
-    stage("Merge master") {
-      govuk.mergeMasterBranch()
-    }
-
-    stage("bundle install") {
-      govuk.bundleApp()
-    }
-
-    stage("Lint Ruby") {
-      govuk.rubyLinter("*/*")
-    }
-
-    stage("Tests") {
-      govuk.runTests()
-    }
-  } catch (e) {
-    currentBuild.result = "FAILED"
-    step([$class: 'Mailer',
-          notifyEveryUnstableBuild: true,
-          recipients: 'govuk-ci-notifications@digital.cabinet-office.gov.uk',
-          sendToIndividuals: true])
-    throw e
-  }
+  govuk.buildProject()
 }
