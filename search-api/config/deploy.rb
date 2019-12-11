@@ -37,6 +37,11 @@ namespace :deploy do
   task :restart_published_content_bulk_reindex_listener do
     run "sudo initctl restart search-api-bulk-reindex-queue-listener-procfile-worker || sudo initctl start search-api-bulk-reindex-queue-listener-procfile-worker"
   end
+
+  desc "Fetch latest learn to rank model"
+  task :pull_latest_ltr_model do
+    run "cd #{current_release}; #{rake} RACK_ENV=#{rack_env} learn_to_rank:pull_model"
+  end
 end
 
 after "deploy:restart", "deploy:restart_procfile_worker"
