@@ -34,6 +34,11 @@ namespace :deploy do
     restart
   end
 
+  desc "Performs a bundle clean to remove used gems"
+  task :clean_old_dependencies do
+    run "cd #{current_path} && #{bundle_cmd} clean" unless current_path.nil? || current_path.empty?
+  end
+
   task :notify_ruby_version do
     run "cd #{latest_release} && ruby -v"
   end
@@ -79,6 +84,7 @@ namespace :deploy do
   end
 end
 
+before "deploy:update_code", "deploy:clean_old_dependencies"
 after "deploy:update_code", "deploy:notify_ruby_version"
 after "deploy:finalize_update", "deploy:upload_initializers"
 after "deploy:upload_config", "deploy:upload_organisation_config"
