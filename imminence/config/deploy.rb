@@ -18,6 +18,5 @@ set :copy_exclude, [
   "public/templates",
 ]
 
-after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:symlink", "deploy:seed_db"
 after "deploy:restart", "deploy:restart_procfile_worker"
