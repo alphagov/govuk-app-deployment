@@ -18,5 +18,3 @@ set :copy_exclude, [
   "public/stylesheets",
   "public/templates",
 ]
-
-after "deploy:upload_initializers"
