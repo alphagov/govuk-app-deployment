@@ -41,23 +41,12 @@ namespace :deploy do
       # Get list of machines in the node class from Puppetmaster, using the
       # govuk_node_list command.
       begin
-        all_nodes_in_class = %x{govuk_node_list -c "#{c}"}.split
-        if all_nodes_in_class.empty?
+        nodes = %x{govuk_node_list -c "#{c}"}.split
+        if nodes.empty?
           raise CommandError.new("set_servers: no servers with class '#{c}' in this environment!")
         end
       rescue Errno::ENOENT
         raise CommandError.new("set_servers: govuk_node_list is not available!")
-      end
-
-      target_machines = ENV.fetch('TARGET_MACHINES', '')
-      if target_machines == 'all' || target_machines == ''
-        nodes = all_nodes_in_class
-      else
-        specified_nodes = target_machines.split(/\s*,\s*/)
-        # Exclude any machines which aren't in the current node class. This
-        # avoids deploying whitehall-admin to a whitehall_frontend machine, for
-        # example.
-        nodes = (specified_nodes.to_set & all_nodes_in_class.to_set).to_a
       end
 
       nodes.each_with_index do |node, index|
