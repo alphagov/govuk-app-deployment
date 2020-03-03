@@ -16,7 +16,20 @@ namespace :deploy do
   task :stop do; end
 
   task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
-    run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}; sleep #{sleep_after_server_start}"
+    if fetch(:perform_hard_restart, false)
+      # hard-restart is a non-graceful restart of the app.  This has the advantage
+      # of being immediate, and blocking.  Used by some of the post data-syncing
+      # scripts
+      run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
+    else
+      run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
+    end
+  end
+
+  desc "A non-graceful restart of the app. Useful for changing Python version"
+  task :hard_restart do
+    set(:perform_hard_restart, true)
+    restart
   end
 
   task :create_virtualenv, :roles => :app do
