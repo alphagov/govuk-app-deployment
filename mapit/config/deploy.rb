@@ -14,12 +14,6 @@ namespace :deploy do
     run_django_command("migrate --noinput")
   end
 
-  task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
-    # Override task from python recipe which invokes 'initctl restart' rather
-    # than 'reload' which plays nicely with unicornherder
-    run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application};"
-  end
-
   task :install_deps, :roles => :app do
     # Override task from python recipe, which appends '-e .' to requirements.txt
     # However, '.' only works if `pip` is run from `release_path`, which its not
