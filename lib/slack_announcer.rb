@@ -1,20 +1,14 @@
 require "http"
 
 class SlackAnnouncer
-  GRAFANA_TIMEOUT = 5
-
-  def initialize(environment_name, slack_url, grafana_timeout: GRAFANA_TIMEOUT)
+  def initialize(environment_name, slack_url)
     @environment_name = environment_name
     @slack_url = slack_url
-    @grafana_timeout = grafana_timeout
   end
 
   def announce_start(repo_name, application, slack_channel = "#govuk-deploy")
     text = "#{environment_emoji} :mega: #{version_and_link(repo_name, application)} " \
            "is being deployed to *#{@environment_name}* by #{build_user}"
-
-    url = dashboard_url(dashboard_host_name, repo_name)
-    text += " (<#{url}|check dashboard>)" if url
 
     post_text(slack_channel, text)
   end
@@ -56,24 +50,5 @@ class SlackAnnouncer
 
   def build_user
     ENV.fetch("BUILD_USER", "Jenkins")
-  end
-
-  def dashboard_host_name
-    {
-      "production" => "grafana.publishing.service.gov.uk",
-      "staging" => "grafana.staging.publishing.service.gov.uk",
-    }[@environment_name]
-  end
-
-  def dashboard_url(host_name, application_name)
-    Timeout.timeout(@grafana_timeout) do
-      url = "https://#{host_name}/api/dashboards/file/deployment_#{application_name}.json"
-      return nil unless (200..399).cover?(HTTP.get(url).code)
-
-      "https://#{host_name}/dashboard/file/deployment_#{application_name}.json"
-    end
-  rescue StandardError => e
-    puts "Unable to connect to grafana server: #{e.message}"
-    nil
   end
 end
