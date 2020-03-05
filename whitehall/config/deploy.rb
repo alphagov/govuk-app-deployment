@@ -61,7 +61,7 @@ namespace :deploy do
 
     task :rsync_local_assets, roles => :web, :except => { :no_release => true } do
       find_servers.each do |server|
-        puts run_locally "cd #{strategy.local_cache_path} && rsync -avK ./public/government/ #{user}@#{server}:#{shared_path}/assets/;"
+        puts run_locally "cd #{strategy.local_cache_path} && rsync -aK ./public/government/ #{user}@#{server}:#{shared_path}/assets/;"
       end
     end
   end
