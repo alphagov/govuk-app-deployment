@@ -12,5 +12,4 @@ load "govuk_admin_template"
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
-after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:symlink", "deploy:create_mongoid_indexes"
