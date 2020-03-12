@@ -7,16 +7,6 @@ inherit_gem:
 Style/HashSyntax:
   Enabled: false
 
-# Not using braces around hashes makes the capistrano DSL look a bit odd, when
-# using hashes with strings as the second argument. For example, this is better
-# with the braces:
-#
-# set :config_files_to_upload, {
-#   "to_upload/redis.yml" => "config/redis.yml",
-# }
-Style/BracesAroundHashParameters:
-  Enabled: false
-
 # People understand heredoc EOF/EOS syntax as it is.
 Naming/HeredocDelimiterNaming:
   Enabled: false

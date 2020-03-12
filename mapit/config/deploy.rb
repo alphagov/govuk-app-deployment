@@ -30,8 +30,8 @@ namespace :deploy do
   end
 
   def run_django_command(command)
-    run "cd #{release_path} && govuk_setenv #{application} #{shared_path}/venv/bin/python manage.py #{command} --settings=project.settings"
+    run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/python manage.py #{command} --settings=project.settings"
   end
 end
 
-before "deploy:finalize_update", "deploy:upload_configuration", "deploy:migrate"
+before "deploy:finalize_update", "deploy:upload_configuration"
