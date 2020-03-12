@@ -34,4 +34,4 @@ namespace :deploy do
   end
 end
 
-before "deploy:finalize_update", "deploy:upload_configuration", "deploy:migrate"
+before "deploy:finalize_update", "deploy:upload_configuration"
