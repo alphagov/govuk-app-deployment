@@ -13,3 +13,4 @@ set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
 after "deploy:symlink", "deploy:create_mongoid_indexes"
+after "deploy:restart", "deploy:restart_procfile_worker"
