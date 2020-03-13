@@ -52,7 +52,7 @@ namespace :deploy do
     end
 
     task :assets_precompile_locally, roles => :web, :except => { :no_release => true } do
-      puts run_locally "cd #{strategy.local_cache_path}; SKIP_OBSERVERS_FOR_ASSET_TASKS=true govuk_setenv default bundle exec rake assets:precompile --trace"
+      puts run_locally "cd #{strategy.local_cache_path}; SKIP_OBSERVERS_FOR_ASSET_TASKS=true SECRET_KEY_BASE=secret govuk_setenv default bundle exec rake assets:precompile --trace"
     end
 
     task :mustache_precompile_locally, roles => :web, :except => { :no_release => true } do
