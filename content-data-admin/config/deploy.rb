@@ -13,4 +13,3 @@ set :copy_exclude, [
 ]
 
 after "deploy:restart", "deploy:restart_procfile_worker"
-after "deploy:upload_initializers", "deploy:symlink_mailer_config"
