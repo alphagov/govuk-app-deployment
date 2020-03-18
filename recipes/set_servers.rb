@@ -50,11 +50,13 @@ namespace :deploy do
       end
 
       nodes.each_with_index do |node, index|
+        puts "EACH WITH INDEX #{node}"
         is_draft_server = !!(c =~ /^draft/)
         parent.server node, *extra[:roles], :server_class => c, :primary => index.zero?, :draft => is_draft_server
       end
 
       nodes_to_deploy = find_servers(:only => { :server_class => c }).map do |server|
+        puts "FIND SERVERS #{server}"
         opts = server.options[:primary] ? " (primary)" : ""
         "#{server.host}#{opts}"
       end
