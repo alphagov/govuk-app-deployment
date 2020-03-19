@@ -16,3 +16,5 @@ set :copy_exclude, [
   "public/stylesheets",
   "public/templates",
 ]
+
+after "deploy:restart", "deploy:restart_procfile_worker"
