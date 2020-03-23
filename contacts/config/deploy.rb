@@ -16,7 +16,6 @@ set :assets_prefix, "contacts-assets"
 
 require "whenever/capistrano"
 set :whenever_command, "bundle exec whenever"
-set :whenever_roles, [:backend]
 
 set :copy_exclude, [
   ".git/*",
