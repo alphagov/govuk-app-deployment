@@ -59,8 +59,6 @@ namespace :deploy do
         "#{server.host}#{opts}"
       end
 
-      raise CommandError.new("set_servers: no nodes found!") if nodes_to_deploy.empty?
-
       logger.info "set_servers: deploying to #{c} => #{nodes_to_deploy.join(', ')}"
     end
   end
