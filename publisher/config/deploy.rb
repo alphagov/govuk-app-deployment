@@ -33,7 +33,6 @@ namespace :deploy do
 end
 
 after "deploy:update_code", "deploy:create_reports_symlink"
-after "deploy:upload_initializers", "deploy:symlink_mailer_config"
 after "deploy:migrate", "deploy:create_mongoid_indexes"
 after "deploy:migrate", "deploy:seed_db"
 after "deploy:restart", "deploy:restart_procfile_worker"
