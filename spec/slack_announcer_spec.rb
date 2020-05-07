@@ -16,7 +16,7 @@ RSpec.describe SlackAnnouncer do
     ENV.delete("BUILD_USER")
   end
 
-  %w(staging production).each do |environment_name|
+  %w[staging production].each do |environment_name|
     it "annouces a #{environment_name} deploy to slack" do
       expect(HTTP).to receive(:post) do |url, params|
         expect(url).to eq("http://slack.url")
@@ -61,7 +61,7 @@ RSpec.describe SlackAnnouncer do
     announcer.announce_done("application", "Application", "#some_other_channel")
   end
 
-  %w(staging production).each do |environment_name|
+  %w[staging production].each do |environment_name|
     it "annouces a #{environment_name} deployment starting to slack" do
       expect(HTTP).to receive(:post) do |url, params|
         expect(url).to eq("http://slack.url")

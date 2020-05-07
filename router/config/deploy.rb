@@ -3,12 +3,12 @@ require "digest"
 
 set :application, "router"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
-set :server_class, %w(cache draft_cache)
+set :server_class, %w[cache draft_cache]
 
 # Use the build number from the release tag if given
 # Otherwise, this will fall back to using the lastSuccessfulBuild below.
 if ENV["TAG"] =~ /\Arelease_(\d+)\z/
-  set :artefact_number, $1
+  set :artefact_number, Regexp.last_match(1)
 end
 
 load "defaults"

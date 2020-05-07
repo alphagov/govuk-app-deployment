@@ -36,7 +36,7 @@ def fetch_from_s3_to_tempfile(bucket, key)
 
   object = {
     :bucket => bucket,
-    :key    => key,
+    :key => key,
   }
 
   s3.get_object(object, target: file)

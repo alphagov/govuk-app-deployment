@@ -7,7 +7,7 @@ set :server_class, "licensing_frontend"
 # Use the build number from the release tag if given
 # Otherwise, this will fall back to using the lastSuccessfulBuild below.
 if ENV["TAG"] =~ /\Arelease_(\d+)\z/
-  set :artefact_number, $1
+  set :artefact_number, Regexp.last_match(1)
 end
 
 # the `deployed-to-#{environment}` tags needs to appended with the application

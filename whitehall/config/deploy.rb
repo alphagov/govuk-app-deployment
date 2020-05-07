@@ -115,6 +115,5 @@ namespace :db do
   end
 end
 
-
 after "deploy:finalize_update", "deploy:symlink_uploads"
 after "deploy:restart_backend", "deploy:restart_workers"

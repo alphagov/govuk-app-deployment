@@ -155,7 +155,6 @@ namespace :app do
     deploy.restart
   end
 
-
   desc "Hard restart the application without a deployment"
   task :hard_restart do
     deploy.hard_restart

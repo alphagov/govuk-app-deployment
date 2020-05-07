@@ -1,7 +1,7 @@
 set :application, "mapit"
 set :server_class, "mapit"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
-set :shared_children, shared_children + %w(log)
+set :shared_children, shared_children + %w[log]
 
 set :virtualenv_name, "venv3"
 set :virtualenv_python_binary, "python3.5"

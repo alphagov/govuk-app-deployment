@@ -12,8 +12,8 @@ set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano" # This hooks a task to run before deploy:finalize_update
 
 set :copy_exclude, [
- ".git/*",
- "public/**/*",
+  ".git/*",
+  "public/**/*",
 ]
 
 namespace :deploy do
