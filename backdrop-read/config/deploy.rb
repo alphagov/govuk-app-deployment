@@ -2,7 +2,7 @@ set :application, "backdrop-read"
 set :repo_name, "backdrop"
 set :server_class, "api"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
-set :shared_children, shared_children + %w(log)
+set :shared_children, shared_children + %w[log]
 
 load "defaults"
 load "python"

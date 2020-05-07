@@ -3,7 +3,7 @@
 # In order for this to work for your node application, you will need to
 # specify your dependencies in a packages.json at the root of your repository.
 
-set :shared_children, shared_children + %w(log)
+set :shared_children, shared_children + %w[log]
 
 namespace :deploy do
   task :start do; end
@@ -33,8 +33,8 @@ namespace :deploy do
       if dir.rindex("/")
         commands += ["rm -rf -- #{release_path}/#{d}",
                      "mkdir -p -- #{release_path}/#{dir.slice(0...(dir.rindex('/'))).shellescape}"]
-          # When symlinking we need to be sure this doesn't have a
-          # trailing slash
+        # When symlinking we need to be sure this doesn't have a
+        # trailing slash
         dir = dir.slice(0...(dir.rindex("/")))
         d = dir.shellescape
       else

@@ -41,7 +41,7 @@ namespace :deploy do
       # Get list of machines in the node class from Puppetmaster, using the
       # govuk_node_list command.
       begin
-        nodes = %x{govuk_node_list -c "#{c}"}.split
+        nodes = %x(govuk_node_list -c "#{c}").split
         if nodes.empty?
           raise CommandError.new("set_servers: no servers with class '#{c}' in this environment!")
         end

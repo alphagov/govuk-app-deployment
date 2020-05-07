@@ -1,6 +1,6 @@
 load "deploy"
 
-$:.unshift(File.expand_path("../lib", __dir__))
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 load_paths << File.expand_path("../recipes", __dir__)
 
 load "config/deploy"

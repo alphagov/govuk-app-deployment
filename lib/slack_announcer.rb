@@ -21,7 +21,7 @@ class SlackAnnouncer
   end
 
   def post_text(slack_channel, text)
-    return unless %w(production staging).include?(@environment_name)
+    return unless %w[production staging].include?(@environment_name)
 
     message_payload = {
       username: "Badger",
