@@ -105,6 +105,8 @@ namespace :deploy do
   end
 end
 
+after "deploy:upload_initializers", "deploy:symlink_mailer_config"
+
 namespace :db do
   desc "Run data migrations"
   task :migrate_data, roles: [:db], only: { :primary => true } do
