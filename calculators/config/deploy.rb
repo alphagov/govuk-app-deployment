@@ -6,7 +6,6 @@ load "defaults"
 load "ruby"
 
 load "deploy/assets"
-set :assets_prefix, "calculators"
 
 set :db_config_file, false
 set :rails_env, "production"
