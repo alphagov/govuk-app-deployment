@@ -7,7 +7,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-set :assets_prefix, "smartanswers"
 set :bundle_without, %i[development test webkit]
 set :db_config_file, false
 set :rails_env, "production"

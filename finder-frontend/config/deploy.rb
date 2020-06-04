@@ -6,7 +6,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-set :assets_prefix, "finder-frontend"
 set :rails_env, "production"
 set :source_db_config_file, false
 set :db_config_file, false

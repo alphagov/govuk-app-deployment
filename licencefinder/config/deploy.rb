@@ -7,7 +7,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-set :assets_prefix, "licencefinder"
 set :rails_env, "production"
 set :bundle_without, %i[development test webkit]
 
