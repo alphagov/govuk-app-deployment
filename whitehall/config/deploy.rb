@@ -1,5 +1,4 @@
 set :application, "whitehall"
-set :assets_prefix, "government"
 set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 
 set :run_migrations_by_default, true
