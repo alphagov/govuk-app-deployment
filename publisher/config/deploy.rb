@@ -18,12 +18,8 @@ set :copy_exclude, [
   "public/templates",
 ]
 
-# cronjobs should be disabled in the staging organisation, to prevent it collecting
-# production fact-check emails for example.
-if ENV["ORGANISATION"] == "production" || ENV["ORGANISATION"] == "integration"
-  set :whenever_command, "bundle exec whenever"
-  require "whenever/capistrano"
-end
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 namespace :deploy do
   desc "Create a symlink from the latest_release path to the /data/uploads directory"
