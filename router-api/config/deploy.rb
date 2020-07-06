@@ -7,7 +7,7 @@ set :server_class, %w[draft_cache router_backend]
 set :router_server_class, "cache"
 set :router_reload_port, 3055
 
-set :run_migrations_by_default, true
+set :run_migrations_by_default, false
 
 load "defaults"
 load "ruby"
