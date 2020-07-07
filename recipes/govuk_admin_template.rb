@@ -15,6 +15,9 @@ namespace :govuk_admin_template do
     when "test"
       environment_style = "test"
       environment_label = "Test"
+    else
+      environment_style = "preview"
+      environment_label = "Preview"
     end
 
     template = ERB.new <<~EOT
