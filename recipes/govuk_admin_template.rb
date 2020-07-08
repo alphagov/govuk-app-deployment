@@ -12,6 +12,12 @@ namespace :govuk_admin_template do
       # and most/all apps have been upgraded the style should be changed here.
       environment_style = "preview"
       environment_label = "Integration"
+    when "test"
+      environment_style = "test"
+      environment_label = "Test"
+    else
+      environment_style = "preview"
+      environment_label = "Preview"
     end
 
     template = ERB.new <<~EOT
