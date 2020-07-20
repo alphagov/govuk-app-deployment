@@ -2,7 +2,12 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
+desc "Lint Ruby"
+task :lint do
+  sh "bundle exec rubocop"
+end
+
+task default: %i[spec lint]
 
 desc "Send a test deploy message to #bot-testing to see what it looks like"
 task :test_slack do
