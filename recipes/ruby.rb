@@ -6,7 +6,6 @@ set :default_environment, {
   "PATH" => "/usr/lib/rbenv/shims:$PATH",
 }
 
-set :bundle_cmd, "bundle"
 set(:source_db_config_file, "secrets/to_upload/database.yml") unless fetch(:source_db_config_file, false)
 set(:db_config_file, "config/database.yml") unless fetch(:db_config_file, false)
 set(:rack_env,  :production)
@@ -36,7 +35,7 @@ namespace :deploy do
 
   desc "Performs a bundle clean to remove used gems"
   task :clean_old_dependencies do
-    run "if [ -d #{current_path} ] && #{bundle_cmd} check; then cd #{current_path} && #{bundle_cmd} clean; fi" unless current_path.nil? || current_path.empty?
+    run "if [ -d #{current_path} ]; then cd #{current_path} && bundle check && bundle clean; fi" unless current_path.nil? || current_path.empty?
   end
 
   task :notify_ruby_version do
