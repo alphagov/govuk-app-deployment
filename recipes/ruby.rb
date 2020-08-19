@@ -69,10 +69,6 @@ namespace :deploy do
     end
   end
 
-  task :symlink_mailer_config do
-    run "ln -sf /etc/govuk/actionmailer_ses_smtp_config.rb #{release_path}/config/initializers/mailer.rb"
-  end
-
   task :create_mongoid_indexes, :only => { :primary => true } do
     run "cd #{current_release}; #{rake} db:mongoid:create_indexes"
   end
