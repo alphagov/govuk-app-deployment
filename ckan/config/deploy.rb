@@ -26,17 +26,20 @@ namespace :deploy do
 
   desc "Restart harvest gather process"
   task :restart_harvest_gather_process do
-    run "sudo initctl restart harvester_gather_consumer-procfile-worker || sudo initctl start harvester_gather_consumer-procfile-worker"
+    # Only attempt to restart the process if it appears in the list of processes that initctl knows about.
+    run "{ ! sudo initctl list | grep harvester_gather_consumer-procfile-worker; } || sudo initctl restart harvester_gather_consumer-procfile-worker || sudo initctl start harvester_gather_consumer-procfile-worker"
   end
 
   desc "Restart harvest fetch process"
   task :restart_harvest_fetch_process do
-    run "sudo initctl restart harvester_fetch_consumer-procfile-worker || sudo initctl start harvester_fetch_consumer-procfile-worker"
+    # Only attempt to restart the process if it appears in the list of processes that initctl knows about.
+    run "{ ! sudo initctl list | grep harvester_fetch_consumer-procfile-worker; } || sudo initctl restart harvester_fetch_consumer-procfile-worker || sudo initctl start harvester_fetch_consumer-procfile-worker"
   end
 
   desc "Restart pycsw web process"
   task :restart_pycsw_web_process do
-    run "sudo initctl restart pycsw_web-procfile-worker || sudo initctl start pycsw_web-procfile-worker"
+    # Only attempt to restart the process if it appears in the list of processes that initctl knows about.
+    run "{ ! sudo initctl list | grep pycsw_web-procfile-worker; } || sudo initctl restart pycsw_web-procfile-worker || sudo initctl start pycsw_web-procfile-worker"
   end
 end
 
