@@ -1,4 +1,4 @@
-source "http://rubygems.org/"
+source "https://rubygems.org/"
 
 gem "capistrano", "2.9.0"
 gem "capistrano_rsync_with_remote_cache",
