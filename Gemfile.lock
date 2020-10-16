@@ -75,7 +75,7 @@ GEM
       net-ssh (>= 2.6.5, < 7.0.0)
     net-sftp (3.0.0)
       net-ssh (>= 5.0.0, < 7.0.0)
-    net-ssh (6.1.0)
+    net-ssh (5.2.0)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     parallel (1.19.1)
@@ -153,6 +153,7 @@ DEPENDENCIES
   capistrano (= 2.15.9)
   capistrano_rsync_with_remote_cache!
   http (~> 3.0)
+  net-ssh (< 6.0)
   railsless-deploy
   rake
   rspec
