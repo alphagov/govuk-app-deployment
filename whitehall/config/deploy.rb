@@ -87,7 +87,7 @@ namespace :deploy do
     if fetch(:perform_hard_restart, false)
       run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
     else
-      run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+      run "sudo initctl start whitehall 2>/dev/null || sudo govuk_unicorn_reload whitehall"
     end
   end
 
@@ -95,7 +95,7 @@ namespace :deploy do
     if fetch(:perform_hard_restart, false)
       run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
     else
-      run "sudo initctl start whitehall 2>/dev/null || sudo initctl reload whitehall"
+      run "sudo initctl start whitehall 2>/dev/null || sudo govuk_unicorn_reload whitehall"
     end
   end
 

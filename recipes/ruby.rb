@@ -15,7 +15,7 @@ set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake
 namespace :deploy do
   task :start do; end
   task :stop do; end
-  task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
+  task :restart, :roles => :app, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     if fetch(:perform_hard_restart, false)
       # hard-restart is a non-graceful restart of the app.  This has the advantage
@@ -23,7 +23,7 @@ namespace :deploy do
       # scripts
       run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
     else
-      run "sudo initctl start #{application} 2>/dev/null || sudo initctl reload #{application}"
+      run "sudo initctl start #{application} 2>/dev/null || sudo govuk_unicorn_reload #{application}"
     end
   end
 
