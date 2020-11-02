@@ -21,7 +21,7 @@ namespace :docker do
 
   desc "Pull the docker image using a specific tag"
   task :pull do
-    run "sudo docker image pull #{dockerhub_repo}/#{application}:#{branch}"
+    run "sudo docker login; sudo docker image pull #{dockerhub_repo}/#{application}:#{branch}"
   end
 
   desc "Tag the image to use the 'current' tag"
