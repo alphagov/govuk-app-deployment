@@ -35,7 +35,12 @@ namespace :deploy do
 
   desc "Performs a bundle clean to remove used gems"
   task :clean_old_dependencies do
-    run "if [ -d #{current_path} ]; then cd #{current_path} && bundle check && bundle clean; fi" unless current_path.nil? || current_path.empty?
+    command = "if [ -d #{current_path} ]; then "\
+                "cd #{current_path}; "\
+                "if bundle check; then bundle clean; fi "\
+              "fi"
+
+    run(command) unless current_path.nil? || current_path.empty?
   end
 
   task :notify_ruby_version do
