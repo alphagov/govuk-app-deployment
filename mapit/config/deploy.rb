@@ -17,7 +17,7 @@ namespace :deploy do
   task :install_deps, :roles => :app do
     # Override task from python recipe, which appends '-e .' to requirements.txt
     # However, '.' only works if `pip` is run from `release_path`, which its not
-    run "'#{virtualenv_path}/bin/pip' install --download-cache '#{shared_path}/download-cache' --exists-action=w -r '#{release_path}/requirements.txt'"
+    run "'#{virtualenv_path}/bin/pip' install --exists-action=w -r '#{release_path}/requirements.txt'"
   end
 
   task :upload_configuration do
