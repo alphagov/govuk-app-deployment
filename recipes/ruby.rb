@@ -21,9 +21,9 @@ namespace :deploy do
       # hard-restart is a non-graceful restart of the app.  This has the advantage
       # of being immediate, and blocking.  Used by some of the post data-syncing
       # scripts
-      run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"
+      run "sudo govuk_supervised_initctl start #{application} || sudo govuk_supervised_initctl restart #{application}"
     else
-      run "sudo initctl start #{application} 2>/dev/null || sudo govuk_unicorn_reload #{application}"
+      run "sudo govuk_supervised_initctl start #{application} || sudo govuk_supervised_initctl reload #{application}"
     end
   end
 
