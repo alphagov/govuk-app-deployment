@@ -9,28 +9,28 @@ Create a new directory for your app based on one of the other apps e.g.
 ```
 # Capfile
 
-load 'deploy'
+load "deploy"
 
-$:.unshift(File.expand_path('../../lib', __FILE__))
-load_paths << File.expand_path('../../recipes', __FILE__)
+$:.unshift(File.expand_path("../../lib", __FILE__))
+load_paths << File.expand_path("../../recipes", __FILE__)
 
-load 'config/deploy'
+load "config/deploy"
 ```
 
 ```
 # config/deploy.rb
 
 set :application, "myapp"
-set :capfile_dir, File.expand_path('../', File.dirname(__FILE__))
+set :capfile_dir, File.expand_path("../", File.dirname(__FILE__))
 set :server_class, "myserverclass"
 set :repository, "git@github.com/alphagov/myapp.git"
 
-load 'defaults'
-load 'ruby'
-load 'deploy/assets'
+load "defaults"
+load "ruby"
+load "deploy/assets"
 
 set :copy_exclude, [
-  '.git/*'
+  ".git/*",
 ]
 ```
 
