@@ -85,17 +85,17 @@ namespace :deploy do
 
   task :restart_frontend, roles: [:frontend], except: { no_release: true } do
     if fetch(:perform_hard_restart, false)
-      run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
+      run "sudo govuk_supervised_initctl start whitehall || sudo govuk_supervised_initctl restart whitehall"
     else
-      run "sudo initctl start whitehall 2>/dev/null || sudo govuk_unicorn_reload whitehall"
+      run "sudo govuk_supervised_initctl start whitehall || sudo govuk_supervised_initctl reload whitehall"
     end
   end
 
   task :restart_backend, roles: [:backend], except: { no_release: true } do
     if fetch(:perform_hard_restart, false)
-      run "sudo initctl start whitehall 2>/dev/null || sudo initctl restart whitehall"
+      run "sudo govuk_supervised_initctl start whitehall || sudo govuk_supervised_initctl restart whitehall"
     else
-      run "sudo initctl start whitehall 2>/dev/null || sudo govuk_unicorn_reload whitehall"
+      run "sudo govuk_supervised_initctl start whitehall || sudo govuk_supervised_initctl reload whitehall"
     end
   end
 
