@@ -19,10 +19,6 @@ set :user,                "deploy"
 set :dockerhub_repo,      "govuk"
 set :application_by_name, false
 
-# This changes what is written to the REVISION file from the Git SHA to a more
-# human-readable string.
-set :real_revision,       fetch(:branch)
-
 # Always run deploy:setup on every server as it's idempotent
 after "deploy:set_servers", "deploy:setup"
 
