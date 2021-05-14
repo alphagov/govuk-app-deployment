@@ -98,10 +98,17 @@ namespace :deploy do
       put(database_yaml, File.join(release_path, db_config_file))
     end
   end
+
+  task :write_revision_file do
+    # We're overwriting the default Capistrano behaviour of writing a SHA to get a more
+    # human-readable string in this file.
+    put ENV["TAG"], File.join(release_path, "REVISION")
+  end
 end
 
 after "deploy:finalize_update", "deploy:upload_config"
 after "deploy:restart", "deploy:cleanup"
+after "deploy:update_code", "deploy:write_revision_file"
 
 namespace :deploy do
   namespace :email do
