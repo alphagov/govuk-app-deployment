@@ -25,6 +25,8 @@ after "deploy:set_servers", "deploy:setup"
 namespace :deploy do
   task :default do
     transaction do
+      on_rollback { find_and_execute_task("deploy:notify:slack_message_failed") }
+
       update_code
     end
     if fetch(:run_migrations_by_default, false)
