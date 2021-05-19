@@ -84,6 +84,17 @@ namespace :deploy do
       end
     end
 
+    desc "Announce on Slack that the deploy has failed"
+    task :slack_message_failed do
+      if ENV["SLACK_NOTIFICATIONS"] == "true"
+        annoucer = SlackAnnouncer.new(ENV["ORGANISATION"], ENV["BADGER_SLACK_WEBHOOK_URL"])
+        annoucer.announce_failed(repo_name, application)
+        if ENV["ORGANISATION"] == "production"
+          annoucer.announce_failed(repo_name, application, "#govuk-2ndline")
+        end
+      end
+    end
+
     desc "Record the deployment as a Graphite event"
     task :graphite_event do
       require "json"
