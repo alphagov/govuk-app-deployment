@@ -7,6 +7,8 @@ class SlackAnnouncer
   end
 
   def announce_start(repo_name, application, slack_channel = "#govuk-deploy")
+    return unless staging_or_production?
+
     text = "#{environment_emoji} :mega: #{version_and_link(repo_name, application)} " \
            "is being deployed to *#{@environment_name}* by #{build_user}"
 
@@ -14,15 +16,24 @@ class SlackAnnouncer
   end
 
   def announce_done(repo_name, application, slack_channel = "#govuk-deploy")
+    return unless staging_or_production?
+
     text = "#{environment_emoji} :white_check_mark: #{version_and_link(repo_name, application)} " \
            "deployed to *#{@environment_name}* by #{build_user}"
 
     post_text(slack_channel, text)
   end
 
-  def post_text(slack_channel, text)
-    return unless %w[production staging].include?(@environment_name)
+  def announce_failed(repo_name, application, slack_channel = "#govuk-deploy")
+    return unless staging_or_production?
 
+    text = "#{environment_emoji} :red_circle: #{deploy_build_and_link(repo_name, application)} " \
+           "failed to deploy to *#{@environment_name}* by #{build_user}"
+
+    post_text(slack_channel, text)
+  end
+
+  def post_text(slack_channel, text)
     message_payload = {
       username: "Badger",
       icon_emoji: ":badger:",
@@ -44,11 +55,26 @@ class SlackAnnouncer
     "<https://release.publishing.service.gov.uk/applications/#{repo_name}/deploy?tag=#{ENV['TAG']}|#{ENV['TAG']}>"
   end
 
+  def deploy_build_and_link(repo_name, application)
+    "Version #{failed_deploy_link} of <https://github.com/alphagov/#{repo_name}|#{application}>"
+  end
+
+  def failed_deploy_link
+    deploy_url = "https://deploy.blue.#{@environment_name}.govuk.digital/job/Deploy_App"
+    build_number = ENV["BUILD_NUMBER"]
+
+    "<#{deploy_url}/#{build_number}|#{ENV['TAG']}>"
+  end
+
   def environment_emoji
     ":govuk-#{@environment_name}:"
   end
 
   def build_user
     ENV.fetch("BUILD_USER", "Jenkins")
+  end
+
+  def staging_or_production?
+    %w[production staging].include?(@environment_name)
   end
 end
