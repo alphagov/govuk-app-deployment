@@ -38,7 +38,13 @@ namespace :deploy do
                       else
                         ""
                       end
-    run "test -f '#{virtualenv_path}/bin/python' || virtualenv -p #{virtualenv_python_binary} -q #{setuptools_flag} --no-site-packages '#{virtualenv_path}'"
+
+    no_site_packages_option = if fetch(:virtualenv_no_site_package, true)
+                                "--no-site-packages"
+                              else
+                                ""
+                              end
+    run "test -f '#{virtualenv_path}/bin/python' || virtualenv -p #{virtualenv_python_binary} -q #{setuptools_flag} #{no_site_packages_option} '#{virtualenv_path}'"
   end
 
   task :install_deps, :roles => :app do
