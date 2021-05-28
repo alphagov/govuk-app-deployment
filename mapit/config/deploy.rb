@@ -5,6 +5,7 @@ set :shared_children, shared_children + %w[log]
 
 set :virtualenv_name, "venv3"
 set :virtualenv_python_binary, "python3.6"
+set :virtualenv_no_site_package, false
 
 load "defaults"
 load "python"
