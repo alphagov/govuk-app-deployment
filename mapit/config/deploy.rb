@@ -33,7 +33,12 @@ namespace :deploy do
   def run_django_command(command)
     run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/python manage.py #{command} --settings=project.settings"
   end
+
+  desc "Run puppet after app deploy"
+  task :run_puppet do
+    run "sudo govuk_puppet --test"
+  end
 end
 
 before "deploy:finalize_update", "deploy:upload_configuration"
-after "deploy:notify", "deploy:notify:run_puppet"
+before "deploy:notify", "deploy:run_puppet"
