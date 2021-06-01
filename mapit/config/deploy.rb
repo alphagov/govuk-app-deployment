@@ -36,4 +36,4 @@ namespace :deploy do
 end
 
 before "deploy:finalize_update", "deploy:upload_configuration"
-after "deploy:notify", "deploy:notify:run_puppet",
+after "deploy:notify", "deploy:notify:run_puppet"
