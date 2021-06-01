@@ -36,7 +36,7 @@ namespace :deploy do
 
   desc "Run puppet after app deploy"
   task :run_puppet do
-    run "sudo govuk_puppet --test"
+    run "govuk_puppet --test"
   end
 end
 
