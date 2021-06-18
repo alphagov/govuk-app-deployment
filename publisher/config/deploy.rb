@@ -26,14 +26,9 @@ namespace :deploy do
   task :create_reports_symlink do
     run "rm -rf #{latest_release}/reports && ln -s /data/uploads/publisher/reports #{latest_release}/reports"
   end
-
-  task :fix_reports_permssions do
-    run "chown deploy:deploy /data/uploads/publisher/reports"
-  end
 end
 
 after "deploy:update_code", "deploy:create_reports_symlink"
-after "deploy:update_code", "deploy:fix_reports_permssions"
 after "deploy:migrate", "deploy:create_mongoid_indexes"
 after "deploy:migrate", "deploy:seed_db"
 after "deploy:restart", "deploy:restart_procfile_worker"
