@@ -6,6 +6,4 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load "govuk_admin_template"
-
 after "deploy:restart", "deploy:restart_procfile_worker"

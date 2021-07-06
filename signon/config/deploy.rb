@@ -8,8 +8,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load "govuk_admin_template"
-
 require "whenever/capistrano"
 set :whenever_command, "govuk_setenv signon bundle exec whenever"
 

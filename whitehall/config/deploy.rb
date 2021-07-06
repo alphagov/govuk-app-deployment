@@ -8,8 +8,6 @@ load "ruby"
 load "deploy/assets"
 require "config_putter"
 
-load "govuk_admin_template"
-
 set :server_class, {
   "whitehall_frontend" => { roles: %i[frontend web app] },
   "whitehall_backend" => { roles: %i[db backend web app] },
