@@ -8,8 +8,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load "govuk_admin_template"
-
 set :source_db_config_file, false
 
 set :copy_exclude, [

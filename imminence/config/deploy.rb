@@ -8,8 +8,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load "govuk_admin_template"
-
 set :copy_exclude, [
   ".git/*",
   "public/images",

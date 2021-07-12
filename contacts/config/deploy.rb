@@ -10,8 +10,6 @@ load "defaults"
 load "ruby"
 load "deploy/assets"
 
-load "govuk_admin_template"
-
 set :assets_prefix, "contacts-assets"
 
 require "whenever/capistrano"
