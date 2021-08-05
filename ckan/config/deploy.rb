@@ -5,15 +5,15 @@ set :shared_children, shared_children + %w[log]
 set :repo_name, "ckanext-datagovuk"
 
 load "defaults"
-load "python"
+load "python3"
 
-def run_paster_command(command)
-  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/paster --plugin ckan #{command} -c /var/ckan/ckan.ini"
+def run_ckan_command(command)
+  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/ckan -c /var/ckan/ckan29.ini #{command}"
 end
 
 namespace :deploy do
   task :migrate, :only => { :primary => true } do
-    run_paster_command("db upgrade")
+    run_ckan_command("db upgrade")
   end
 
   task :install_deps, roles: :app do
@@ -21,7 +21,7 @@ namespace :deploy do
   end
 
   task :install_package, roles: :app do
-    run "cd #{release_path} && '#{virtualenv_path}/bin/python' #{release_path}/setup.py install"
+    run "cd #{release_path} && '#{virtualenv_path}/bin/python3.6' #{release_path}/setup.py install"
   end
 
   desc "Restart harvest gather process"
