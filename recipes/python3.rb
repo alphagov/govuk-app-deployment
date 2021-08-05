@@ -77,10 +77,14 @@ namespace :deploy do
       run "crontab -l | grep -v '# #{name}$' | ruby -e 'puts \"\#{ARGF.read}#{job} \# #{name}\"' | crontab -"
     end
   end
+
+  task :upgrade_pip do
+    run "cd #{release_path} && #{virtualenv_path}/bin/pip install --upgrade pip==21.2.2"
+  end
 end
 
 after "deploy:setup", "deploy:create_virtualenv"
-before "deploy:finalize_update", "deploy:install_deps"
+before "deploy:finalize_update", "deploy:upgrade_pip", "deploy:install_deps"
 after "deploy:finalize_update", "deploy:link_shared_children"
 before "deploy:restart", "deploy:run_post_deploy_hook"
 before "deploy:restart", "deploy:crontab"
