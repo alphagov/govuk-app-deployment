@@ -8,7 +8,7 @@ load "defaults"
 load "python3"
 
 def run_ckan_command(command)
-  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/ckan -c /var/ckan/ckan29.ini #{command}"
+  run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/ckan -c /var/ckan/ckan.ini #{command}"
 end
 
 namespace :deploy do
