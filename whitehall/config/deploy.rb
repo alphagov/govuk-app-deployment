@@ -27,39 +27,8 @@ logger.level = Logger::MAX_LEVEL
 # Force assets:precompile to run with trace, as we've been seeing intermittent errors
 namespace :deploy do
   namespace :assets do
-    task :precompile, :roles => :web, :except => { :no_release => true } do
-      # Force capistrano to close existing ssh connections.  It will then reopen them later when it needs them again
-      # Without this, the connections will timeout by the time all the local assets stuff has completed.
-      teardown_connections_to(find_servers)
-
-      Bundler.with_clean_env do
-        ENV.delete("RUBY_VERSION")
-        ENV.delete("RBENV_DIR")
-        ENV.delete("RBENV_VERSION")
-        ENV.delete("GEM_HOME")
-        bundle_locally
-        mustache_precompile_locally
-        assets_precompile_locally
-        rsync_local_assets
-      end
-    end
-
-    task :bundle_locally, :roles => :web, :except => { :no_release => true } do
-      puts run_locally "cd #{strategy.local_cache_path}; govuk_setenv default bundle --path #{ENV['HOME']}/bundles/whitehall-assets --deployment --without development staging test test_coverage cucumber"
-    end
-
-    task :assets_precompile_locally, roles => :web, :except => { :no_release => true } do
-      puts run_locally "cd #{strategy.local_cache_path}; SKIP_OBSERVERS_FOR_ASSET_TASKS=true govuk_setenv default bundle exec rake assets:precompile --trace"
-    end
-
-    task :mustache_precompile_locally, roles => :web, :except => { :no_release => true } do
-      puts run_locally "cd #{strategy.local_cache_path}; govuk_setenv default bundle exec rake shared_mustache:compile --trace"
-    end
-
-    task :rsync_local_assets, roles => :web, :except => { :no_release => true } do
-      find_servers.each do |server|
-        puts run_locally "cd #{strategy.local_cache_path} && rsync -aK ./public/assets/ #{user}@#{server}:#{shared_path}/assets/"
-      end
+    task :mustache_compile, :roles => :web, :except => { :no_release => true } do
+      run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} shared_mustache:compile"
     end
   end
 end
@@ -110,5 +79,6 @@ namespace :db do
   end
 end
 
+before "deploy:assets:precompile", "deploy:assets:mustache_compile"
 after "deploy:finalize_update", "deploy:symlink_uploads"
 after "deploy:restart_backend", "deploy:restart_workers"
