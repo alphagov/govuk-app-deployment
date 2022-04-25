@@ -27,7 +27,7 @@ namespace :deploy do
       # will include files which have been removed when we just need the current
       # state.
       remote_url = "#{git_origin_prefix}/#{repository}.git"
-      puts run_locally "if cd #{local_directory}; then git remote set-url origin #{remote_url}; git fetch origin; git reset --hard origin/master; else git clone --depth 1 #{remote_url} #{local_directory}; fi"
+      puts run_locally "if cd #{local_directory}; then git remote set-url origin #{remote_url}; git fetch origin; git reset --hard origin/main; else git clone --depth 1 #{remote_url} #{local_directory}; fi"
 
       find_servers.each do |server|
         # Update the existing files to the server in, for example:
