@@ -90,7 +90,7 @@ namespace :deploy do
         annoucer = SlackAnnouncer.new(ENV["ORGANISATION"], ENV["BADGER_SLACK_WEBHOOK_URL"])
         annoucer.announce_failed(repo_name, application)
         if ENV["ORGANISATION"] == "production"
-          annoucer.announce_failed(repo_name, application, "#govuk-2ndline")
+          annoucer.announce_failed(repo_name, application, "#govuk-2ndline-tech")
         end
       end
     end
