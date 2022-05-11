@@ -36,8 +36,8 @@ set :copy_exclude, [
 
 ## How deployments work
 
-The master `jenkins.sh` script is run by
-[Jenkins](https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_jenkins/templates/jobs/deploy_app.yaml.erb)
+The main `jenkins.sh` script is run by
+[Jenkins](https://github.com/alphagov/govuk-puppet/blob/main/modules/govuk_jenkins/templates/jobs/deploy_app.yaml.erb)
 to deploy each app.
 
 ## Environment variables available to deploy scripts

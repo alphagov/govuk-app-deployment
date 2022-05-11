@@ -30,7 +30,7 @@ namespace :deploy do
       file = fetch_from_s3_to_tempfile(bucket, key)
       logger.info "Fetching s3://#{bucket}/#{key}"
     else
-      ci_base_url = "https://ci_alphagov:#{ENV['CI_DEPLOY_JENKINS_API_KEY']}@ci.integration.publishing.service.gov.uk/job/#{application}/job/master"
+      ci_base_url = "https://ci_alphagov:#{ENV['CI_DEPLOY_JENKINS_API_KEY']}@ci.integration.publishing.service.gov.uk/job/#{application}/job/main"
       filename = application.to_s
 
       artefact_to_deploy = fetch(:artefact_number, fetch_last_build_number(ci_base_url))
