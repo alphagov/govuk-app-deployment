@@ -51,7 +51,7 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -59,7 +59,7 @@ RSpec.describe DockerTagPusher do
             "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
           })
 
-          expect(instance.get_manifest("govuk/publishing-api", "master")).to eq(json)
+          expect(instance.get_manifest("govuk/publishing-api", "main")).to eq(json)
         end
       end
 
@@ -67,13 +67,13 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 404)
 
-          expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error("Image or tag not found")
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error("Image or tag not found")
         end
       end
 
@@ -81,13 +81,13 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 401)
 
-          expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error(/Error \(401\) while fetching manifest/)
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error(/Error \(401\) while fetching manifest/)
         end
       end
 
@@ -95,7 +95,7 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/master",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -103,7 +103,7 @@ RSpec.describe DockerTagPusher do
             "Content-Type" => "application/vnd.docker.distribution.manifest.vWrong",
           })
 
-          expect { instance.get_manifest("govuk/publishing-api", "master") }.to raise_error(/Remote image not in correct format/)
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error(/Remote image not in correct format/)
         end
       end
     end
