@@ -24,15 +24,6 @@ set :copy_exclude, [
 
 logger.level = Logger::MAX_LEVEL
 
-# Force assets:precompile to run with trace, as we've been seeing intermittent errors
-namespace :deploy do
-  namespace :assets do
-    task :mustache_compile, :roles => :web, :except => { :no_release => true } do
-      run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} shared_mustache:compile"
-    end
-  end
-end
-
 namespace :deploy do
   task :symlink_uploads, roles: [:backend] do
     run "rm -rf #{latest_release}/carrierwave-tmp && mkdir -p /data/uploads/whitehall/carrierwave-tmp && ln -sfn /data/uploads/whitehall/carrierwave-tmp #{latest_release}/carrierwave-tmp"
@@ -79,6 +70,5 @@ namespace :db do
   end
 end
 
-before "deploy:assets:precompile", "deploy:assets:mustache_compile"
 after "deploy:finalize_update", "deploy:symlink_uploads"
 after "deploy:restart_backend", "deploy:restart_workers"
