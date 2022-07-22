@@ -1,6 +1,8 @@
 #!/bin/bash -x
 
-bundle install --path "${HOME}/bundles/${JOB_NAME}" --deployment
+bundle config set --local path "${HOME}/bundles/${JOB_NAME}"
+bundle config set --local deployment "true"
+bundle install
 
 cd "$WORKSPACE"
 
