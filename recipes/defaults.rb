@@ -8,7 +8,6 @@ set :deploy_to,           "/data/apps/#{application}"
 set :deploy_via,          :rsync_with_remote_cache
 set :organisation,        ENV["ORGANISATION"]
 set :keep_releases,       2 # XXX: The value must be less than or equal to 2, as we only keep dependencies for 2 releases. See `cleanup_old_dependencies`.
-set :rake,                "govuk_setenv #{application} #{fetch(:rake, 'bundle exec rake')}"
 set :repo_name,           fetch(:repo_name, application).to_s # XXX: this must appear before the `require 'defaults' in recipe names
 set :repository,          "#{ENV.fetch('GIT_ORIGIN_PREFIX', 'git@github.com:alphagov')}/#{repo_name}"
 
@@ -111,24 +110,6 @@ end
 after "deploy:finalize_update", "deploy:upload_config"
 after "deploy:restart", "deploy:cleanup"
 after "deploy:update_code", "deploy:write_revision_file"
-
-namespace :deploy do
-  namespace :email do
-    task :register_subscriptions, :only => { :primary => true } do
-      rails_env = fetch(:rails_env, "production")
-      rake = fetch(:rake)
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} email_subscriptions:register_subscriptions", :once => true
-    end
-  end
-
-  namespace :"search-api" do
-    task :index, :only => { :primary => true } do
-      rails_env = fetch(:rails_env, "production")
-      rake = fetch(:rake)
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} rummager:index", :once => true
-    end
-  end
-end
 
 namespace :deploy do
   desc "Restart the procfile worker"
