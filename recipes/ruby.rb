@@ -1,5 +1,3 @@
-require "bundler/capistrano"
-
 # Use rbenv shims if available
 set :default_environment, {
   "RBENV_ROOT" => "/usr/lib/rbenv",
@@ -82,9 +80,22 @@ namespace :deploy do
     rails_env = fetch(:rails_env, "production")
     run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} db:seed"
   end
+
+  # This is a simplified port of the deprecated bundler/capistrano task in
+  # https://github.com/rubygems/rubygems/blob/2af2520b4a7ab1c6eb1fdc3d2ef4d8c062d96ad7/bundler/lib/bundler/capistrano.rb
+  # it has been updated to fix deprecations from Bundle 2.1 and up
+  task :bundle_install, :roles => :app, :except => { :no_release => true } do
+    # Maintain backwards compatibility with: https://github.com/rubygems/rubygems/blob/3b1122701bc15e1ce3bd145b6632a09086842e32/bundler/lib/bundler/deployment.rb#L52
+    bundle_without = [*fetch(:bundle_without, %i[development test])].compact
+    run "cd #{latest_release}; bundle config set --local without #{bundle_without.join(' ')}"
+    run "cd #{latest_release}; bundle config set --local path #{shared_path}/bundle"
+    run "cd #{latest_release}; bundle config set --local deployment true"
+    run "cd #{latest_release}; bundle install --quiet"
+  end
 end
 
 before "deploy:update_code", "deploy:clean_old_dependencies"
+before "deploy:finalize_update", "deploy:bundle_install"
 after "deploy:update_code", "deploy:notify_ruby_version"
 after "deploy:finalize_update", "deploy:upload_initializers"
 after "deploy:upload_config", "deploy:upload_organisation_config"
