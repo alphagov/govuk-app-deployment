@@ -8,7 +8,7 @@ set(:source_db_config_file, "secrets/to_upload/database.yml") unless fetch(:sour
 set(:db_config_file, "config/database.yml") unless fetch(:db_config_file, false)
 set(:rack_env,  :production)
 set(:rails_env, :production)
-set(:rake, "govuk_setenv #{fetch(:application)} #{fetch(:rake, 'bundle exec rake')}")
+set(:rake, "govuk_setenv #{fetch(:application)} bundle exec rake")
 
 namespace :deploy do
   task :start do; end
