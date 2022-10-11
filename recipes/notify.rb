@@ -32,11 +32,7 @@ namespace :deploy do
             conn = Net::HTTP.new(url.host, url.port)
             conn.use_ssl = true
 
-            deployed_to_environment = if ENV["USE_S3"] == "true" && ENV["ORGANISATION"] != "integration"
-                                        "#{ENV['ORGANISATION']}-aws"
-                                      else
-                                        ENV["ORGANISATION"]
-                                      end
+            deployed_to_environment = ENV["ORGANISATION"]
 
             deployed_sha = if ENV["USE_S3"] == "false"
                              run_locally("cd #{strategy.local_cache_path} && git rev-list -n 1 #{current_revision}")
