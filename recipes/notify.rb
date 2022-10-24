@@ -142,7 +142,7 @@ namespace :deploy do
       end
 
       begin
-        repo = "governmentdigitalservice/#{application}"
+        repo = "govuk/#{application}"
 
         pusher = DockerTagPusher.new(ENV["DOCKER_HUB_USERNAME"], ENV["DOCKER_HUB_PASSWORD"])
 
