@@ -6,14 +6,14 @@ RSpec.describe DockerTagPusher do
 
   context "with token authentication" do
     before do
-      allow(instance).to receive(:token).with("governmentdigitalservice/publishing-api") { "bazqux" }
+      allow(instance).to receive(:token).with("govuk/publishing-api") { "bazqux" }
     end
 
     describe "#has_repo?" do
       before do
         stub_request(
           :get,
-          "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/tags/list?n=1",
+          "https://registry-1.docker.io/v2/govuk/publishing-api/tags/list?n=1",
         ).with(headers: {
           "Authorization" => "Bearer bazqux",
         }).to_return(status: status)
@@ -23,7 +23,7 @@ RSpec.describe DockerTagPusher do
         let(:status) { 200 }
 
         it "returns true" do
-          expect(instance.has_repo?("governmentdigitalservice/publishing-api")).to be true
+          expect(instance.has_repo?("govuk/publishing-api")).to be true
         end
       end
 
@@ -31,7 +31,7 @@ RSpec.describe DockerTagPusher do
         let(:status) { 404 }
 
         it "returns false" do
-          expect(instance.has_repo?("governmentdigitalservice/publishing-api")).to be false
+          expect(instance.has_repo?("govuk/publishing-api")).to be false
         end
       end
 
@@ -39,7 +39,7 @@ RSpec.describe DockerTagPusher do
         let(:status) { 401 }
 
         it "raises an error" do
-          expect { instance.has_repo?("governmentdigitalservice/publishing-api") }.to raise_error(/Error \(401\) checking repo exists/)
+          expect { instance.has_repo?("govuk/publishing-api") }.to raise_error(/Error \(401\) checking repo exists/)
         end
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/main",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -59,7 +59,7 @@ RSpec.describe DockerTagPusher do
             "Content-Type" => "application/vnd.docker.distribution.manifest.v2+json",
           })
 
-          expect(instance.get_manifest("governmentdigitalservice/publishing-api", "main")).to eq(json)
+          expect(instance.get_manifest("govuk/publishing-api", "main")).to eq(json)
         end
       end
 
@@ -67,13 +67,13 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/main",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 404)
 
-          expect { instance.get_manifest("governmentdigitalservice/publishing-api", "main") }.to raise_error("Image or tag not found")
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error("Image or tag not found")
         end
       end
 
@@ -81,13 +81,13 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/main",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
           }).to_return(status: 401)
 
-          expect { instance.get_manifest("governmentdigitalservice/publishing-api", "main") }.to raise_error(/Error \(401\) while fetching manifest/)
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error(/Error \(401\) while fetching manifest/)
         end
       end
 
@@ -95,7 +95,7 @@ RSpec.describe DockerTagPusher do
         it "raises an error" do
           stub_request(
             :get,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/main",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/main",
           ).with(headers: {
             "Authorization" => "Bearer bazqux",
             "Accept" => "application/vnd.docker.distribution.manifest.v2+json",
@@ -103,7 +103,7 @@ RSpec.describe DockerTagPusher do
             "Content-Type" => "application/vnd.docker.distribution.manifest.vWrong",
           })
 
-          expect { instance.get_manifest("governmentdigitalservice/publishing-api", "main") }.to raise_error(/Remote image not in correct format/)
+          expect { instance.get_manifest("govuk/publishing-api", "main") }.to raise_error(/Remote image not in correct format/)
         end
       end
     end
@@ -115,7 +115,7 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :put,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/foobar",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar",
           ).with(
             body: json,
             headers: {
@@ -124,7 +124,7 @@ RSpec.describe DockerTagPusher do
             },
           ).to_return(status: 201)
 
-          expect(instance.put_manifest("governmentdigitalservice/publishing-api", json, "foobar")).to be nil
+          expect(instance.put_manifest("govuk/publishing-api", json, "foobar")).to be nil
         end
       end
 
@@ -134,7 +134,7 @@ RSpec.describe DockerTagPusher do
 
           stub_request(
             :put,
-            "https://registry-1.docker.io/v2/governmentdigitalservice/publishing-api/manifests/foobar",
+            "https://registry-1.docker.io/v2/govuk/publishing-api/manifests/foobar",
           ).with(
             body: json,
             headers: {
@@ -143,7 +143,7 @@ RSpec.describe DockerTagPusher do
             },
           ).to_return(status: 500, body: "Error")
 
-          expect { instance.put_manifest("governmentdigitalservice/publishing-api", json, "foobar") }
+          expect { instance.put_manifest("govuk/publishing-api", json, "foobar") }
             .to raise_error("Server error while putting manifest: Error")
         end
       end
