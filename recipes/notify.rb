@@ -142,17 +142,24 @@ namespace :deploy do
       end
 
       begin
-        repo = "govuk/#{application}"
+        repo = "governmentdigitalservice/#{application}"
 
         pusher = DockerTagPusher.new(ENV["DOCKER_HUB_USERNAME"], ENV["DOCKER_HUB_PASSWORD"])
 
-        if !pusher.has_repo?(repo)
-          puts "Didn't create docker tag as there is not a #{repo} repo"
-        else
+        if pusher.has_repo?(repo)
           manifest = pusher.get_manifest(repo, branch)
           pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
 
           puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
+        elsif pusher.has_repo?("govuk/#{application}") # This should be removed once we stop using this docker account
+          repo = "govuk/#{application}"
+
+          manifest = pusher.get_manifest(repo, branch)
+          pusher.put_manifest(repo, manifest, "deployed-to-#{ENV['ORGANISATION']}")
+
+          puts "Pushed Docker tag of 'deployed-to-#{ENV['ORGANISATION']}' for '#{branch}'"
+        else
+          puts "Didn't create docker tag as there is not a #{repo} repo"
         end
       rescue RuntimeError => e
         # note the DOCKER TAG FAILED component is matched with Jenkins to set build status, change it with caution
