@@ -86,4 +86,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:notify", "deploy:notify:copy_artefact", "deploy:notify:git_clone_and_tag", "deploy:notify:docker"
+after "deploy:notify", "deploy:notify:copy_artefact", "deploy:notify:git_clone_and_tag"

@@ -4,4 +4,4 @@ set :server_class, "publishing_api"
 
 load "defaults"
 
-after "deploy:notify", "deploy:notify:github", "deploy:notify:docker"
+after "deploy:notify", "deploy:notify:github"
