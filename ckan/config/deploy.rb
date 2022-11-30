@@ -5,7 +5,7 @@ set :shared_children, shared_children + %w[log]
 set :repo_name, "ckanext-datagovuk"
 
 load "defaults"
-load "python37"
+load "python3"
 
 def run_ckan_command(command)
   run "cd #{release_path} && govuk_setenv #{application} #{virtualenv_path}/bin/ckan -c /var/ckan/ckan.ini #{command}"
@@ -21,7 +21,7 @@ namespace :deploy do
   end
 
   task :install_package, roles: :app do
-    run "cd #{release_path} && '#{virtualenv_path}/bin/python3.7' #{release_path}/setup.py install"
+    run "cd #{release_path} && '#{virtualenv_path}/bin/python3.6' #{release_path}/setup.py install"
   end
 
   desc "Restart harvest gather process"
