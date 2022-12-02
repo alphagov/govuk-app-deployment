@@ -51,3 +51,8 @@ deploy scripts:
 * `HOSTFILTER` - optional, comma-separated list of hosts to deploy to. We use this when deploying apps onto new machine instances. If a machine doesn't match one of the app's `server_class` then it is ignored. This is a Capistrano 2 feature.
 * `ORGANISATION` - The vCloud organisation being deployed to
 * `CI_DEPLOY_JENKINS_API_KEY` - API key used to fetch build artefacts from ci.dev.publishing.service.gov.uk.
+
+## Licence
+
+[MIT License](LICENCE)
+
