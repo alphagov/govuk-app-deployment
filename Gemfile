@@ -2,8 +2,8 @@ source "https://rubygems.org/"
 
 gem "capistrano", "2.13.5"
 gem "capistrano_rsync_with_remote_cache",
-    :git => "https://github.com/alphagov/capistrano_rsync_with_remote_cache",
-    :tag => "v2.4.1"
+    git: "https://github.com/alphagov/capistrano_rsync_with_remote_cache",
+    tag: "update-from-base-fork"
 
 # The net-ssh gem has a bug when reading StrictHostKeyChecking from
 # the ssh_config file where the option passed to the connection
