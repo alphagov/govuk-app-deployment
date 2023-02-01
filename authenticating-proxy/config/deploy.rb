@@ -4,6 +4,8 @@ set :server_class, %w[
   draft_cache
 ]
 
+set :run_migrations_by_default, true
+
 load "defaults"
 load "ruby"
 
