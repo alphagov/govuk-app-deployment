@@ -1,4 +1,4 @@
-require "set"
+DEFAULT_CONFIG = { roles: %i[web app db] }.freeze
 
 namespace :deploy do
   # deploy:set_servers
@@ -16,8 +16,6 @@ namespace :deploy do
       logger.info "set_servers: 'server_class' not set, so not setting up roles"
       next
     end
-
-    DEFAULT_CONFIG = { roles: %i[web app db] }.freeze
 
     classes = if cls.respond_to? :join
                 # Array of strings or symbols, e.g
@@ -41,16 +39,16 @@ namespace :deploy do
       # Get list of machines in the node class from Puppetmaster, using the
       # govuk_node_list command.
       begin
-        nodes = %x(govuk_node_list -c "#{c}").split
+        nodes = `govuk_node_list -c "#{c}"`.split
         if nodes.empty?
-          raise CommandError.new("set_servers: no servers with class '#{c}' in this environment!")
+          raise CommandError, "set_servers: no servers with class '#{c}' in this environment!"
         end
       rescue Errno::ENOENT
-        raise CommandError.new("set_servers: govuk_node_list is not available!")
+        raise CommandError, "set_servers: govuk_node_list is not available!"
       end
 
       nodes.each_with_index do |node, index|
-        is_draft_server = !!(c =~ /^draft/)
+        is_draft_server = !(c =~ /^draft/).nil?
         parent.server node, *extra[:roles], :server_class => c, :primary => index.zero?, :draft => is_draft_server
       end
 
