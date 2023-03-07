@@ -12,8 +12,8 @@ set(:virtualenv_path) { "#{shared_path}/#{virtualenv_name}" }
 set :sleep_after_server_start, 1
 
 namespace :deploy do
-  task :start do; end
-  task :stop do; end
+  task(:start) {}
+  task(:stop) {}
 
   task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     if fetch(:perform_hard_restart, false)

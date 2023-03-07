@@ -6,8 +6,8 @@
 set :shared_children, shared_children + %w[log]
 
 namespace :deploy do
-  task :start do; end
-  task :stop do; end
+  task(:start) {}
+  task(:stop) {}
 
   task :restart, :roles => :app, :max_hosts => 1, :except => { :no_release => true } do
     run "sudo initctl start #{application} 2>/dev/null || sudo initctl restart #{application}"

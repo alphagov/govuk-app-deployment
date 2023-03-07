@@ -11,8 +11,8 @@ set(:rails_env, :production)
 set(:rake, "govuk_setenv #{fetch(:application)} bundle exec rake")
 
 namespace :deploy do
-  task :start do; end
-  task :stop do; end
+  task(:start) {}
+  task(:stop) {}
   task :restart, :roles => :app, :except => { :no_release => true } do
     # The deploy user always has permission to run initctl commands.
     if fetch(:perform_hard_restart, false)

@@ -142,7 +142,7 @@ namespace :deploy do
           source_key = "#{application}/#{ENV['TAG']}/#{application}"
           target_key = "#{application}/deployed-to-#{ENV['ORGANISATION']}/#{application}"
           s3.copy_object({ :bucket => ENV["S3_ARTEFACT_BUCKET"],
-                           :copy_source => ENV["S3_ARTEFACT_BUCKET"] + "/" + source_key,
+                           :copy_source => "#{ENV['S3_ARTEFACT_BUCKET']}/#{source_key}",
                            :key => target_key })
           puts "Copying file #{source_key} to #{target_key}."
         end
