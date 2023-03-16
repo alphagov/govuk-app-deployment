@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+yarn
+
 bundle config set --local path "${HOME}/bundles/${JOB_NAME}"
 bundle config set --local deployment "true"
 bundle install
