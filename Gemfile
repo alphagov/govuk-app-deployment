@@ -18,6 +18,7 @@ gem "aws-sdk-s3"
 gem "http", "~> 3.0"
 gem "rake"
 gem "rubocop-govuk"
+gem "webrick"
 gem "whenever", "0.7.3"
 
 gem "rspec"

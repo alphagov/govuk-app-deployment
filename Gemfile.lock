@@ -139,6 +139,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.6)
     unicode-display_width (2.4.2)
+    webrick (1.8.1)
     whenever (0.7.3)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
@@ -156,6 +157,7 @@ DEPENDENCIES
   rake
   rspec
   rubocop-govuk
+  webrick
   whenever (= 0.7.3)
 
 BUNDLED WITH
